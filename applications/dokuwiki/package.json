@@ -1,0 +1,20 @@
+{
+  "name": "ezmaster-dokuwiki",
+  "version": "1.0.5",
+  "description": "[Ezmasterization](https://github.com/Inist-CNRS/ezmaster) of dokuwiki",
+  "scripts": {
+    "insertversion:readme": "sed -i \"s#\\(inistcnrs/ezmaster-dokuwiki:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" README.md",
+    "insertversion:makefile": "sed -i \"s#\\(inistcnrs/ezmaster-dokuwiki:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" Makefile",
+    "version": "npm run insertversion:readme && npm run insertversion:makefile && git add README.md Makefile",
+    "postversion": "git push && git push --tags"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Inist-CNRS/ezmaster-dokuwiki.git"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Inist-CNRS/ezmaster-dokuwiki/issues"
+  },
+  "homepage": "https://github.com/Inist-CNRS/ezmaster-dokuwiki#readme"
+}

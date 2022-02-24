@@ -1,0 +1,55 @@
+{
+	"name": "lodex-workers",
+	"version": "9.0.5",
+	"description": "ezs dedicated server for Lodex",
+	"directories": {
+		"test": "test"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Inist-CNRS/lodex-workers.git"
+	},
+	"keywords": [
+		"ezs"
+	],
+	"author": "Nicolas Thouvenin <nthouvenin@gmail.com>",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/Inist-CNRS/lodex-workers/issues"
+	},
+	"homepage": "https://github.com/Inist-CNRS/lodex-workers#readme",
+	"dependencies": {
+		"@ezs/core": "1.26.1",
+		"@ezs/storage": "1.5.4",
+		"dotenv-cli": "4.1.1",
+		"npm-watch": "0.11.0"
+	},
+	"watch": {
+		"mod": {
+			"patterns": [
+				"public"
+			],
+			"extensions": "json,ini",
+			"quiet": true,
+			"silent": true,
+			"verbose": false,
+			"ignore": [
+				".DAV"
+			],
+			"runOnChangeOnly": false
+		}
+	},
+	"scripts": {
+		"prestart": "node ./generate-dotenv.js",
+		"start": "cd ./public && dotenv -e ../.env -- ezs --daemon ./",
+		"insertversion:readme": "sed -i \"s#\\(lodex-workers:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" README.md",
+		"insertversion:makefile": "sed -i \"s#\\(lodex-workers:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" Makefile",
+		"insertversion:docker": "sed -i \"s#\\(lodex-workers:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" docker-compose*.yml",
+		"version": "npm run insertversion:readme && npm run insertversion:makefile && npm run insertversion:docker && git add README.md Makefile docker-compose.debug.yml",
+		"postversion": "git push && git push --tags && make publish ",
+		"watcher": "npm-watch",
+		"mod": "./chmod-all 755 ./public/"
+	},
+	"devDependencies": {},
+	"peerDependencies": {}
+}

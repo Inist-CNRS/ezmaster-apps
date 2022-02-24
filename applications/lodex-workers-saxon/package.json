@@ -1,0 +1,53 @@
+{
+	"name": "lodex-workers-saxon",
+	"version": "2.0.0",
+	"description": "saxon scripts for Lodex",
+	"directories": {
+		"test": "test"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Inist-CNRS/lodex-workers-saxon.git"
+	},
+	"keywords": [
+		"ezs",
+		"lodex"
+	],
+	"author": "Nicolas Thouvenin <nthouvenin@gmail.com>",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/Inist-CNRS/lodex-workers-saxon/issues"
+	},
+	"homepage": "https://github.com/Inist-CNRS/lodex-workers-saxon#readme",
+	"dependencies": {
+		"concurrently": "6.0.2",
+		"dotenv-cli": "4.0.0",
+		"npm-watch": "0.9.0"
+	},
+	"watch": {
+		"mod": {
+			"patterns": [
+				"public"
+			],
+			"extensions": "xsl,xslt,xml,xsd,ini",
+			"quiet": true,
+			"silent": true,
+			"verbose": false,
+			"ignore": [
+				".DAV"
+			],
+			"runOnChangeOnly": false
+		}
+	},
+	"scripts": {
+		"prestart": "node ./generate-dotenv.js",
+		"start": "cd ./public && dotenv -e ../.env -- ezs --daemon ./",
+		"insertversion:readme": "sed -i \"s#\\(lodex-workers-saxon:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" README.md",
+		"insertversion:makefile": "sed -i \"s#\\(lodex-workers-saxon:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" Makefile",
+		"insertversion:docker": "sed -i \"s#\\(lodex-workers-saxon:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" docker-compose*.yml",
+		"version": "npm run insertversion:readme && npm run insertversion:makefile && npm run insertversion:docker && git add README.md Makefile docker-compose.debug.yml",
+		"postversion": "git push && git push --tags && make publish ",
+		"watcher": "npm-watch",
+		"mod": "./chmod-all 755 ./public/"
+	}
+}

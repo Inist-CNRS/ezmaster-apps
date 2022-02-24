@@ -1,0 +1,15 @@
+version: '3'
+services:
+    lodex-workers:
+        container_name: lodex-workers
+        build:
+            context: .
+            args:
+                - http_proxy
+                - https_proxy
+        image: inistcnrs/lodex-workers:9.0.5
+        environment:
+            - http_proxy
+            - https_proxy
+        ports:
+            - "31976:31976"

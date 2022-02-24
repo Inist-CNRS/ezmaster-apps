@@ -1,0 +1,21 @@
+{
+	"environnement": {
+		"EZS_TITLE": "lodex-workers-saxon",
+		"EZS_DESCRIPTION": "Web services saxon for Lodex",
+		"EZS_METRICS": true,
+		"EZS_CONCURRENCY": 4,
+		"EZS_NSHARDS": 32,
+		"EZS_CACHE": true,
+		"NODE_OPTIONS": "--max_old_space_size=1024",
+		"NODE_ENV": "production",
+		"PIP_NO_DEPENDENCIES": 0,
+		"PIP_DISABLE_PIP_VERSION_CHECK": 1,
+		"PIP_NO_CACHE_DIR": 0
+	},
+	"packages": [
+		"@ezs/xslt@1.2.0"
+	],
+	"files" : {
+		"#DISABLED zip": "https://gitbucket.inist.fr/tdm/web-services/archive/base-line/master.zip"
+	}
+}
