@@ -1,4 +1,5 @@
 {
+	"private": true,	
 	"name": "lodex-workers-saxon",
 	"version": "2.0.0",
 	"description": "saxon scripts for Lodex",

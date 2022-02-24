@@ -1,4 +1,5 @@
 {
+	"private": true,	
     "name": "ezmaster-webserver",
     "version": "5.1.3",
     "description": "Web Server for [ezmaster](https://github.com/Inist-CNRS/ezmaster)",

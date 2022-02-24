@@ -1,0 +1,30 @@
+{
+	"private": true,
+  "name": "ezmaster-ngnix",
+  "version": "4.1.6",
+  "description": "Web Server for [ezmaster](https://github.com/Inist-CNRS/ezmaster)",
+  "scripts": {
+    "docker:web-server": "nginx -g 'daemon off;'",
+    "docker:crontab": "test ! -f /app/crontab-config.json || node /app/crontab.js",
+    "docker-init:run-entrypoint-scripts": "/bin/entrypoint-scripts-runner",
+    "start": "npm-run-all docker-init:run-entrypoint-scripts --parallel docker:*",
+    "insertversion:readme": "sed -i \"s#\\(inistcnrs/ezmaster-ngnix:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" README.md",
+    "insertversion:makefile": "sed -i \"s#\\(inistcnrs/ezmaster-ngnix:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" Makefile",
+    "version": "npm run insertversion:readme && npm run insertversion:makefile && git add README.md Makefile",
+    "postversion": "git push && git push --tags"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Inist-CNRS/ezmaster-ngnix.git"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Inist-CNRS/ezmaster-ngnix/issues"
+  },
+  "homepage": "https://github.com/Inist-CNRS/ezmaster-ngnix#readme",
+  "dependencies": {
+    "node-schedule": "1.2.2",
+    "npm-run-all": "4.0.2",
+    "shelljs": "0.7.7"
+  }
+}

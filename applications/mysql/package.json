@@ -1,4 +1,5 @@
 {
+	"private": true,	
   "name": "ezmaster-mysql",
   "version": "2.0.9",
   "description": "[Ezmasterization](https://github.com/Inist-CNRS/ezmaster) of MySQL database",

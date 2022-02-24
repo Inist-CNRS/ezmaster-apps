@@ -1,4 +1,5 @@
 {
+	"private": true,	
 	"name": "lodex-workers-pytorch",
 	"version": "1.0.1",
 	"description": "Pytorch scripts for Lodex",

@@ -1,4 +1,5 @@
 {
+	"private": true,
 	"name": "lodex-workers",
 	"version": "9.0.5",
 	"description": "ezs dedicated server for Lodex",

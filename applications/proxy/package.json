@@ -1,4 +1,5 @@
 {
+	"private": true,	
     "name": "ezmaster-proxy",
     "version": "1.0.1",
     "description": "HTTP proxy dedicated to [ezmaster](https://github.com/Inist-CNRS/ezmaster)",
