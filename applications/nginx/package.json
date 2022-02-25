@@ -1,8 +1,8 @@
 {
 	"private": true,
-	"name": "ezmaster-ngnix",
+	"name": "ezmaster-nginx",
 	"version": "0.0.0",
-	"description": "Ngnix web server",
+	"description": "Nginx web server",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/Inist-CNRS/ezmaster-apps.git"
@@ -15,14 +15,14 @@
 	"bugs": {
 		"url": "https://github.com/Inist-CNRS/ezmaster-apps/issues"
 	},
-	"homepage": "https://github.com/Inist-CNRS/ezmaster-apps/tree/main/applications/ngnix#readme",
+	"homepage": "https://github.com/Inist-CNRS/ezmaster-apps/tree/main/applications/nginx#readme",
 	"scripts": {
-		"insertversion:readme": "sed -i \"s#\\(ezmaster-ngnix:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" README.md",
+		"insertversion:readme": "sed -i \"s#\\(ezmaster-nginx:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" README.md",
 		"version": "npm run insertversion:readme && git add README.md",
 		"postversion": "git commit -m \"release ${npm_package_version}\" README.md package.json && npm run build && npm run publish",
-		"build": "docker build -t inistcnrs/ezmaster-ngnix:${npm_package_version} .",
+		"build": "docker build -t inistcnrs/ezmaster-nginx:${npm_package_version} .",
 		"prestart": "npm run build",
-		"start": "docker run --rm -p 3000:3000 inistcnrs/ezmaster-ngnix:${npm_package_version}",
-		"publish": "git push && git push --tags && docker push inistcnrs/ezmaster-ngnix:${npm_package_version}"
+		"start": "docker run --rm -p 3000:3000 inistcnrs/ezmaster-nginx:${npm_package_version}",
+		"publish": "git push && git push --tags && docker push inistcnrs/ezmaster-nginx:${npm_package_version}"
 	}
 }

@@ -1,1 +1,1 @@
-# ezmaster-ngnix
+# ezmaster-nginx
