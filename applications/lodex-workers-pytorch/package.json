@@ -19,7 +19,7 @@
 	"scripts": {
 		"insertversion:readme": "sed -i \"s#\\(lodex-workers-pytorch:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" README.md",
 		"version": "npm run insertversion:readme && git add README.md",
-		"postversion": "npm run build && npm run publish",
+		"postversion": "git commit -m \"release ${npm_package_version}\" README.md package.json && npm run build && npm run publish",
 		"build": "docker build -t inistcnrs/lodex-workers-pytorch:${npm_package_version} .",
 		"prestart": "npm run build",
 		"start": "docker run --rm -p 31976:31976 inistcnrs/lodex-workers-pytorch:${npm_package_version}",
