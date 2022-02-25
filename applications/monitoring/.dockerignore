@@ -2,7 +2,6 @@
 *
 
 # White list only the required files
-!config.json
-!package.json
-!public/
-
+!prometheus.yml
+!grafana.ini
+!docker-entrypoint.sh

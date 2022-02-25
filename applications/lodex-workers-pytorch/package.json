@@ -1,33 +1,28 @@
 {
-	"private": true,	
+	"private": true,
 	"name": "lodex-workers-pytorch",
 	"version": "1.0.1",
-	"description": "Pytorch scripts for Lodex",
-	"directories": {
-		"test": "test"
-	},
+	"description": "Lodex workers for Pytorch",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/Inist-CNRS/lodex-workers-pytorch.git"
+		"url": "git+https://github.com/Inist-CNRS/ezmaster-apps.git"
 	},
 	"keywords": [
-		"ezs",
-		"lodex"
+		"ezmaster"
 	],
 	"author": "Nicolas Thouvenin <nthouvenin@gmail.com>",
 	"license": "MIT",
 	"bugs": {
-		"url": "https://github.com/Inist-CNRS/lodex-workers-pytorch/issues"
+		"url": "https://github.com/Inist-CNRS/ezmaster-apps/issues"
 	},
-	"homepage": "https://github.com/Inist-CNRS/lodex-workers-pytorch#readme",
-	"dependencies": {},
+	"homepage": "https://github.com/Inist-CNRS/ezmaster-apps/tree/main/applications/lodex-workers-pytorch#readme",
 	"scripts": {
 		"insertversion:readme": "sed -i \"s#\\(lodex-workers-pytorch:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" README.md",
-		"insertversion:makefile": "sed -i \"s#\\(lodex-workers-pytorch:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" Makefile",
-		"insertversion:docker": "sed -i \"s#\\(lodex-workers-pytorch:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" docker-compose*.yml",
 		"version": "npm run insertversion:readme && npm run insertversion:makefile && npm run insertversion:docker && git add README.md Makefile docker-compose.debug.yml",
-		"postversion": "git push && git push --tags && make publish "
-	},
-	"devDependencies": {},
-	"peerDependencies": {}
+		"postversion": "git push && git push --tags ",
+		"build": "docker build -t inistcnrs/lodex-workers-pytorch:${npm_package_version} .",
+		"prestart": "npm run build",
+		"start": "docker run --rm -p 31976:31976 inistcnrs/lodex-workers-pytorch:${npm_package_version}",
+		"publish": "git push && git push --tags && docker push inistcnrs/lodex-workers-pytorch:${npm_package_version}"
+	}
 }
