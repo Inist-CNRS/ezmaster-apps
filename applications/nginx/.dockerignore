@@ -1,5 +1,5 @@
-Dockerfile
-docker-compose.*
-.git
-node_modules
-Makefile
+# Ignore all files by default
+*
+
+# White list only the required files
+!nginx.conf
