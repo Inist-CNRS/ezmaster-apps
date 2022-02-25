@@ -1,7 +1,7 @@
 {
 	"private": true,
 	"name": "ezmaster-monitoring",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"description": "Prometheus + Grafana",
 	"repository": {
 		"type": "git",
