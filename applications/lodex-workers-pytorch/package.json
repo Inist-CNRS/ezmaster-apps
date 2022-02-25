@@ -18,7 +18,7 @@
 	"homepage": "https://github.com/Inist-CNRS/ezmaster-apps/tree/main/applications/lodex-workers-pytorch#readme",
 	"scripts": {
 		"insertversion:readme": "sed -i \"s#\\(lodex-workers-pytorch:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" README.md",
-		"version": "npm run insertversion:readme && npm run insertversion:makefile && npm run insertversion:docker && git add README.md Makefile docker-compose.debug.yml",
+		"version": "npm run insertversion:readme && git add README.md",
 		"postversion": "git push && git push --tags ",
 		"build": "docker build -t inistcnrs/lodex-workers-pytorch:${npm_package_version} .",
 		"prestart": "npm run build",

@@ -1,7 +1,7 @@
 {
 	"private": true,
 	"name": "ezmaster-monitoring",
-	"version": "0.0.0",
+	"version": "1.0.0",
 	"description": "Prometheus + Grafana",
 	"repository": {
 		"type": "git",
@@ -18,7 +18,7 @@
 	"homepage": "https://github.com/Inist-CNRS/ezmaster-apps/tree/main/applications/monitoring#readme",
 	"scripts": {
 		"insertversion:readme": "sed -i \"s#\\(ezmaster-monitoring:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" README.md",
-		"version": "npm run insertversion:readme && npm run insertversion:makefile && npm run insertversion:docker && git add README.md Makefile docker-compose.debug.yml",
+		"version": "npm run insertversion:readme && git add README.md",
 		"postversion": "npm run publish ",
 		"build": "docker build -t inistcnrs/ezmaster-monitoring:${npm_package_version} .",
 		"prestart": "npm run build",
