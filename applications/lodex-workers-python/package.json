@@ -1,59 +1,28 @@
 {
-	"private": true,	
+	"private": true,
 	"name": "lodex-workers-python",
 	"version": "4.0.0",
-	"description": "Python script for Lodex",
-	"directories": {
-		"test": "test"
-	},
+	"description": "Lodex workers for python",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/Inist-CNRS/lodex-workers-python.git"
+		"url": "git+https://github.com/Inist-CNRS/ezmaster-apps.git"
 	},
 	"keywords": [
-		"ezs",
-		"lodex"
+		"ezmaster"
 	],
 	"author": "Nicolas Thouvenin <nthouvenin@gmail.com>",
 	"license": "MIT",
 	"bugs": {
-		"url": "https://github.com/Inist-CNRS/lodex-workers-python/issues"
+		"url": "https://github.com/Inist-CNRS/ezmaster-apps/issues"
 	},
-	"homepage": "https://github.com/Inist-CNRS/lodex-workers-python#readme",
-	"dependencies": {
-		"@ezs/core": "1.26.1",
-		"@ezs/storage": "1.5.4",
-		"dotenv-cli": "4.1.1",
-		"npm-watch": "0.11.0"
-	},
-	"watch": {
-		"pip": "./public/requirements.txt",
-		"mod": {
-			"patterns": [
-				"public"
-			],
-			"extensions": "py,pyc,pyd,pyo,json,bin,ftz,ini,md",
-			"quiet": true,
-			"silent": true,
-			"verbose": false,
-			"ignore": [
-				".DAV"
-			],
-			"runOnChangeOnly": false
-		}
-	},
+	"homepage": "https://github.com/Inist-CNRS/ezmaster-apps/tree/main/applications/lodex-workers-python#readme",
 	"scripts": {
-		"prestart": "node ./generate-dotenv.js",
-		"start": "cd ./public && dotenv -e ../.env -- ezs --daemon ./",
 		"insertversion:readme": "sed -i \"s#\\(lodex-workers-python:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" README.md",
-		"insertversion:makefile": "sed -i \"s#\\(lodex-workers-python:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" Makefile",
-		"insertversion:docker": "sed -i \"s#\\(lodex-workers-python:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" docker-compose*.yml",
-		"version": "npm run insertversion:readme && npm run insertversion:makefile && npm run insertversion:docker && git add README.md Makefile docker-compose.debug.yml",
-		"postversion": "git push && git push --tags && make publish ",
-		"watcher": "npm-watch",
-		"pip": "dotenv -- pip3 install -r ./public/requirements.txt",
-		"mod": "./chmod-all 755 ./public/"
-	},
-	"devDependencies": {},
-	"peerDependencies": {}
+		"version": "npm run insertversion:readme && git add README.md",
+		"postversion": "git commit -m \"release ${npm_package_version}\" README.md package.json && npm run build && npm run publish",
+		"build": "docker build -t inistcnrs/lodex-workers-python:${npm_package_version} .",
+		"prestart": "npm run build",
+		"start": "docker run --rm -p 31976:31976 inistcnrs/lodex-workers-python:${npm_package_version}",
+		"publish": "git push && git push --tags && docker push inistcnrs/lodex-workers-python:${npm_package_version}"
+	}
 }
