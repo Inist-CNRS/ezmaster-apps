@@ -1,7 +1,7 @@
 {
 	"private": true,
 	"name": "lodex-workers-python",
-	"version": "4.0.1",
+	"version": "4.0.2",
 	"description": "Lodex workers for python",
 	"repository": {
 		"type": "git",
@@ -17,7 +17,7 @@
 	},
 	"homepage": "https://github.com/Inist-CNRS/ezmaster-apps/tree/main/applications/lodex-workers-python#readme",
 	"scripts": {
-		"version:insert": "sed -i \"s#\\(${npm_package_name}:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" README.md && git add README.md && git commit -m \"insert version\" README.md",
+		"version:insert": "sed -i \"s#\\(${npm_package_name}:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" README.md && git add README.md",
 		"version:tag": "git tag \"${npm_package_name}@${npm_package_version}\" -m \"${npm_package_name}@${npm_package_version}\"",
 		"version:push": "git push && git push --tags",
 		"postversion": "npm run version:insert && npm run version:tag  && npm run version:push && npm run build && npm run publish",
