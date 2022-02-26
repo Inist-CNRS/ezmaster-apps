@@ -1,7 +1,7 @@
 {
 	"private": true,
 	"name": "lodex-workers-python",
-	"version": "4.0.0",
+	"version": "4.0.1",
 	"description": "Lodex workers for python",
 	"repository": {
 		"type": "git",
@@ -17,11 +17,10 @@
 	},
 	"homepage": "https://github.com/Inist-CNRS/ezmaster-apps/tree/main/applications/lodex-workers-python#readme",
 	"scripts": {
-		"version:insert": "sed -i \"s#\\(lodex-workers-python:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" README.md && git add README.md",
+		"version:insert": "sed -i \"s#\\(${npm_package_name}:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" README.md && git add README.md && git commit -m \"insert version\" README.md",
 		"version:tag": "git tag \"${npm_package_name}@${npm_package_version}\" -m \"${npm_package_name}@${npm_package_version}\"",
 		"version:push": "git push && git push --tags",
-		"version": "npm run version:insert",
-		"postversion": " npm run version:tag  && npm run version:push && npm run build && npm run publish",
+		"postversion": "npm run version:insert && npm run version:tag  && npm run version:push && npm run build && npm run publish",
 		"build": "docker build -t inistcnrs/lodex-workers-python:${npm_package_version} .",
 		"prestart": "npm run build",
 		"start": "docker run --rm -p 31976:31976 inistcnrs/lodex-workers-python:${npm_package_version}",
