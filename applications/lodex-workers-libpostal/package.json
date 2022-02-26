@@ -1,35 +1,31 @@
 {
 	"private": true,
-	"name": "ezmaster-libpostal",
-	"version": "4.0.1",
-	"description": "Ezmaster WebService for libpostal",
-	"directories": {},
+	"name": "lodex-workers-libpostal",
+	"version": "0.0.0",
+	"description": "Lodex workers for Libpostal",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/Inist-CNRS/ezmaster-libpostal.git"
+		"url": "git+https://github.com/Inist-CNRS/ezmaster-apps.git"
 	},
 	"keywords": [
-		"lodex",
-		"ezs"
+		"ezmaster"
 	],
-	"contributors": [
-		"Nicolas Thouvenin <nthouvenin@gmail.com>"
-	],
-	"license": "CECILL-2.1",
+	"author": "Nicolas Thouvenin <nthouvenin@gmail.com>",
+	"license": "MIT",
 	"bugs": {
-		"url": "https://github.com/Inist-CNRS/ezmaster-libpostal/issues"
+		"url": "https://github.com/Inist-CNRS/ezmaster-apps/issues"
 	},
-	"homepage": "https://github.com/Inist-CNRS/ezmaster-libpostal#readme",
-	"dependencies": {},
-	"devDependencies": {},
-	"peerDependencies": {},
+	"homepage": "https://github.com/Inist-CNRS/ezmaster-apps/tree/main/applications/lodex-workers-libpostal#readme",
 	"scripts": {
-		"prestart": "node ./generate-dotenv.js",
-		"start": "dotenv -- ezs --daemon ./public",
-		"insertversion:readme": "sed -i \"s#\\(ezmaster-libpostal:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" README.md",
-		"insertversion:makefile": "sed -i \"s#\\(ezmaster-libpostal:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" Makefile",
-		"insertversion:docker": "sed -i \"s#\\(ezmaster-libpostal:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" docker-compose*.yml",
-		"version": "npm run insertversion:readme && npm run insertversion:makefile && npm run insertversion:docker && git add README.md Makefile docker-compose.debug.yml",
-		"postversion": "git push && git push --tags && make publish "
+		"version:insert": "sed -i \"s#\\(${npm_package_name}.\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" README.md && git add README.md",
+		"version:commit": "git commit -a -m \"release ${npm_package_name}@${npm_package_version}\"",
+		"version:tag": "git tag \"${npm_package_name}@${npm_package_version}\" -m \"${npm_package_name}@${npm_package_version}\"",
+		"version:push": "git push && git push --tags",
+		"version": "npm run version:insert && npm run version:commit && npm run version:tag",
+		"postversion": "npm run version:push && npm run build && npm run publish",
+		"build": "docker build -t inistcnrs/${npm_package_name}:${npm_package_version} .",
+		"prestart": "npm run build",
+		"start": "docker run --rm -p 31976:31976 inistcnrs/${npm_package_name}:${npm_package_version}",
+		"publish": "docker push inistcnrs/${npm_package_name}:${npm_package_version}"
 	}
 }
