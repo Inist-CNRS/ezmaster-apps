@@ -17,12 +17,15 @@
 	},
 	"homepage": "https://github.com/Inist-CNRS/ezmaster-apps/tree/main/applications/lodex-workers-pytorch#readme",
 	"scripts": {
-		"insertversion:readme": "sed -i \"s#\\(lodex-workers-pytorch:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" README.md",
-		"version": "npm run insertversion:readme && git add README.md",
-		"postversion": "git commit -m \"release ${npm_package_version}\" README.md package.json && npm run build && npm run publish",
-		"build": "docker build -t inistcnrs/lodex-workers-pytorch:${npm_package_version} .",
+		"version:insert": "sed -i \"s#\\(${npm_package_name}.\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" README.md && git add README.md",
+		"version:commit": "git commit -a -m \"release ${npm_package_name}@${npm_package_version}\"",
+		"version:tag": "git tag \"${npm_package_name}@${npm_package_version}\" -m \"${npm_package_name}@${npm_package_version}\"",
+		"version:push": "git push && git push --tags",
+		"version": "npm run version:insert && npm run version:commit && npm run version:tag",
+		"postversion": "npm run version:push && npm run build && npm run publish",
+		"build": "docker build -t inistcnrs/${npm_package_name}:${npm_package_version} .",
 		"prestart": "npm run build",
-		"start": "docker run --rm -p 31976:31976 inistcnrs/lodex-workers-pytorch:${npm_package_version}",
-		"publish": "git push && git push --tags && docker push inistcnrs/lodex-workers-pytorch:${npm_package_version}"
+		"start": "docker run --rm -p 31976:31976 inistcnrs/${npm_package_name}:${npm_package_version}",
+		"publish": "docker push inistcnrs/${npm_package_name}:${npm_package_version}"
 	}
 }

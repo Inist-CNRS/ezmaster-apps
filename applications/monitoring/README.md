@@ -1,7 +1,1 @@
-# A dedicated webservice for Lodex
-
-```bash
-
-    make build
-    make run-debug
-```
+# ezmaster-monitoring@1.0.3
