@@ -17,12 +17,15 @@
 	},
 	"homepage": "https://github.com/Inist-CNRS/ezmaster-apps/tree/main/applications/lodex-workers-python#readme",
 	"scripts": {
-		"insertversion:readme": "sed -i \"s#\\(lodex-workers-python:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" README.md",
-		"version": "npm run insertversion:readme && git add README.md",
-		"postversion": "git commit -m \"release ${npm_package_version}\" README.md package.json && npm run build && npm run publish",
+		"version:insert": "sed -i \"s#\\(lodex-workers-python:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" README.md",
+		"version:commit": "git add README.md && git commit -m \"insert version ${npm_package_version}\" README.md",
+		"version:tag":" git tag \"${npm_package_name}@${npm_package_version}\" -m \"${npm_package_name}@${npm_package_version}\"",
+		"version:push":"git push && git push --tags",
+		"version": "npm run version:insert && npm run version:commit",
+		"postversion": " npm run version:tag  && npm run version:push && npm run build && npm run publish",
 		"build": "docker build -t inistcnrs/lodex-workers-python:${npm_package_version} .",
 		"prestart": "npm run build",
 		"start": "docker run --rm -p 31976:31976 inistcnrs/lodex-workers-python:${npm_package_version}",
-		"publish": "git push && git push --tags && docker push inistcnrs/lodex-workers-python:${npm_package_version}"
+		"publish": "docker push inistcnrs/lodex-workers-python:${npm_package_version}"
 	}
 }
