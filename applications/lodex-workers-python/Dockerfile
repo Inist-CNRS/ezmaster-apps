@@ -28,7 +28,7 @@ COPY --from=build1 /app /app
 COPY --from=build2 /export /usr
 WORKDIR /app
 # see .dockerignore to know all copied files
-COPY ./config.json ./package.json /app/
+COPY ./config.json /app/
 COPY ./public/requirements.txt ./public/expand.py ./public/expand.ini /app/public/
 RUN apk add --update-cache --no-cache \
 	su-exec \
