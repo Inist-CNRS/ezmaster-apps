@@ -13,7 +13,7 @@ WORKDIR /app
 # To be compilant with
 # - Debian/Ubuntu container (and so with ezmaster-webdav)
 # - ezmaster see https://github.com/Inist-CNRS/ezmaster
-COPY ./config.json ./package.json /app/
+COPY ./config.json /app/
 COPY ./public/parse.ini ./public/parse.xsl /app/public/
 RUN apk add --update-cache --no-cache su-exec bash git openssh openjdk8-jre && \
 	echo '{ \
