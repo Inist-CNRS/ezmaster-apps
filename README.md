@@ -2,7 +2,6 @@
 
 Monorepo for ezmaster applications configurations.
 
-
 ## How to ...
 
 ### build an application
@@ -17,8 +16,7 @@ lerna exec npm run build --scope=lodex-workers-saxon
 lerna exec npm start --scope=lodex-workers-saxon
 ```
 
-
-### generate un new version (ans push in docker hub)
+### generate a new application version (and push it in docker hub)
 
 ```bash
 cd ./applications/lodex-workers-saxon/
