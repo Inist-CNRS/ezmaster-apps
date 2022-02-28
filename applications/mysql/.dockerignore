@@ -1,5 +1,11 @@
-Dockerfile
-.git/
-npm-debug.log
-tmp/
-Makefile
+# Ignore all files by default
+*
+
+# White list only the required files
+!config.json
+!docker-entrypoint.overload.sh
+!mysqld.cnf
+!dump.periodically.sh
+!apply.config.sh
+!index.html
+

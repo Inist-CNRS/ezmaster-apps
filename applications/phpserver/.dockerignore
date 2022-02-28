@@ -1,5 +1,9 @@
-Dockerfile
-.git/
-npm-debug.log
-tmp/
-Makefile
+# Ignore all files by default
+*
+
+# White list only the required files
+!docker-entrypoint.overload.sh
+!composer-install.sh
+!php.ini
+!www/
+
