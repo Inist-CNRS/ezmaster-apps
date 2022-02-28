@@ -24,8 +24,9 @@
 		"version": "npm run version:insert && npm run version:commit && npm run version:tag",
 		"postversion": "npm run version:push && npm run build && npm run publish",
 		"build": "docker build -t inistcnrs/${npm_package_name}:${npm_package_version} .",
-		"prestart": "npm run build",
-		"start": "docker run --rm -p 3000:3000 inistcnrs/${npm_package_name}:${npm_package_version}",
+		"prestart": "npm run build && npm run start:mongo",
+		"start:mongo": "../../bin/mongodb.sh",
+		"start": "docker run --rm -p 3000:3000 --network=host -e \"EZMASTER_MONGODB_HOST_PORT=mongo:27017\" -e \"EZMASTER_TECHNICAL_NAME=lodex\" inistcnrs/${npm_package_name}:${npm_package_version}",
 		"publish": "docker push inistcnrs/${npm_package_name}:${npm_package_version}"
 	}
 }
