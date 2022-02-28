@@ -1,4 +1,4 @@
-# ezmaster-phpserver
+# ezmaster-phpserver@3.2.2
 
 [![Docker Pulls](https://img.shields.io/docker/pulls/inistcnrs/ezmaster-phpserver.svg)](https://registry.hub.docker.com/u/inistcnrs/ezmaster-phpserver/)
 
