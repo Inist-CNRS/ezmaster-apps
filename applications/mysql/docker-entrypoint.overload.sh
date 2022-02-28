@@ -2,9 +2,9 @@
 
 
 if [ ! -f "${MYSQL_ROOT_PASSWORD_FILE}" ]; then
-	DNAME=`dirname ${MYSQL_ROOT_PASSWORD_FILE}`
-	mkdir -p ${DNAME}
-	pwgen -1 32 > ${MYSQL_ROOT_PASSWORD_FILE}
+	DNAME=$(dirname "${MYSQL_ROOT_PASSWORD_FILE}")
+	mkdir -p "${DNAME}"
+	pwgen -1 32 > "${MYSQL_ROOT_PASSWORD_FILE}"
 fi
 
 # inject config.json parameters to env
@@ -23,7 +23,7 @@ fi
 dump.periodically.sh &
 
 # basic http server for displaing a basic informative html page for ezmaster
-cd /www && python -m SimpleHTTPServer 8080 &
+cd /www && python -m SimpleHTTPServer 3000 &
 
 # to allow daemon to use temp directory
 chmod 1777 /tmp

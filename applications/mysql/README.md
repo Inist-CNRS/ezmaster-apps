@@ -1,4 +1,4 @@
-# ezmaster-mysql
+# ezmaster-mysql@2.0.9
 
 [![Docker Pulls](https://img.shields.io/docker/pulls/inistcnrs/ezmaster-mysql.svg)](https://registry.hub.docker.com/u/inistcnrs/ezmaster-mysql/)
 

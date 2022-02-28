@@ -6,7 +6,7 @@ FROM mysql:8.0.28
 # python for a basic http server used for ezmaster
 # vim for debug stuff
 ENV DEBIAN_FRONTEND noninteractive
-RUN apt-get -y update && apt-get -y install netcat jq tmpreaper vim python
+RUN apt-get -y update && apt-get -y install netcat jq tmpreaper vim python pwgen
 
 COPY config.json /
 COPY docker-entrypoint.overload.sh /usr/local/bin/
@@ -29,7 +29,7 @@ COPY index.* /www/
 # see https://github.com/Inist-CNRS/ezmaster
 # notice: httpPort is useless here but as ezmaster require it (v3.8.1) we just add a wrong port number
 RUN echo '{ \
-  "httpPort": 8080, \
+  "httpPort": 3000, \
   "configPath": "/config.json", \
   "configType": "json", \
   "dataPath": "/ezdata", \
