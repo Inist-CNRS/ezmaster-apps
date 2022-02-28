@@ -1,4 +1,4 @@
-# ezmaster-dokuwiki
+# ezmaster-dokuwiki@1.0.5
 
 DokuWiki for ezMaster
 
