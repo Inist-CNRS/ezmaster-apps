@@ -2,6 +2,6 @@
 *
 
 # White list only the required files
-!config.json
-!public/
+!docker-entrypoint.overload.sh
+!config.ttl
 
