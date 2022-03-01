@@ -1,22 +1,31 @@
 {
-	"private": true,	
-  "name": "ezmaster-virtuoso",
-  "version": "4.0.0",
-  "description": "[Ezmasterization](https://github.com/Inist-CNRS/ezmaster) of virtuoso database",
-  "scripts": {
-    "insertversion:readme": "sed -i \"s#\\(inistcnrs/ezmaster-virtuoso:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" README.md",
-    "insertversion:makefile": "sed -i \"s#\\(inistcnrs/ezmaster-virtuoso:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" Makefile",
-    "version": "npm run insertversion:readme && npm run insertversion:makefile && git add README.md Makefile",
-    "postversion": "git push && git push --tags"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Inist-CNRS/ezmaster-virtuoso.git"
-  },
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Inist-CNRS/ezmaster-virtuoso/issues"
-  },
-  "homepage": "https://github.com/Inist-CNRS/ezmaster-virtuoso#readme",
-  "dependencies": {}
+	"private": true,
+	"name": "ezmaster-nginx",
+	"version": "4.0.0",
+	"description": "Virtuoso RDF server",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Inist-CNRS/ezmaster-apps.git"
+	},
+	"keywords": [
+		"ezmaster"
+	],
+	"author": "Nicolas Thouvenin <nthouvenin@gmail.com>",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/Inist-CNRS/ezmaster-apps/issues"
+	},
+	"homepage": "https://github.com/Inist-CNRS/ezmaster-apps/tree/main/applications/virtuoso#readme",
+	"scripts": {
+		"version:insert": "sed -i \"s#\\(${npm_package_name}.\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" README.md && git add README.md",
+		"version:commit": "git commit -a -m \"release ${npm_package_name}@${npm_package_version}\"",
+		"version:tag": "git tag \"${npm_package_name}@${npm_package_version}\" -m \"${npm_package_name}@${npm_package_version}\"",
+		"version:push": "git push && git push --tags",
+		"version": "npm run version:insert && npm run version:commit && npm run version:tag",
+		"postversion": "npm run version:push && npm run build && npm run publish",
+		"build": "docker build -t inistcnrs/${npm_package_name}:${npm_package_version} .",
+		"prestart": "npm run build",
+		"start": "docker run --rm -p 8890:8890 inistcnrs/${npm_package_name}:${npm_package_version}",
+		"publish": "docker push inistcnrs/${npm_package_name}:${npm_package_version}"
+	}
 }

@@ -1,0 +1,9 @@
+{
+  "env": {
+    "DBA_PASSWORD": "secret"
+  },
+  "Parameters": {
+    "NumberOfBuffers": "170000",
+    "MaxDirtyBuffers": "130000"
+  }
+}

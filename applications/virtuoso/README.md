@@ -1,19 +1,9 @@
-# ezmaster-virtuoso
+# ezmaster-virtuoso@4.0.0
 
 ezmasterized virtuoso (Triple store)
 
 Make an [ezMaster](https://github.com/Inist-CNRS/ezmaster) version of [OpenLink Virtuoso](https://github.com/openlink/virtuoso-opensource) (inspired from
 [tenforce's version](https://github.com/tenforce/docker-virtuoso)).
-
-See [ezmaster-hexo](https://github.com/Inist-CNRS/ezmaster-hexo)'s code.
-
-## Build
-
-    docker build --tag ezmaster-virtuoso:2.0.0 .
-
-## Versioning
-
-Use semver, but don't prefix version tag with `v`.
 
 ## Load data
 

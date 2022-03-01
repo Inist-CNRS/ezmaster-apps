@@ -8,7 +8,7 @@ All the sub-keys are written in virtuoso.ini
 
 Ex:
 
-/tmp/config.json:
+config.json:
 
 {
   "env": {
@@ -29,7 +29,7 @@ crudini --set virtuoso.ini "Parameters" "MaxDirtyBuffers" "130000"
 """
 import json
 
-FILE = open("/tmp/config.json", "r")
+FILE = open("/config.json", "r")
 CONFIG = json.loads(FILE.read())
 
 for section in CONFIG:

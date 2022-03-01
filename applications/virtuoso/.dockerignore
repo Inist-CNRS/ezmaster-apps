@@ -1,5 +1,7 @@
-Dockerfile
-.git/
-npm-debug.log
-tmp/
-Makefile
+# Ignore all files by default
+*
+
+# White list only the required files
+!virtuoso.sh
+!config2ini.py
+!config.json

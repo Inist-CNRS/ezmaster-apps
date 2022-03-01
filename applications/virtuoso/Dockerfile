@@ -7,10 +7,11 @@ EXPOSE 8890
 RUN echo '{ \
   "httpPort": 8890, \
   "dataPath": "/data", \
-  "configPath": "/tmp/config.json" \
+  "configPath": "/config.json" \
 }' > /etc/ezmaster.json
 # ----------------------------------------------- #
 
 # Replace tenforce's script (modified loading)
 ADD virtuoso.sh /virtuoso.sh
 ADD config2ini.py /config2ini.py
+ADD config.json /
