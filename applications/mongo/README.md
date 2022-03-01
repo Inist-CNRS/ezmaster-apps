@@ -1,4 +1,4 @@
-# ezmaster-mongo
+# ezmaster-mongo@1.0.6
 
 [![Docker Pulls](https://img.shields.io/docker/pulls/inistcnrs/ezmaster-mongo.svg)](https://registry.hub.docker.com/u/inistcnrs/ezmaster-mongo/)
 

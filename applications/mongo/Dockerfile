@@ -27,7 +27,7 @@ COPY index.* /www/
 # see https://github.com/Inist-CNRS/ezmaster
 # notice: httpPort is useless here but as ezmaster require it (v3.8.1) we just add a wrong port number
 RUN echo '{ \
-  "httpPort": 8080, \
+  "httpPort": 3000, \
   "configPath": "/config.json", \
   "configType": "json", \
   "dataPath": "/ezdata", \

@@ -1,5 +1,0 @@
-Dockerfile
-.git/
-npm-debug.log
-tmp/
-Makefile
