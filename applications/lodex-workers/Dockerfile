@@ -2,7 +2,8 @@ FROM node:14-alpine
 WORKDIR /app
 # see .dockerignore to know all copied files
 COPY . /app/
-RUN mkdir -p /app/public && \
+RUN mv package-app.json package.json && \
+	mkdir -p /app/public && \
     apk add --no-cache su-exec make gcc g++ python3 bash git openssh tini curl && \
     npm install --production && \
 	npm cache clean --force && \
