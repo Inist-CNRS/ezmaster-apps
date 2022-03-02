@@ -1,21 +1,21 @@
-FROM nginx:1.13.3
+FROM nginx:1.21.6
 
 # basic command used for debugging ezmaster stuff
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get -y update && apt-get -y install vim curl gnupg2 git netcat
 
 # nodejs installation used for startup scripts
-RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
+RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
 RUN apt-get install -y build-essential nodejs
 
 # web-term installation
 # https://github.com/IonicaBizau/web-term/
-RUN npm install --unsafe-perm -g web-term@5.1.2
+RUN npm install --unsafe-perm -g web-term@5.2.1
 
 # install starting stuff (npm start)
 RUN mkdir -p /app
 WORKDIR /app
-COPY ./package.json /app/package.json
+COPY ./package-app.json /app/package.json
 RUN npm install
 
 # nginx config

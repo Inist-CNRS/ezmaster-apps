@@ -1,0 +1,13 @@
+{
+	"private": true,
+	"name": "ezmaster-web-term",
+	"scripts": {
+		"docker:web-server": "nginx -g 'daemon off;'",
+		"docker:web-term": "web-term -p 9000",
+		"docker-init:run-entrypoint-scripts": "/bin/entrypoint-scripts-runner",
+		"start": "npm-run-all docker-init:run-entrypoint-scripts --parallel docker:*"
+	},
+	"dependencies": {
+		"npm-run-all": "4.0.2"
+	}
+}

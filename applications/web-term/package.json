@@ -1,28 +1,31 @@
 {
-	"private": true,	
-  "name": "ezmaster-web-term",
-  "version": "1.0.2",
-  "description": "Web terminal used for debugging ezmaster stuff [ezmaster](https://github.com/Inist-CNRS/ezmaster)",
-  "scripts": {
-    "docker:web-server": "nginx -g 'daemon off;'",
-    "docker:web-term": "web-term -p 9000",
-    "docker-init:run-entrypoint-scripts": "/bin/entrypoint-scripts-runner",
-    "start": "npm-run-all docker-init:run-entrypoint-scripts --parallel docker:*",
-    "insertversion:readme": "sed -i \"s#\\(inistcnrs/ezmaster-web-term:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" README.md",
-    "insertversion:makefile": "sed -i \"s#\\(inistcnrs/ezmaster-web-term:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" Makefile",
-    "version": "npm run insertversion:readme && npm run insertversion:makefile && git add README.md Makefile",
-    "postversion": "git push && git push --tags"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Inist-CNRS/ezmaster-web-term.git"
-  },
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Inist-CNRS/ezmaster-web-term/issues"
-  },
-  "homepage": "https://github.com/Inist-CNRS/ezmaster-web-term#readme",
-  "dependencies": {
-    "npm-run-all": "4.0.2"
-  }
+	"private": true,
+	"name": "ezmaster-web-term",
+	"version": "1.0.2",
+	"description": "web term",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Inist-CNRS/ezmaster-apps.git"
+	},
+	"keywords": [
+		"ezmaster"
+	],
+	"author": "Nicolas Thouvenin <nthouvenin@gmail.com>",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/Inist-CNRS/ezmaster-apps/issues"
+	},
+	"homepage": "https://github.com/Inist-CNRS/ezmaster-apps/tree/main/applications/web-term#readme",
+	"scripts": {
+		"version:insert": "sed -i \"s#\\(${npm_package_name}.\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" README.md && git add README.md",
+		"version:commit": "git commit -a -m \"release ${npm_package_name}@${npm_package_version}\"",
+		"version:tag": "git tag \"${npm_package_name}@${npm_package_version}\" -m \"${npm_package_name}@${npm_package_version}\"",
+		"version:push": "git push && git push --tags",
+		"version": "npm run version:insert && npm run version:commit && npm run version:tag",
+		"postversion": "npm run version:push && npm run build && npm run publish",
+		"build": "docker build -t inistcnrs/${npm_package_name}:${npm_package_version} .",
+		"prestart": "npm run build",
+		"start": "docker run --rm -p 3000:80 inistcnrs/${npm_package_name}:${npm_package_version}",
+		"publish": "docker push inistcnrs/${npm_package_name}:${npm_package_version}"
+	}
 }
