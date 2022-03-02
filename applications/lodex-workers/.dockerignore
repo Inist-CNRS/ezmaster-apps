@@ -8,9 +8,7 @@ docker-compose.debug.yml
 Dockerfile
 !generate-dotenv.js*
 !zipsyncdir*
-!gitsync*
-!gitsyncdir*
-!package.json
+!package-app.json
 !public/.gitkeep
 !chmod-all
 !chmod-one
