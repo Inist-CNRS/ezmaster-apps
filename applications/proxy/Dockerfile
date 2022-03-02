@@ -4,19 +4,19 @@ WORKDIR /app
 
 # see https://github.com/Inist-CNRS/ezmaster
 RUN echo '{ \
-  "httpPort": 8000, \
+  "httpPort": 3000, \
   "configPath": "/app/config.json", \
   "dataPath": "/app/data", \
   "technicalApplication": true \
 }' > /etc/ezmaster.json
 
 
-COPY package*.json /app/
-
-RUN npm ci --only=production
+RUN npm init -y && \
+	npm install recluster@1.0.0
 
 # see .dockerignore
-COPY * /app/
+COPY config.json index.js server.js /app/
 
-EXPOSE 8000
-CMD ["npm", "start"]
+EXPOSE 3000
+ENTRYPOINT ["node"]
+CMD ["index.js"]

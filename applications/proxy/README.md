@@ -1,4 +1,4 @@
-# ezmaster-proxy
+# ezmaster-proxy@1.0.1
 
 [![Docker Pulls](https://img.shields.io/docker/pulls/inistcnrs/ezmaster-proxy.svg)](https://registry.hub.docker.com/u/inistcnrs/ezmaster-proxy/)
 
