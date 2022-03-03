@@ -1,6 +1,6 @@
-# ezmaster-mongo@1.0.7
+# ezmaster-mongo@3.4.21-release
 
-[![Docker Pulls](https://img.shields.io/docker/pulls/inistcnrs/ezmaster-mongo.1.0.7)](https://registry.hub.docker.com/u/inistcnrs/ezmaster-mongo/)
+[![Docker Pulls](https://img.shields.io/docker/pulls/inistcnrs/ezmaster-mongo.3.4.21-release)](https://registry.hub.docker.com/u/inistcnrs/ezmaster-mongo/)
 
 Mongodb for [ezmaster](https://github.com/Inist-CNRS/ezmaster)
 
