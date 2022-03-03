@@ -1,7 +1,7 @@
 {
 	"private": true,
 	"name": "lodex-workers-pytorch",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"description": "Lodex workers for Pytorch",
 	"repository": {
 		"type": "git",
