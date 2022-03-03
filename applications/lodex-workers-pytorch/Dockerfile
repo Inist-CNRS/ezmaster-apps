@@ -21,7 +21,7 @@ RUN  set -ex; \
      \
      apt-get purge -y --auto-remove $fetch_deps
 RUN apt-get update && \
-	apt-get install xz-utils sudo tini build-essential git musl-dev -y  && \
+	apt-get install xz-utils sudo tini build-essential git musl-dev unzip -y  && \
 	curl -fsSLO --compressed "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-$ARCH.tar.xz" && \
 	curl -fsSLO --compressed "https://nodejs.org/dist/v$NODE_VERSION/SHASUMS256.txt" && \
 	grep " node-v$NODE_VERSION-linux-$ARCH.tar.xz\$" SHASUMS256.txt | sha256sum -c - && \
