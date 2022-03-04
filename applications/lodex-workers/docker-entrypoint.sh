@@ -23,7 +23,7 @@ fi
 
 # Restauration du owner
 find /app/public ! -user daemon -exec chown daemon:daemon {} \; &
-chown daemon:daemon /tmp &
+find /tmp ! -user daemon -exec chown daemon:daemon {} \; &
 
 # lancement des daemons
 npm run watcher &

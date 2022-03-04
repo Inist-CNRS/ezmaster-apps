@@ -20,12 +20,14 @@
 				".DAV"
 			],
 			"runOnChangeOnly": false
-		}
+		},
+		"pkg": "public/package.json"
 	},
 	"scripts": {
 		"prestart": "node ./generate-dotenv.js",
 		"start": "cd ./public && dotenv -e ../.env -- ezs --daemon ./",
 		"watcher": "npm-watch",
-		"mod": "./chmod-all 755 ./public/"
+		"mod": "./chmod-all 755 ./public/",
+		"pkg": "[ -f /app/public/package.json ] && npm install ./public"
 	}
 }
