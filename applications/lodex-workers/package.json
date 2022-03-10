@@ -1,7 +1,7 @@
 {
 	"private": true,
 	"name": "lodex-workers",
-	"version": "9.2.0",
+	"version": "9.2.1",
 	"description": "ezs dedicated server for Lodex",
 	"repository": {
 		"type": "git",
