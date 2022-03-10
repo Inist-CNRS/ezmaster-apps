@@ -30,11 +30,7 @@ WORKDIR /app
 # see .dockerignore to know all copied files
 COPY ./config.json ./package-app.json /app/
 COPY ./public/requirements.txt ./public/expand.py ./public/expand.ini /app/public/
-RUN mv package-app.json package.json && \
-    npm install --production && \
-	npm cache clean --force && \
-	npm prune --production && \
-	apk add --update-cache --no-cache \
+RUN apk add --update-cache --no-cache \
 	su-exec \
 	bash \
 	git \
@@ -57,6 +53,10 @@ RUN mv package-app.json package.json && \
 	cargo \
 	cython \
 	&& \
+	mv package-app.json package.json && \
+    npm install --production && \
+	npm cache clean --force && \
+	npm prune --production && \
 	echo '{ \
 		"httpPort": 31976, \
 			"configPath": "/app/config.json", \
