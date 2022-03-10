@@ -1,4 +1,4 @@
-FROM inistcnrs/lodex-workers:9.0.5 AS build1
+FROM inistcnrs/lodex-workers:9.2.1 AS build1
 FROM golang:1.17.5-alpine3.15 as build2
 # System setup
 RUN apk update && \
