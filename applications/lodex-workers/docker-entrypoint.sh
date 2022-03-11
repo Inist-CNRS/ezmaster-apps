@@ -8,7 +8,7 @@ touch ${PACKAGES_MEMORY}
 PACKAGES_CHECK=`cat ${PACKAGES_MEMORY}`
 if [ -n "${PACKAGES}" ] && [ "${PACKAGES_CHECK}" != "${PACKAGES}" ]
 then
-	npm install --production  ${PACKAGES} &
+	npm install --production  ${PACKAGES}
 	echo "${PACKAGES}" > ${PACKAGES_MEMORY}
 fi
 
