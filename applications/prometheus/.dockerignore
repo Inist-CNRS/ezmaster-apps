@@ -1,0 +1,7 @@
+# Ignore all files by default
+*
+
+# White list only the required files
+!prometheus.yml
+!index.html
+!docker-entrypoint.sh
