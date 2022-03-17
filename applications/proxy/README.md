@@ -1,6 +1,6 @@
-# ezmaster-proxy@1.1.0
+# ezmaster-proxy@1.1.1
 
-[![Docker Pulls](https://img.shields.io/docker/pulls/inistcnrs/ezmaster-proxy.1.1.0)](https://registry.hub.docker.com/u/inistcnrs/ezmaster-proxy/)
+[![Docker Pulls](https://img.shields.io/docker/pulls/inistcnrs/ezmaster-proxy.1.1.1)](https://registry.hub.docker.com/u/inistcnrs/ezmaster-proxy/)
 
 Proxy for [ezmaster](https://github.com/Inist-CNRS/ezmaster)
 
