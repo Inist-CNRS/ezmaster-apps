@@ -25,7 +25,7 @@
 		"postversion": "npm run version:push && npm run build && npm run publish",
 		"build": "docker build -t inistcnrs/${npm_package_name}:${npm_package_version} .",
 		"prestart": "npm run build",
-		"start": "docker run --rm -p 9000:9000 inistcnrs/${npm_package_name}:${npm_package_version}",
+		"start": "docker run --rm -p 9090:9090 inistcnrs/${npm_package_name}:${npm_package_version}",
 		"publish": "docker push inistcnrs/${npm_package_name}:${npm_package_version}"
 	}
 }
