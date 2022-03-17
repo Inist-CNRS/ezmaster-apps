@@ -1,8 +1,8 @@
 {
 	"private": true,
-	"name": "ezmaster-monitoring",
-	"version": "1.0.3",
-	"description": "Prometheus + Grafana",
+	"name": "ezmaster-prometheus",
+	"version": "0.0.0",
+	"description": "Prometheus",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/Inist-CNRS/ezmaster-apps.git"
@@ -15,7 +15,7 @@
 	"bugs": {
 		"url": "https://github.com/Inist-CNRS/ezmaster-apps/issues"
 	},
-	"homepage": "https://github.com/Inist-CNRS/ezmaster-apps/tree/main/applications/monitoring#readme",
+	"homepage": "https://github.com/Inist-CNRS/ezmaster-apps/tree/main/applications/prometheus#readme",
 	"scripts": {
 		"version:insert": "sed -i \"s#\\(${npm_package_name}.\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" README.md && git add README.md",
 		"version:commit": "git commit -a -m \"release ${npm_package_name}@${npm_package_version}\"",
@@ -25,7 +25,7 @@
 		"postversion": "npm run version:push && npm run build && npm run publish",
 		"build": "docker build -t inistcnrs/${npm_package_name}:${npm_package_version} .",
 		"prestart": "npm run build",
-		"start": "docker run --rm -p 3000:3000 inistcnrs/${npm_package_name}:${npm_package_version}",
+		"start": "docker run --rm -p 9090:9090 inistcnrs/${npm_package_name}:${npm_package_version}",
 		"publish": "docker push inistcnrs/${npm_package_name}:${npm_package_version}"
 	}
 }

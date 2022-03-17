@@ -2,6 +2,5 @@
 *
 
 # White list only the required files
-!prometheus.yml
 !grafana.ini
 !docker-entrypoint.sh
