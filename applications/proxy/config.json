@@ -1,4 +1,6 @@
 {
+	"maxMem": "98%",
+	"maxLoad": 10,
 	"port": 31976,
 	"host": {
 		"localhost": "localhost"
