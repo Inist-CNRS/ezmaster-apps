@@ -1,4 +1,5 @@
 const http = require('http');
+const os = require('os');
 const config = require('./config.json');
 
 const deflect = (input) => (config.host[input] ? config.host[input] : input);
