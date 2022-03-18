@@ -6,7 +6,8 @@ const deflect = (input) => (config.host[input] ? config.host[input] : input);
 const maxLoad = parseInt(config.maxLoad || 10);
 const maxMem = parseInt(config.maxMem || '95%');
 const totalMem = os.totalmem();
-const log = (message) => console.log('[', Date.now(), ']', message);
+const now = () => { const d = new Date(); return d.toISOString(); };
+const log = (message) => console.log('[', now(), ']', message);
 
 const server = http.createServer();
 server.on('request', (request, response) => {
