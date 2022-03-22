@@ -5,4 +5,5 @@ find /tmp ! -user daemon -exec chown daemon:daemon {} \; &
 
 sudo -u daemon -g daemon /opt/prometheus/prometheus \
 	--config.file=/app/prometheus.yml \
-	--storage.tsdb.path=/app/prometheus
+	--storage.tsdb.path=/app/prometheus \
+	--storage.tsdb.retention.time=7d
