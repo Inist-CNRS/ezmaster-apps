@@ -1,4 +1,4 @@
-FROM inistcnrs/lodex-workers-python:4.0.0 AS app
+FROM inistcnrs/lodex-workers-python:4.0.11 AS app
 FROM bitnami/pytorch:1.10.2
 COPY --from=app /app /app
 WORKDIR /app
