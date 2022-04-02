@@ -13,7 +13,7 @@
 		"PIP_NO_CACHE_DIR": 0
 	},
 	"packages": [
-		"@ezs/xslt@1.2.0"
+		"@ezs/xslt@1.3.2"
 	],
 	"files" : {
 		"#DISABLED zip": "https://gitbucket.inist.fr/tdm/web-services/archive/base-line/master.zip"
