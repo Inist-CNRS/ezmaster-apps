@@ -43,17 +43,34 @@ server.on('request', (request, response) => {
     method,
     headers,
   };
+  const client = http.request(options, (source) => {
+    response.writeHead(source.statusCode, source.headers);
+    source.pipe(response);
+  })
+    .on('timeout', () => {
+    return log('500 - REQUEST TIMEOUT');
+  })
+    .on('end',() =>{
+    console.log(request.aborted);
+    return log('500 - REQUEST CLOSE');
+  })
+  .on('close', () => {
+    console.log(request.aborted);
+    return log('500 - REQUEST CLOSE');
+  });
   request
-    .pipe(http.request(options, (source) => {
-      response.writeHead(source.statusCode, source.headers);
-      source.pipe(response);
-    }))
+    .pipe(client)
     .on('error', (e) => {
       if (!response.headersSent) {
         response.writeHead(500);
       }
       response.end();
       return log('500 - REQUEST ERROR');
-    });
+    })
+   .on('end', function() {
+     console.log(request.aborted);
+     return log('500 - REQUEST CLOSE');
+   });
+
 });
 server.listen(3000);
