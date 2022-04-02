@@ -1,5 +1,5 @@
 FROM klakegg/saxon:base AS saxon
-FROM inistcnrs/lodex-workers:9.0.5
+FROM inistcnrs/lodex-workers:9.2.3
 ENV SAXON_HOME=/usr/share/java/saxon
 COPY --from=saxon /he /
 RUN cd / && \
