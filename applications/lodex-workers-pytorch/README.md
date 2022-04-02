@@ -1,1 +1,1 @@
-# lodex-workers-pytorch@1.0.2
+# lodex-workers-pytorch@1.0.3
