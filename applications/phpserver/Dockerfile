@@ -1,10 +1,11 @@
-FROM php:7.4.12-apache
+FROM php:8.1.4-apache
 
 # APCU
 RUN pecl install apcu \
-    && pecl install apcu_bc-1.0.3 \
-    && docker-php-ext-enable apcu --ini-name 10-docker-php-ext-apcu.ini \
-    && docker-php-ext-enable apc --ini-name 20-docker-php-ext-apc.ini
+	&& mkdir -p /usr/src/php/ext/apcu && curl -fsSL https://pecl.php.net/get/apcu | tar xvz -C "/usr/src/php/ext/apcu" --strip 1 \
+	&& docker-php-ext-install apcu \
+	&& docker-php-ext-enable apcu --ini-name 10-docker-php-ext-apcu.ini
+
 
 # ldap
 RUN apt-get update \
@@ -32,15 +33,6 @@ RUN apt-get update \
 		libjpeg62-turbo-dev \
 		libjpeg-dev
 
-# imagick (pecl)
-RUN apt-get update \
-	&& apt-get install -y \
-		libmagickwand-dev --no-install-recommends \
-		ghostscript --no-install-recommends \
-	&& pecl install \
-		imagick \
-	&& docker-php-ext-enable \
-		imagick
 
 # xml*
 RUN apt-get update \
@@ -66,12 +58,7 @@ RUN apt-get update \
 	&& docker-php-ext-install zip
 
 # libsodium
-RUN apt-get update \
-	&& apt-get install -y \
-		libsodium-dev \
-	&& pecl install libsodium \
-	&& apt-get purge -y \
-		libsodium-dev
+RUN docker-php-ext-enable sodium
 
 # mbstring
 RUN apt-get update \
@@ -108,9 +95,21 @@ RUN apt-get install -y \
 		exif \
 	&& rm -r /var/lib/apt/lists/*
 
+
+# imagick (pecl)
+RUN apt-get update \
+	&& apt-get install -y \
+		libmagickwand-dev --no-install-recommends \
+		ghostscript --no-install-recommends \
+	&& mkdir -p /usr/src/php/ext/imagick \
+	&& curl -fsSL https://github.com/Imagick/imagick/archive/06116aa24b76edaf6b1693198f79e6c295eda8a9.tar.gz | tar xvz -C "/usr/src/php/ext/imagick" --strip 1 \
+	&& pecl install imagick \
+	&& docker-php-ext-enable imagick
+
 # Apache : modules
 RUN a2enmod rewrite \
-	&& a2enmod headers
+	&& a2enmod headers \
+	&& a2enmod status
 
 # PHP: composer
 RUN apt-get update \
