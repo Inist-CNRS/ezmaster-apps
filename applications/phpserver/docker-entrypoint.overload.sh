@@ -14,9 +14,8 @@ fi
 /usr/local/bin/composer-install.sh &
 
 # Fix permissions : avoid different user:group in the exposed directory
-chown -R www-data:daemon /var/www/html
 # to allow webdav server to modify all files
-chmod -R 770 /var/www/html
+find /var/www/html ! -user www-data -exec chown www-data:daemon {} \; &
 # to allow daemon to use temp directory
 chmod 1777 /tmp
 

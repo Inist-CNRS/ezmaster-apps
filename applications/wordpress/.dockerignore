@@ -2,4 +2,4 @@
 *
 
 # White list only the required files
-!nginx.conf
+!wp-config.php
