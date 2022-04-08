@@ -1,7 +1,7 @@
 {
 	"private": true,
 	"name": "ezmaster-wordpress",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "Wordpress web server",
 	"repository": {
 		"type": "git",
