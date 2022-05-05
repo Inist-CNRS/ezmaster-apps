@@ -1,1 +1,1 @@
-# lodex-theme-daf@12.22.3
+# lodex-theme-daf@12.22.4
