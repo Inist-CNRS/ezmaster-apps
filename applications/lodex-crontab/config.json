@@ -11,8 +11,8 @@
 		},
 		{
 			"CronRule": "0 0 0 1 * *",
-			"FileName": "istex-2022-fre",
-			"RunOnStartup": true
+			"FileName": "istex-2022-fr",
+			"RunOnStartup": false
 		}
 	]
 }
