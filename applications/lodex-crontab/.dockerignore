@@ -1,0 +1,15 @@
+# Ignore all files by default
+*
+
+# White list only the required files
+!config.json
+docker-compose.debug.yml
+!docker-entrypoint.sh*
+Dockerfile
+!generate-dotenv.js*
+!crontab.js
+!package-app.json
+!lws.config.js
+!public
+public/*
+!public/*.ini

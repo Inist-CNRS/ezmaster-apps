@@ -1,0 +1,18 @@
+{
+	"environnement": {
+		"CRON_VERBOSE": true,
+		"EZS_VERBOSE": false
+	},
+    "tasks": [
+		{
+			"CronRule": "30 * * * * *",
+			"FileName": "example",
+			"RunOnStartup": true
+		},
+		{
+			"CronRule": "0 0 0 1 * *",
+			"FileName": "istex-2022-fre",
+			"RunOnStartup": true
+		}
+	]
+}
