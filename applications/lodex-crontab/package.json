@@ -1,7 +1,7 @@
 {
 	"private": true,
 	"name": "lodex-crontab",
-	"version": "1.1.1",
+	"version": "1.1.2",
 	"description": "dedicated server for periodical run",
 	"repository": {
 		"type": "git",
