@@ -6,11 +6,11 @@
 		"node-schedule": "2.1.0",
 		"local-web-server": "5.2.1",
 		"lws-index": "3.1.1",
-		"concurrently": "7.3.0",
+		"concurrently": "7.4.0",
 		"@ezs/analytics": "1.19.2",
-        "@ezs/basics": "1.22.0",
+        "@ezs/basics": "1.22.1",
         "@ezs/booster": "1.2.4",
-        "@ezs/conditor": "2.8.1",
+        "@ezs/conditor": "2.8.2",
         "@ezs/core": "1.30.0",
         "@ezs/istex": "1.5.3",
         "@ezs/lodex": "1.15.1",
@@ -24,6 +24,6 @@
 		"server": "ws --directory /app/public",
 		"crontab": "node ./crontab.js",
 		"prestart": "node ./generate-dotenv.js",
-		"start": "concurrently \"npm:crontab\" \"npm:server\""
+		"start": "concurrently --no-color --timings \"npm:crontab\" \"npm:server\""
 	}
 }
