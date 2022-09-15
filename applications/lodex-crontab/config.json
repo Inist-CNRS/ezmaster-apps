@@ -3,16 +3,14 @@
 		"CRON_VERBOSE": true,
 		"EZS_VERBOSE": false
 	},
+	"files" : {
+		"#DISABLED zip": "https://gitbucket.inist.fr/tdm/web-dumps/archive/example/master.zip"
+	},
     "tasks": [
 		{
-			"CronRule": "30 * * * * *",
+			"CronRule": "1 * * * *",
 			"FileName": "example",
 			"RunOnStartup": true
-		},
-		{
-			"CronRule": "0 0 0 1 * *",
-			"FileName": "istex-2022-fr",
-			"RunOnStartup": false
 		}
 	]
 }

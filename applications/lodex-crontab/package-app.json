@@ -7,7 +7,7 @@
 		"local-web-server": "5.2.1",
 		"lws-index": "3.1.1",
 		"concurrently": "7.4.0",
-		"@ezs/analytics": "1.19.4",
+		"@ezs/analytics": "1.19.5",
         "@ezs/basics": "1.22.2",
         "@ezs/booster": "1.2.4",
         "@ezs/conditor": "2.8.2",

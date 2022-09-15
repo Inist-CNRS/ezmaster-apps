@@ -1,0 +1,21 @@
+#!/bin/sh
+
+# Examples :
+# ./zipsyncdir "https://gitbucket.inist.fr/tdm/web-services/archive/base-line/master.zip"
+# ./zipsyncdir "https://gitbucket.inist.fr/tdm/web-services/archive/base-line/master.zip" /tmp/truc
+
+REPOSITORY=${1:?the first argument of the command should be the URL of a zip file.}
+TARGET=${2:-/app/public}
+
+LOCATION=$(dirname $TARGET)
+DIRECTORY=$(basename $TARGET)
+
+trap 'rm -Rf "$TMPFILE" "$TMPDIR"' EXIT
+
+TMPFILE=$(mktemp) || exit 1
+TMPDIR=$(mktemp -d) || exit 1
+
+curl "$REPOSITORY" > "$TMPFILE"
+unzip -o -d $TMPDIR $TMPFILE
+cp -Rf $TMPDIR/*/* "$TARGET/"
+exit 0
