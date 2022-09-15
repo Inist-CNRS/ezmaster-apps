@@ -4,7 +4,7 @@ WORKDIR /app
 COPY . /app/
 RUN mv package-app.json package.json && \
 	mkdir -p /app/public && \
-    apk add --no-cache su-exec tini && \
+    apk add --no-cache su-exec openssh tini curl && \
     npm install --production && \
 	npm cache clean --force && \
 	npm prune --production && \
