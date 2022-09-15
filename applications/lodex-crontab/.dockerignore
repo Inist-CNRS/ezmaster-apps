@@ -8,6 +8,7 @@ docker-compose.debug.yml
 Dockerfile
 !generate-dotenv.js*
 !crontab.js
+!zipsyncdir
 !package-app.json
 !lws.config.js
 !public
