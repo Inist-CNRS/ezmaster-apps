@@ -11,4 +11,6 @@ RUN echo '{ \
     apk add --no-cache nodejs-current
 COPY docker-entrypoint.overload.sh /usr/local/bin/
 COPY server.js /usr/local/lib/
+COPY redis.conf /usr/local/etc/redis/redis.conf
 ENTRYPOINT [ "docker-entrypoint.overload.sh" ]
+CMD [ "redis-server", "/usr/local/etc/redis/redis.conf" ]
