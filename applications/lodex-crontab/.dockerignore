@@ -14,3 +14,4 @@ Dockerfile
 !public
 public/*
 !public/*.ini
+!public/Makefile

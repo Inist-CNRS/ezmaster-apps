@@ -11,6 +11,15 @@
 			"CronRule": "1 * * * *",
 			"FileName": "example",
 			"RunOnStartup": true
+		},
+		{
+			"CronRule": "1 * * * *",
+			"Target": "example",
+			"RunOnStartup": true
+		},
+		{
+			"CronRule": "1 * * * *",
+			"RunOnStartup": true
 		}
 	]
 }
