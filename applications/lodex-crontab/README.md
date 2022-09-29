@@ -44,6 +44,6 @@ To sync with git repo, just change the config :
     }
     ]
 }
-\`\`\`
+```
 
 > **Tip**: use <https://crontab.guru/> to check the `CronRule` of your tasks.
