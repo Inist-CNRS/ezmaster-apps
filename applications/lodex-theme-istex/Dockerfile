@@ -1,4 +1,4 @@
-FROM inistcnrs/lodex:12.23.333
+FROM inistcnrs/lodex:12.24.1
 RUN npm install -g github-files-fetcher && \
-	fetcher --url="https://github.com/Inist-CNRS/lodex-themes/tree/v1.0.1/istex" --out="/tmp" && \
+	fetcher --url="https://github.com/Inist-CNRS/lodex-themes/tree/v2.0.0/istex" --out="/tmp" && \
 	mv -f /tmp/istex/* /app/src/app/custom/
