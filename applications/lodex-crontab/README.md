@@ -10,7 +10,7 @@
 
 ## Usage
 
-- Add the application in your [ezmaster](https://github.com/Inist-CNRS/ezmaster) ([inistcnrs/lodex-crontab:1.4.0](https://hub.docker.com/r/inistcnrs/lodex-crontab/tags/)) then create a new instance
+- Add the application in your [ezmaster](https://github.com/Inist-CNRS/ezmaster) ([inistcnrs/lodex-crontab:1.5.0](https://hub.docker.com/r/inistcnrs/lodex-crontab/1.5.0/)) then create a new instance
 - All your content is exposed to the web
 - Upload your `.ini` scripts to the `public` repository (accessible via WebDav when using ezmastr)
 
