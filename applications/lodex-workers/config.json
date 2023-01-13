@@ -4,15 +4,13 @@
 		"EZS_DESCRIPTION": "web services for Lodex",
 		"EZS_METRICS": true,
 		"EZS_CONCURRENCY": 4,
+		"EZS_CONTINUE_DELAY": 60,
 		"EZS_NSHARDS": 32,
 		"EZS_CACHE": true,
 		"NODE_OPTIONS": "--max_old_space_size=1024",
 		"NODE_ENV": "production"
 	},
-	"packages": [
-		"@ezs/analytics@1.18.4",
-		"@ezs/basics@1.17.1"
-	],
+	"packages": [],
 	"files" : {
 		"#DISABLED zip": "https://gitbucket.inist.fr/tdm/web-services/archive/base-line/master.zip"
 	}
