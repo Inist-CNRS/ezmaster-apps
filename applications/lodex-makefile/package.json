@@ -1,7 +1,7 @@
 {
 	"private": true,
 	"name": "lodex-makefile",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"description": "dedicated server for periodical run",
 	"repository": {
 		"type": "git",
