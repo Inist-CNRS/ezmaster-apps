@@ -25,7 +25,12 @@
 		"postversion": "npm run version:push && npm run build && npm run publish",
 		"build": "docker build -t conditor/${npm_package_name}:${npm_package_version} .",
 		"prestart": "npm run build",
-		"start": "docker run --rm -p 3000:3000 -p 27017:27017 conditor/${npm_package_name}:${npm_package_version}",
+		"start": "docker run --rm -p 31976:31976 conditor/${npm_package_name}:${npm_package_version}",
 		"publish": "docker push conditor/${npm_package_name}:${npm_package_version}"
+	},
+	"dependencies": {
+		"@ezs/analytics": "^2.0.16",
+		"@ezs/basics": "^1.23.1",
+		"@ezs/core": "^2.3.2"
 	}
 }
