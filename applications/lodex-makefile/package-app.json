@@ -1,0 +1,18 @@
+{
+	"private": true,
+	"name": "lodex-makefile",
+	"dependencies": {
+		"local-web-server": "5.2.1",
+		"lws-index": "3.1.1",
+		"concurrently": "7.4.0",
+		"@ezs/analytics": "2.0.16",
+        "@ezs/basics": "1.23.1",
+        "@ezs/core": "2.3.2"
+	},
+	"scripts": {
+		"server": "ws --directory /app/public",
+		"makefile": "cd /app/public && make",
+		"prestart": "node ./generate-dotenv.js",
+		"start": "concurrently --prefix \"{time}-{name}\" --no-color \"npm:makefile\" \"npm:server\""
+	}
+}
