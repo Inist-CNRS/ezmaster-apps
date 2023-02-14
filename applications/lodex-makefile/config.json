@@ -1,0 +1,8 @@
+{
+	"environnement": {
+		"EZS_VERBOSE": false
+	},
+	"files" : {
+		"#DISABLED zip": "https://gitbucket.inist.fr/tdm/web-dumps/archive/example/master.zip"
+	}
+}
