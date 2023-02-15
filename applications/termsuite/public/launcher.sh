@@ -26,10 +26,8 @@ exec_termsuite() {
     # termsuite en docker-ws
     java -Xms1g -Xmx2g -cp ${JAR} fr.univnantes.termsuite.tools.TerminologyExtractorCLI  -c  ${INPUT_CORPUS} --tsv $F -l en -t /opt/treetagger
     
-    # termsuite hors docker-ws
-    #~/termsuite/termsuite-docker/bin/termsuite extract  -c  ${INPUT_CORPUS} -l en  --tsv  $F
-
-    endpoint_storage="http://vdrichtext.intra.inist.fr:7000/"
+    #stockage endpoint 
+    endpoint_storage=${WEBDAV_URL}
 
     # check if a result exist 
     if [ -s $F ]
@@ -38,7 +36,7 @@ exec_termsuite() {
         Res=${endpoint_storage}${F_RESULT}.gz
         debug "$0 save result into $F"
         gzip -c $F | \
-        curl -s -u "admin:inist1234"  --proxy ""  -X PUT  --data-binary @- "${Res}"  -o /dev/null && \
+        curl -s -u "${WEBDAV_USER}:${WEBDAV_PAS}"  --proxy ""  -X PUT  --data-binary @- "${Res}"  -o /dev/null && \
         echo '{"value":"'${Res}'", "code":0}'
 
         debug "sending result file  ${F_RESULT}.gz to ${endpoint_storage}" && \
