@@ -1,2 +1,2 @@
 all: 
-	@echo "Makefile launched."
+	@echo "Makefile launched. (EZS_VERBOSE=${EZS_VERBOSE})"

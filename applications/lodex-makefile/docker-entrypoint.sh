@@ -27,9 +27,11 @@ fi
 find /app/public ! -user daemon -exec chown daemon:daemon {} \; &
 find /tmp ! -user daemon -exec chown daemon:daemon {} \; &
 
-
 # environnement vars
 node ./generate-dotenv.js
+set -a
+source /app/.env
+set +a
 
 # launch make
 cd /app/public && make &
