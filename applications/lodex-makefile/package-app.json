@@ -2,11 +2,12 @@
 	"private": true,
 	"name": "lodex-makefile",
 	"dependencies": {
-		"local-web-server": "5.2.1",
+		"local-web-server": "5.3.0",
 		"lws-index": "3.1.1",
 		"@ezs/analytics": "2.0.16",
         "@ezs/basics": "1.23.1",
-        "@ezs/core": "2.3.2"
+        "@ezs/core": "2.3.2",
+		"@ezs/conditor": "2.10.3"
 	},
 	"scripts": {
 		"start": "ws --directory /app/public"
