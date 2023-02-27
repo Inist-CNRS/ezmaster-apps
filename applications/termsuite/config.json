@@ -12,9 +12,7 @@
         "NODE_ENV": "production",
         "PIP_NO_DEPENDENCIES": 0,
         "PIP_DISABLE_PIP_VERSION_CHECK": 1,
-        "PIP_NO_CACHE_DIR": 0,
-        "HTTPS_PROXY": "http://proxyout.inist.fr:8080/",
-        "FLAIR_CACHE_ROOT": "/tmp"
+        "PIP_NO_CACHE_DIR": 0
     },
     "packages": [
         "@ezs/core@2.3.0",
