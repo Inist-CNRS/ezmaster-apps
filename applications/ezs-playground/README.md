@@ -9,7 +9,7 @@
 
 ## Usage
 
-- Add the application in your [ezmaster](https://github.com/Inist-CNRS/ezmaster) ([inistcnrs/ezs-playground:1.2.1](https://hub.docker.com/r/inistcnrs/ezs-playground/1.2.1/)) then create a new instance
+- Add the application in your [ezmaster](https://github.com/Inist-CNRS/ezmaster) ([inistcnrs/ezs-playground:1.2.2](https://hub.docker.com/r/inistcnrs/ezs-playground/1.2.2/)) then create a new instance
 
 ```json
 {
