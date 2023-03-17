@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1.2
 FROM inistcnrs/lodex-workers-python:4.0.11 as build1
-RUN --mount=type=secret,id=webdav_login cat /secrets/login \
+RUN --mount=type=secret,id=webdav_login \
     --mount=type=secret,id=webdav_password cat/secrets/password \
     --mount=type=secret,id=webdav_url cat/secrets/url \
     pip install dvc[webdav]==2.48 && \
