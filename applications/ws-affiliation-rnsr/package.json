@@ -1,0 +1,33 @@
+{
+	"private": true,
+	"name": "ws-affiliation-rnsr",
+	"version": "1.0.0",
+	"description": "Lodex workers for ws-affiliation-rnsr",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Inist-CNRS/ezmaster-apps.git"
+	},
+	"keywords": [
+		"ezmaster",
+		"fasttext",
+		"rnsr"
+	],
+	"author": "Léo Gaillard <leo.gaillard222@gmail.com>",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/Inist-CNRS/ezmaster-apps/issues"
+	},
+	"homepage": "https://github.com/Inist-CNRS/ezmaster-apps/tree/main/applications/ws-affiliation-rnsr#readme",
+	"scripts": {
+		"version:insert": "sed -i \"s#\\(${npm_package_name}.\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" README.md && git add README.md && sed -i \"s/[0-9]\\.[0-9]\\.[0-9]/${npm_package_version}/g\" public/swagger.json",
+		"version:commit": "git commit -a -m \"release ${npm_package_name}@${npm_package_version}\"",
+		"version:tag": "git tag \"${npm_package_name}@${npm_package_version}\" -m \"${npm_package_name}@${npm_package_version}\"",
+		"version:push": "git push && git push --tags",
+		"version": "npm run version:insert && npm run version:commit && npm run version:tag",
+		"postversion": "npm run version:push && npm run build && npm run publish",
+		"build": "DOCKER_BUILDKIT=1 docker build -t inistcnrs/${npm_package_name}:${npm_package_version} --secret id=webdav_login,env=WEBDAV_LOGIN --secret id=webdav_password,env=WEBDAV_PASSWORD --secret id=webdav_url,env=WEBDAV_URL .",
+		"prestart": "npm run build",
+		"start": "docker run --rm -p 31976:31976 inistcnrs/${npm_package_name}:${npm_package_version}",
+		"publish": "docker push inistcnrs/${npm_package_name}:${npm_package_version}"
+	}
+}
