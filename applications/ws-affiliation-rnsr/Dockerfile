@@ -17,7 +17,7 @@ RUN --mount=type=secret,id=webdav_login \
 FROM inistcnrs/lodex-workers-python:4.0.11
 RUN pip install fasttext==0.9.2
 WORKDIR /app/public
-COPY /models /app/public/v2/affiliation
+COPY --from=build1 /models /app/public/v2/affiliation
 WORKDIR /app
 
 COPY logins.env .
