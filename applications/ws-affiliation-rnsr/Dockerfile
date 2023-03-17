@@ -8,7 +8,7 @@ RUN --mount=type=secret,id=webdav_login \
     dvc init && \
     dvc remote add -d webdav-remote "$(cat /run/secrets/webdav_url)" && \
     dvc remote modify --local webdav-remote user "${WEBDAV_LOGIN}" && \
-    dvc remote modify --local webdav-remote password "${WEBDAV_PASSWORD}" && \
+    dvc remote modify --local webdav-remote password "$(cat /run/secrets/webdav_password)" && \
     dvc pull
     
     #Verifier ici
