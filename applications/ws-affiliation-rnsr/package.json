@@ -19,7 +19,7 @@
 	},
 	"homepage": "https://github.com/Inist-CNRS/ezmaster-apps/tree/main/applications/ws-affiliation-rnsr#readme",
 	"scripts": {
-		"version:insert": "sed -i \"s#\\(${npm_package_name}.\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" README.md && git add README.md",
+		"version:insert": "sed -i \"s#\\(${npm_package_name}.\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" README.md && git add README.md && sed -i \"s/[0-9]\\.[0-9]\\.[0-9]/${npm_package_version}/g\" public/swagger.json",
 		"version:commit": "git commit -a -m \"release ${npm_package_name}@${npm_package_version}\"",
 		"version:tag": "git tag \"${npm_package_name}@${npm_package_version}\" -m \"${npm_package_name}@${npm_package_version}\"",
 		"version:push": "git push && git push --tags",

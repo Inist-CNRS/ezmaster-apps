@@ -8,7 +8,15 @@ Required: initialize environment variables:
 - `WEBDAV_LOGIN`
 - `WEBDAV_PASSWORD`
 
-Before calling `npm run build`.
+Before calling `npm run build` or `npm start`.
 
 > 📗 Suggestion: put them in `.env` file and don't forget to run `source .env`
-> before calling `npm run build`.
+> before calling `npm run build` or `npm start`.
+
+## Test
+
+```bash
+curl -X POST "http://localhost:31976/v2/affiliation/rnsr" \
+     -H  "accept: application/json" -H  "Content-Type: application/json" \
+     -d "[{\"id\":1,\"value\":\"UAR 76, Inist-CNRS, 2 rue Jean Zay 54500 Vandoeuvre-lès-Nancy\"},{\"id\":2,\"value\":\"Institut Charles Gerhardt, Université de Montpellier\"},{\"id\":3,\"value\":\"UMR 7272 - CNRS, 06100 Nice\"}]"
+```
