@@ -6,7 +6,7 @@ RUN --mount=type=secret,id=webdav_login \
     pip install dvc[webdav]==2.48 && \
     git init && \
     dvc init && \
-    dvc remote add -d webdav-remote "${WEBDAV_URL}" && \
+    dvc remote add -d webdav-remote "$(cat /run/secrets/webdav_url)" && \
     dvc remote modify --local webdav-remote user "${WEBDAV_LOGIN}" && \
     dvc remote modify --local webdav-remote password "${WEBDAV_PASSWORD}" && \
     dvc pull
