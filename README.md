@@ -15,12 +15,12 @@ Monorepo for ezmaster applications configurations :
 - [mysql](./applications/mysql/) [![Docker Pulls](https://img.shields.io/docker/pulls/inistcnrs/ezmaster-mysql.svg)](https://registry.hub.docker.com/u/inistcnrs/ezmaster-mysql/)
 - [nginx](./applications/nginx/) [![Docker Pulls](https://img.shields.io/docker/pulls/inistcnrs/ezmaster-nginx.svg)](https://registry.hub.docker.com/u/inistcnrs/ezmaster-nginx/)
 - [phpserver](./applications/phpserver/) [![Docker Pulls](https://img.shields.io/docker/pulls/inistcnrs/ezmaster-phpserver.svg)](https://registry.hub.docker.com/u/inistcnrs/ezmaster-phpserver/)
-- [prometheus](./applications/prometheus/) [![Docker Pulls](https://img.shields.io/docker/pulls/inistcnrs/ezmaster-prometheus.svg)](https://registry.hub.docker.com/u/inistcnrs/ezmaster-phpserver/)
+- [prometheus](./applications/prometheus/) [![Docker Pulls](https://img.shields.io/docker/pulls/inistcnrs/ezmaster-prometheus.svg)](https://registry.hub.docker.com/u/inistcnrs/ezmaster-prometheus/)
 - [proxy](./applications/proxy/) [![Docker Pulls](https://img.shields.io/docker/pulls/inistcnrs/ezmaster-proxy.svg)](https://registry.hub.docker.com/u/inistcnrs/ezmaster-proxy/)
 - [virtuoso](./applications/virtuoso/) [![Docker Pulls](https://img.shields.io/docker/pulls/inistcnrs/ezmaster-virtuoso.svg)](https://registry.hub.docker.com/u/inistcnrs/ezmaster-virtuoso/)
 - [webserver](./applications/webserver/) [![Docker Pulls](https://img.shields.io/docker/pulls/inistcnrs/ezmaster-webserver.svg)](https://registry.hub.docker.com/u/inistcnrs/ezmaster-webserver/)
 - [web-term](./applications/web-term/) [![Docker Pulls](https://img.shields.io/docker/pulls/inistcnrs/ezmaster-web-term.svg)](https://registry.hub.docker.com/u/inistcnrs/ezmaster-web-term/)
-- [ws-affiliation-rnsr](./applications/ws-affiliation-rnsr/) [![Docker Pulls](https://img.shields.io/docker/pulls/inistcnrs/ws-affiliation-rnsr.svg)](https://registry.hub.docker.com/u/inistcnrs/ezmaster-web-term/)
+- [ws-affiliation-rnsr](./applications/ws-affiliation-rnsr/) [![Docker Pulls](https://img.shields.io/docker/pulls/inistcnrs/ws-affiliation-rnsr.svg)](https://registry.hub.docker.com/u/inistcnrs/ws-affiliation-rnsr/)
 
 
 ## How to ...
