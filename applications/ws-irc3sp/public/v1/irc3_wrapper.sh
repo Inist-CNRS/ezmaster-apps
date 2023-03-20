@@ -6,8 +6,6 @@ programme=$(basename "$0")
 # version='0.1.3'
 # modif='17 Août 2022'
 
-(date; echo "$programme $*") >> /tmp/debug_input_$$
-
 function usage
 {
 echo "Usage : $programme (start|ws|job|stop) "
@@ -58,17 +56,9 @@ function travail
 {
 if [[ -p /tmp/fifo_irc3 ]]
 then
-    echo "Mise en attente du job $$" >> /tmp/debug_input_$$
-
     data=$(cat)
 
     mkfifo -m 0666 /tmp/fifo_job_$$
-
-    {
-    echo "DEBUT<<<<<<<<<<<<<<<<<<";
-    echo "$data";
-    echo "FIN  >>>>>>>>>>>>>>>>>>>";
-    } >> /tmp/debug_input_$$ # debug
 
     (echo "%% JOB POUR FIFO /tmp/fifo_job_$$";
      echo "$data";
@@ -77,7 +67,6 @@ then
     cat /tmp/fifo_job_$$
     rm -f /tmp/fifo_job_$$fi
 
-    echo "Fin du job $$" >> /tmp/debug_input_$$
 fi
 }
 
