@@ -1,0 +1,18 @@
+{
+	"environnement": {
+		"EZS_TITLE": "IRC3 Species",
+		"EZS_DESCRIPTION": "Indexation par Recherche et Comparaison de Chaînes de Caractères",
+		"EZS_METRICS": true,
+		"EZS_CONCURRENCY": 4,
+		"EZS_NSHARDS": 32,
+		"EZS_CACHE": true,
+		"EZS_DEBUG": true,
+		"NODE_OPTIONS": "--max_old_space_size=1024",
+		"NODE_ENV": "production"
+	},
+	"packages": [
+		"@ezs/spawn@1.2.30",
+		"@ezs/basics@1.23.3"
+	],
+	"files": {}
+}
