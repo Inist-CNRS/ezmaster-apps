@@ -4,6 +4,10 @@ IRC3: Indexation par Recherche et Comparaison de Chaînes de Caractères
 
 Applied on **sp**ecies.
 
+> 💡 The treatment is much quicker when you send an array containing a tokenized
+> text (sentence by sentence).  
+> The payload may be like `[{"id":1,"value":["sentence 1", "sentence 2"]}]`.
+
 ## Test
 
 ```bash
