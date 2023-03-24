@@ -21,15 +21,15 @@ const sentences = (data, feed, ctx) => {
         const [prev1, prev2] = a.slice(-1)[0].slice(-2);
         if (SENTENCE_ENDING.includes(c)) {
             if (c !== ".") {
-                return [...a.slice(0, -1), (currentSentence + c).trimStart(), "  "];
+                return [...a.slice(0, -1), currentSentence + c, "  "];
             }
 
             if (prev1 !== " ") {
-                return [...a.slice(0, -1), (currentSentence + c).trimStart(), "  "];
+                return [...a.slice(0, -1), currentSentence + c, "  "];
             }
 
             if (!LETTERS.includes(prev2)) {
-                return [...a.slice(0, -1), (currentSentence + c).trimStart(), "  "];
+                return [...a.slice(0, -1), currentSentence + c, "  "];
             }
         }
         return [...a.slice(0, -1), currentSentence + c]
