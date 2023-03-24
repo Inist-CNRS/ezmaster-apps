@@ -12,7 +12,6 @@ RUN apk add --update-cache --no-cache \
 	openssl-dev \
 	perl \
 	perl-json \
-	ca-certificates \
 	&& \
 	gunzip public/v1/CoL.txt.gz && \
 	mv package-app.json package.json && \
