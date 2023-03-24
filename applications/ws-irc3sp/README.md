@@ -8,10 +8,6 @@ See [original
 program](https://gitbucket.inist.fr/scodex/IRC3/tree/master/IRC3sp) (French
 description of IRC3sp).
 
-> 💡 The treatment is much quicker when you send an array containing a tokenized
-> text (sentence by sentence).  
-> The payload may be like `[{"id":1,"value":["sentence 1", "sentence 2"]}]`.
-
 ## Test
 
 ```bash
