@@ -1,4 +1,4 @@
-# ws-irc3sp@1.1.0
+# ws-irc3sp@1.1.1
 
 IRC3: Indexation par Recherche et Comparaison de Chaînes de Caractères
 
