@@ -4,15 +4,20 @@ import json
 import re
 import sys
 import pickle
+import unicodedata
+import math
 
 
 # del fasttext's logs
 fasttext.FastText.eprint = lambda x: None
 
 
-# Charging models
-dico_unite_pkl=open("./v2/affiliation/models/dict-code-unite.pkl","rb")
-dico_unite=pickle.load(dico_unite_pkl)
+# Charging models :
+with open("./v2/affiliation/models/dict-code-unite.pkl","rb") as dico_unite_pkl:
+    dico_unite=pickle.load(dico_unite_pkl)
+
+with open("./v2/affiliation/models/dict-proba.pkl","rb") as dico_proba_pkl:
+    dico_proba=pickle.load(dico_proba_pkl)
 
 modelDomain = fasttext.load_model("./v2/affiliation/models/model-domains_rnsr.ftz")
 modelsDX = []
@@ -21,54 +26,57 @@ for i in range(11):
 
 
 # Normalize 
-def normalizeText(text):
-    text = text.lower()
-    text = re.sub("é","e",text)
-    text = re.sub("è","e",text)
-    text = re.sub("ê","e",text)
-    text = re.sub("à","a",text)
-    text = re.sub("ô","o",text)
-    text = re.sub("û","u",text)
-    text = re.sub("î","i",text)
-    text = re.sub("ù","u",text)
-    text = re.sub("ç","c",text)
-    text = re.sub(r"[^a-zA-Z0-9]", " ", text)
-    text = re.sub(r"\s+", " ", text)
-    text = re.sub("universite","univ",text)
-    text = re.sub("university","univ",text)
-    text = re.sub("centre","ctr",text)
-    text = re.sub("center","ctr",text)
-    sentance = []
-    for word in text.split():
-        if word not in ['france',"franc","fr"]:
-            sentance.append(word)
-    text = " ".join(sentance)
+
+# Normalisation du texte :
+def remove_accents(text):
+    text = unicodedata.normalize("NFD", text)
+    text = re.sub("[\u0300-\u036f]", "", text)
     return text
 
-# Find a unit code in an affiliation
-def findCodeU(text):
-    text = re.sub("\n","",text)
+def normalizeText(text):
+    text = text.lower()
+    text = remove_accents(text)
+    text = re.sub(r"[^a-zA-Z0-9]", " ",text)
+    text = text.replace("universite","univ")
+    text = text.replace("university","univ")
+    text = text.replace("centre","ctr")
+    text = text.replace("center","ctr")
+    sentence = []
+    for word in text.split():
+        if word not in ['france',"franc","fr"]:
+            sentence.append(word)
+    text = " ".join(sentence)
+    return text
 
-    c=re.findall(r'u[amsrp]+ ?[0-9]+',text)
-    cd=list(set(c))
+# Find a code U. in an affiliation and return the associated RNSR
+def findCodeU(text):    
+    '''
+    Cherche s'il y a un code unité dans l'affiliayion associé à un RNSR.
+    '''
+    text = text.replace('cnrs ','')
+    c=re.findall(r'u[amsrp]{2,3} ?[emsat]? ?[0-9]{1,5}',text)
+    codes=list(set(c))
 
-    rnsrFinded= False
-    rnsr = "n/a"
-    for code in cd:
-        # normalize
-        code=code.lower()
+    for code in codes:
         code=code.replace(' ','')
-        code=code.replace('-','')
-
+        if code == 'umr1163':
+            if 'inserm' in text:
+                return ('200724137K',True)
         try:
-            rnsr2 = dico_unite[code]
-            rnsr = rnsr2
-            rnsrFinded = True
-            break  
+            rnsr = dico_unite[code]
+            print(rnsr)
+            return (rnsr,True)
         except KeyError:
             continue
 
-    return (rnsr,rnsrFinded)
+    return ("n/a",False)
+
+# Penalize proba of small classes
+def penalizeProba(rnsr,proba):
+    try:
+        return (1-math.exp(-0.4*dico_proba[rnsr]) )*proba
+    except KeyError:
+        return 0
 
 # WS
 for line in sys.stdin:
@@ -78,6 +86,7 @@ for line in sys.stdin:
     # Find code U.
     rnsr, rnsrFinded = findCodeU(affiliation)
     if rnsrFinded :
+        print(dico_unite["umr1163"])
         data["value"]=rnsr
         sys.stdout.write(json.dumps(data))
         sys.stdout.write("\n")
@@ -92,16 +101,14 @@ for line in sys.stdin:
 
         #predict rnsr knowing domain
         for i in range(11):
-            if i < 9:
-                testModelDx = "D0%s" %(i+1)
-            else:
-                testModelDx = "D%s" %(i+1)
+            testModelDx = "D" + str(i+1).rjust(2,"0")
             if domain == testModelDx :
                 predictionRnsr = modelsDX[i].predict(affiliation)
-        rnsr, proba = re.sub("__label__","",predictionRnsr[0][0]),predictionRnsr[1][0]
+        rnsr, proba = predictionRnsr[0][0].replace("__label__",""),predictionRnsr[1][0]
+        proba = penalizeProba(rnsr,proba)
 
-        #threshold = 0.41
-        if proba < 0.41 :
+        #threshold = 0.56
+        if proba < 0.56 :
             data["value"]="n/a"
         else:
             data["value"]=rnsr
