@@ -1,4 +1,4 @@
-# ws-affiliation-rnsr@1.0.0
+# ws-affiliation-rnsr@1.1.0
 
 ## Build
 
