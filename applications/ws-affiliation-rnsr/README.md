@@ -8,6 +8,8 @@ Required: initialize environment variables:
 - `WEBDAV_LOGIN`
 - `WEBDAV_PASSWORD`
 
+> **Remember:** when using a webdav remote, the URL's protocol is `webdav`.
+
 Before calling `npm run build` or `npm start`.
 
 > 📗 Suggestion: put them in `.env` file and don't forget to run `source .env`
