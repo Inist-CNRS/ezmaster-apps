@@ -64,7 +64,6 @@ def findCodeU(text):
                 return ('200724137K',True)
         try:
             rnsr = dico_unite[code]
-            print(rnsr)
             return (rnsr,True)
         except KeyError:
             continue
@@ -86,7 +85,6 @@ for line in sys.stdin:
     # Find code U.
     rnsr, rnsrFinded = findCodeU(affiliation)
     if rnsrFinded :
-        print(dico_unite["umr1163"])
         data["value"]=rnsr
         sys.stdout.write(json.dumps(data))
         sys.stdout.write("\n")
