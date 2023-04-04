@@ -1,4 +1,4 @@
-FROM inistcnrs/lodex-workers:9.2.3 AS build1
+FROM inistcnrs/lodex-workers:9.3.0 AS build1
 FROM golang:1.17.5-alpine3.15 as build2
 # System setup
 RUN apk update && \
@@ -12,10 +12,10 @@ RUN curl -L -o /tmp/protobuf.tar.gz $PROTOBUF_URL && \
 	cd /tmp/protobuf-3.3.0 && \
 	mkdir /export  && \
 	./autogen.sh && \
-    ./configure --prefix=/export && \
-    make -j 3 && \
-    make check && \
-    make install
+	./configure --prefix=/export && \
+	make -j 3 && \
+	make check && \
+	make install
 
 # Install protoc-gen-go
 RUN go get github.com/golang/protobuf/protoc-gen-go  && \
@@ -23,7 +23,7 @@ RUN go get github.com/golang/protobuf/protoc-gen-go  && \
 	cp /usr/lib/libstdc++* /export/lib/ && \
 	cp /usr/lib/libgcc_s* /export/lib/
 
-FROM node:14-alpine3.15 AS release
+FROM node:14-alpine3.17 AS release
 COPY --from=build1 /app /app
 COPY --from=build2 /export /usr
 WORKDIR /app
@@ -54,13 +54,13 @@ RUN apk add --update-cache --no-cache \
 	cython \
 	&& \
 	mv package-app.json package.json && \
-    npm install --production && \
+	npm install --production && \
 	npm cache clean --force && \
 	npm prune --production && \
 	echo '{ \
-		"httpPort": 31976, \
-			"configPath": "/app/config.json", \
-			"dataPath": "/app/public" \
+	"httpPort": 31976, \
+	"configPath": "/app/config.json", \
+	"dataPath": "/app/public" \
 	}' > /etc/ezmaster.json && \
 	sed -i -e "s/daemon:x:2:2/daemon:x:1:1/" /etc/passwd && \
 	sed -i -e "s/daemon:x:2:/daemon:x:1:/" /etc/group && \
