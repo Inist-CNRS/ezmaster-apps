@@ -2,11 +2,9 @@
 	"private": true,
 	"name": "lodex-workers-python",
 	"dependencies": {
-		"@ezs/analytics": "1.18.4",
-		"@ezs/basics": "1.17.1",
-		"@ezs/core": "1.28.2",
-		"@ezs/spawn": "^1.2.2",
-		"@ezs/storage": "1.6.2",
+		"@ezs/basics": "2.0.0",
+		"@ezs/core": "2.5.1",
+		"@ezs/spawn": "^1.2.31",
 		"dotenv-cli": "4.1.1",
 		"npm-watch": "0.11.0"
 	},
