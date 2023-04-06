@@ -12,12 +12,8 @@
 		"PIP_DISABLE_PIP_VERSION_CHECK": 1,
 		"PIP_NO_CACHE_DIR": 0
 	},
-	"packages": [
-		"@ezs/spawn@1.1.0",
-		"@ezs/analytics@1.18.4",
-		"@ezs/basics@1.17.1"
-	],
-	"files" : {
+	"packages": [],
+	"files": {
 		"#DISABLED zip": "https://gitbucket.inist.fr/tdm/web-services/archive/base-line/master.zip"
 	}
 }

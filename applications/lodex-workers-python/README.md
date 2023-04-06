@@ -1,1 +1,1 @@
-# lodex-workers-python@4.0.11
+# lodex-workers-python@4.0.12
