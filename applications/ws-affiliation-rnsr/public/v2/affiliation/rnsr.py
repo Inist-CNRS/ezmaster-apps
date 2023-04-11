@@ -79,9 +79,25 @@ def penalizeProba(rnsr,proba):
 
 # WS
 for line in sys.stdin:
-    data = json.loads(line)
-    affiliation = normalizeText(data["value"])
-
+    # error management
+    try:
+        data = json.loads(line)
+    except ValueError:
+        sys.stdout.write(json.dumps({"error" : "(ValueError) stdin is not a valid json (must be an array of objects)"}))
+        sys.stdout.write("\n")
+        continue
+    try:
+        affiliation = data["value"]
+    except KeyError:
+        sys.stdout.write(json.dumps({'error' : '(KeyError) stdin must be an array of objects, each objects needs key "value"'}))
+        sys.stdout.write("\n")
+        continue
+    if type(affiliation) != str :
+        sys.stdout.write(json.dumps({'error' : '(typeError) the value associated with "value" must be of type string'}))
+        sys.stdout.write("\n")
+        continue
+    
+    affiliation= normalizeText(affiliation)
     # Find code U.
     rnsr, rnsrFinded = findCodeU(affiliation)
     if rnsrFinded :

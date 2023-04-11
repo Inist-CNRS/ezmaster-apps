@@ -1,7 +1,7 @@
 {
 	"private": true,
 	"name": "ws-affiliation-rnsr",
-	"version": "1.2.3",
+	"version": "1.3.0",
 	"description": "Lodex workers for ws-affiliation-rnsr",
 	"repository": {
 		"type": "git",
@@ -25,9 +25,9 @@
 		"version:push": "git push && git push --tags",
 		"version": "npm run version:insert && npm run version:commit && npm run version:tag",
 		"postversion": "npm run version:push && npm run build && npm run publish",
-		"build": "DOCKER_BUILDKIT=1 docker build -t inistcnrs/${npm_package_name}:${npm_package_version} --secret id=webdav_login,env=WEBDAV_LOGIN --secret id=webdav_password,env=WEBDAV_PASSWORD --secret id=webdav_url,env=WEBDAV_URL .",
+		"build": "DOCKER_BUILDKIT=1 docker build -t leogail/${npm_package_name}:${npm_package_version} --secret id=webdav_login,env=WEBDAV_LOGIN --secret id=webdav_password,env=WEBDAV_PASSWORD --secret id=webdav_url,env=WEBDAV_URL .",
 		"prestart": "npm run build",
-		"start": "docker run --rm -p 31976:31976 inistcnrs/${npm_package_name}:${npm_package_version}",
-		"publish": "docker push inistcnrs/${npm_package_name}:${npm_package_version}"
+		"start": "docker run --rm -p 31976:31976 leogail/${npm_package_name}:${npm_package_version}",
+		"publish": "docker push leogail/${npm_package_name}:${npm_package_version}"
 	}
 }
