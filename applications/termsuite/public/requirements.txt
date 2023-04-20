@@ -1,1 +1,6 @@
+requests
+plac
+validators
+decorator
 redis
+logging

@@ -4,7 +4,7 @@
         "EZS_DESCRIPTION": "Web service Termsuite : Extraction de termes (en)",
         "EZS_METRICS": true,
         "EZS_CONCURRENCY": 1,
-        "EZS_CONTINUE_DELAY": 3600,
+        "EZS_CONTINUE_DELAY": 18000,
         "EZS_NSHARDS": 32,
         "EZS_CACHE": true,
         "EZS_VERBOSE": false,
@@ -15,10 +15,10 @@
         "PIP_NO_CACHE_DIR": 0
     },
     "packages": [
-        "@ezs/core@2.3.0",
-		"@ezs/spawn@1.2.22",
-		"@ezs/analytics@2.0.13",
-		"@ezs/basics@1.23.0"
+        "@ezs/core@2.5.2",
+		"@ezs/spawn@1.2.31",
+		"@ezs/analytics@2.0.22",
+		"@ezs/basics@2.1.0"
     ],
     "files" : {
         "#DISABLE zip": ""

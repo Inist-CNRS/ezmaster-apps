@@ -6,7 +6,7 @@ FROM node:14-alpine3.15 as release
 COPY --from=build /app /app
 
 ENV \
-  TT_VERSION=3.2.4 \
+  TT_VERSION=3.2.5 \
   TERMSUITE_VERSION=3.0.10 \
   TT_URL=http://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/data
 
@@ -34,8 +34,8 @@ RUN  chmod a+x /opt/treetagger/models/
 
 # Install termsuite
 WORKDIR /opt/
-RUN  curl -O -L https://search.maven.org/remotecontent?filepath=fr/univ-nantes/termsuite/termsuite-core/${TERMSUITE_VERSION}/termsuite-core-${TERMSUITE_VERSION}.jar
-
+#RUN  curl -O -L https://search.maven.org/remotecontent?filepath=fr/univ-nantes/termsuite/termsuite-core/${TERMSUITE_VERSION}/termsuite-core-${TERMSUITE_VERSION}.jar
+RUN wget -O termsuite-core-${TERMSUITE_VERSION}.jar  https://search.maven.org/remotecontent?filepath=fr/univ-nantes/termsuite/termsuite-core/${TERMSUITE_VERSION}/termsuite-core-${TERMSUITE_VERSION}.jar
 # install java 1.8
 RUN { \
         echo '#!/bin/sh'; \
@@ -57,6 +57,7 @@ WORKDIR /app
 # see .dockerignore to know all copied files
 COPY ./config.json  /app/
 COPY ./public /app/public/
+
 
 RUN ls -lR /app/public/
 
@@ -95,7 +96,10 @@ RUN apk add --update-cache --no-cache \
 	sed -i -e "s/bin:x:1:/bin:x:2:/" /etc/group && \
 	mkdir -p /sbin/.npm /sbin/.config /sbin/.local   && \
 	chown -R daemon:daemon /app /tmp /sbin/.npm /sbin/.config /sbin/.local && \
-	pip3 install --no-cache-dir --upgrade pip
+	pip3 install --no-cache-dir --upgrade pip 
+
+RUN	pip3 install -r /app/public/requirements.txt
+ENV PYTHONPATH="$PYTHONPATH:/app/public"
 
 ENTRYPOINT ["/sbin/tini", "-g", "--"]
 
