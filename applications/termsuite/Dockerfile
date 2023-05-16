@@ -68,7 +68,7 @@ RUN apk add --update-cache --no-cache \
 	cmake \
 	#python3 \
 	#python3-dev \
-	py3-pip \
+	#py3-pip \
 	libgfortran \
 	lapack-dev \
 	openssl-dev \
@@ -95,11 +95,9 @@ RUN apk add --update-cache --no-cache \
 	sed -i -e "s/bin:x:1:1/bin:x:2:2/" /etc/passwd && \
 	sed -i -e "s/bin:x:1:/bin:x:2:/" /etc/group && \
 	mkdir -p /sbin/.npm /sbin/.config /sbin/.local   && \
-	chown -R daemon:daemon /app /tmp /sbin/.npm /sbin/.config /sbin/.local && \
-	pip3 install --no-cache-dir --upgrade pip 
+	chown -R daemon:daemon /app /tmp /sbin/.npm /sbin/.config /sbin/.local
+	#pip3 install --no-cache-dir --upgrade pip 
 
-RUN	pip3 install -r /app/public/requirements.txt
-ENV PYTHONPATH="$PYTHONPATH:/app/public"
 
 ENTRYPOINT ["/sbin/tini", "-g", "--"]
 

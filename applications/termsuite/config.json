@@ -1,7 +1,7 @@
 {
     "environnement": {
         "EZS_TITLE": "termsuite",
-        "EZS_DESCRIPTION": "Web service Termsuite : Extraction de termes (en)",
+        "EZS_DESCRIPTION": "Web service Termsuite : Extraction de termes",
         "EZS_METRICS": true,
         "EZS_CONCURRENCY": 1,
         "EZS_CONTINUE_DELAY": 18000,
@@ -16,7 +16,7 @@
     },
     "packages": [
         "@ezs/core@2.5.2",
-		"@ezs/spawn@1.2.31",
+		"@ezs/spawn@1.3.0",
 		"@ezs/analytics@2.0.22",
 		"@ezs/basics@2.1.0"
     ],

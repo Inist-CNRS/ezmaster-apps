@@ -1,0 +1,102 @@
+#! /bin/bash 
+set -m
+
+function message () {
+
+    echo "$(date "+%D:%T"):message:$1 - return code:$3"  >> $2.log
+}
+
+function clean () {
+
+   # production mode yes / no
+   PROD=true
+
+   if [ "${PROD}" = true ]; then
+   
+        PROJECT=$1
+        PID=$2
+        if [ -d "$PROJECT" ]; then
+            message "clean all : rm -rf $PROJECT - $PID " $PID 0
+            rm -rf $PROJECT  > /dev/null  # delete input and output file from tmp
+            return 0
+        fi
+   fi
+
+} 
+
+function extract () {
+
+	JAR=$(ls /opt/termsuite-core-*.jar)
+
+    PROJECT=$1
+    INPUT_CORPUS=$2
+    FILE_RESULT=$3
+    LANG=$4
+    TOPN=$5
+    PID=$6
+
+    ############ 1  extraction
+    if [ -d "$INPUT_CORPUS" ]; then     # check if input corpus path exist
+        
+        NBR_TXT=$(ls -A ${INPUT_CORPUS} | wc -l)
+        if [ "$NBR_TXT" -gt 0  ]; then  # check if corpus file exist text 
+            # file result
+       
+            message "Extraction in progres on ${INPUT_CORPUS}, result in $FILE_RESULT ..."  $PID 0
+            # send message to client
+            #  1 - execution termsuite 
+            java -Xms16g -Xmx48g -cp $JAR fr.univnantes.termsuite.tools.TerminologyExtractorCLI  -c  $INPUT_CORPUS --tsv $FILE_RESULT -l $LANG -t /opt/treetagger --post-filter-top-n=$TOPN --post-filter-property=spec
+            message "Extraction finish on [${NBR_TXT}] documents" $PID 0
+            return 0
+
+        else
+            # empty file in dir
+            message "ERROR:[${NBR_TXT}] doc, no input data" $PID 1
+            clean $PROJECT $PID
+            return 1
+        fi
+    
+    else  # no dir corpus !!
+            
+            message "ERROR:input directory [${INPUT_CORPUS}] not exist !!" $PID 1
+            # send message to client
+            return 1
+    fi
+    
+}
+
+function forward () {
+
+    PROJECT=$1
+    FILE_RESULT=$2
+    WEBHOOK=$3
+    PID=$4
+    
+    CODE=$(curl -s -o /dev/null -w "%{http_code}" "${WEBHOOK}")
+
+    #  test webhook availability 
+    if [ "${CODE}" != "200" ] ; then
+        message "ERROR: can not contact ${WEBHOOK} - get CODE:[${CODE}] !!" $PID 1
+        clean $PROJECT $PID
+        return 1    
+    else
+        message "${WEBHOOK} ready - get CODE: [${CODE}]" $PID 0    
+    fi
+     
+
+    #######  2 -  send the result to the storage
+    if [ -s "$FILE_RESULT" ]  ; then     # check if a file result exist 
+
+        message "save result in $FILE_RESULT" $PID 0
+    
+        FILE_RESULT_ZIP=${FILE_RESULT}.gz
+        gzip -f $FILE_RESULT  &&  curl -s -H "Content-Type: application/json" -d "${FILE_RESULT_ZIP}" "${WEBHOOK}"
+     
+        return 0
+        
+    else
+        message "ERROR:no data to deliver !!" $PID 1
+        clean $PROJECT $PID
+        return 1
+    fi 
+}
