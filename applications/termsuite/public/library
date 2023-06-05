@@ -1,102 +1,121 @@
 #! /bin/bash 
-set -m
+set +x
 
-function message () {
+# code = 0  => SUCCESS
+# code = 1  => ERROR
+# code = 2 =>  IN PROGRESS
 
-    echo "$(date "+%D:%T"):message:$1 - return code:$3"  >> $2.log
+declare -A my_message
+my_message['0']="SUCCESS"
+my_message['1']="FAILURE"
+my_message['2']="IN PROGRESS"
+MANIFEST=MANIFEST.json
+
+#
+#  write messages in  *.log and MANIFEST.json
+#
+function check () {
+
+    local mess=$1    
+    local pid=$2
+    local code=$3
+    
+    # write message in LOGFILE
+    echo "$(date "+%D:%T"):code=$code:${my_message[$code]}:message=$mess"  >> $pid.log 
+    
+    # write message in MANIFEST
+    if [[ "$code" -ne 0 ]] ; then
+        sed -i "s/`echo ${my_message['0']}`/`echo ${my_message['1']}`/" ${PROJECT}/${MANIFEST}
+        return 1
+    fi
+    return 0
 }
-
+#
+# remove all data ( input, output , log) from a extraction precoss
+#
 function clean () {
 
-   # production mode yes / no
-   PROD=true
+   local PROJECT=$1
+   local PID_PATH=$1/$2
+   local PROD=$3
 
-   if [ "${PROD}" = true ]; then
-   
-        PROJECT=$1
-        PID=$2
-        if [ -d "$PROJECT" ]; then
-            message "clean all : rm -rf $PROJECT - $PID " $PID 0
-            rm -rf $PROJECT  > /dev/null  # delete input and output file from tmp
-            return 0
-        fi
+   if [ "${PROD}" = true -a -d "$PROJECT" ]; then
+       rm -rf $PROJECT  > /dev/null  # delete input and output file from tmp
+       return 0
    fi
-
-} 
-
+}
+# 
+# Lance une extraction termsuite à partir du corpus dezip
+#
 function extract () {
 
-	JAR=$(ls /opt/termsuite-core-*.jar)
+    local PROJECT=$1
+    local F=$3
+    local INPUT_CORPUS=$2
+    local FILE_RESULT=$1/$F
+    local LANG=$4
+    local TOPN=$5
+    local PID_PATH=$1/$6
 
-    PROJECT=$1
-    INPUT_CORPUS=$2
-    FILE_RESULT=$3
-    LANG=$4
-    TOPN=$5
-    PID=$6
+    # check if termsuite is available on the machine
+    JAR=$(ls /opt/termsuite-core-*.jar) && (check "termsuite-core.jar found on the machine " $PID_PATH 0)   || (check "Termsuite JAR not found " $PID_PATH 1)
 
-    ############ 1  extraction
-    if [ -d "$INPUT_CORPUS" ]; then     # check if input corpus path exist
-        
+    ############  extraction
+    if [ -d "$INPUT_CORPUS" -a $? -eq 0 ]; then     # check if input corpus path exist
         NBR_TXT=$(ls -A ${INPUT_CORPUS} | wc -l)
-        if [ "$NBR_TXT" -gt 0  ]; then  # check if corpus file exist text 
+        if [ "$NBR_TXT" -gt 0  ]; then  # check if files exist
             # file result
-       
-            message "Extraction in progres on ${INPUT_CORPUS}, result in $FILE_RESULT ..."  $PID 0
-            # send message to client
-            #  1 - execution termsuite 
-            java -Xms16g -Xmx48g -cp $JAR fr.univnantes.termsuite.tools.TerminologyExtractorCLI  -c  $INPUT_CORPUS --tsv $FILE_RESULT -l $LANG -t /opt/treetagger --post-filter-top-n=$TOPN --post-filter-property=spec
-            message "Extraction finish on [${NBR_TXT}] documents" $PID 0
-            return 0
-
+            check "Extraction in progres on ${INPUT_CORPUS}, result in $FILE_RESULT ..."  $PID_PATH 0
+            # execution termsuite 
+            java -Xms1g -Xmx6g -cp $JAR fr.univnantes.termsuite.tools.TerminologyExtractorCLI  -c  $INPUT_CORPUS --tsv $FILE_RESULT -l $LANG -t /opt/treetagger --post-filter-top-n=$TOPN --post-filter-property=spec
+            code_ts=$? && check "Termsuite final process code : $code_ts" $PID_PATH ${code_ts}
+            # for test decom : rm -rf ${FILE_RESULT}
         else
             # empty file in dir
-            message "ERROR:[${NBR_TXT}] doc, no input data" $PID 1
-            clean $PROJECT $PID
-            return 1
+            check "[${NBR_TXT}] doc, no input data" $PID_PATH 1
         fi
-    
-    else  # no dir corpus !!
-            
-            message "ERROR:input directory [${INPUT_CORPUS}] not exist !!" $PID 1
-            # send message to client
-            return 1
+    else  # no corpus dir !!
+            check "Input directory [${INPUT_CORPUS}] not exist !!" $PID_PATH 1
     fi
-    
 }
+# 
+# Envoie le  resultat de l extraction a l url du webhook
+#
+function zip_forward () {
 
-function forward () {
+    local PROJECT=$1
+    local FILE=$2
+    local FILE_RESULT=$1/$FILE
+    local WEBHOOK=$3
+    local PID=$4
+    local PID_PATH=$1/$4
 
-    PROJECT=$1
-    FILE_RESULT=$2
-    WEBHOOK=$3
-    PID=$4
-    
-    CODE=$(curl -s -o /dev/null -w "%{http_code}" "${WEBHOOK}")
+    # prepare zip
+    local FILE_RESULT_ZIP=${FILE_RESULT}.zip
 
-    #  test webhook availability 
-    if [ "${CODE}" != "200" ] ; then
-        message "ERROR: can not contact ${WEBHOOK} - get CODE:[${CODE}] !!" $PID 1
-        clean $PROJECT $PID
-        return 1    
+    if [ -s "${FILE_RESULT}" -a  $? -eq 0 ]; then     # check if a file result exist and operation before ok
+        check "Result to zip found in ${FILE_RESULT_ZIP}" $PID_PATH 0
+        zip -j ${FILE_RESULT_ZIP} ${FILE_RESULT} $PROJECT/${MANIFEST} $PROJECT/[0-9]*.log 
+        [[ $? -ne 0 ]] && check "Problem to compress  $FILE_RESULT !!" $PID_PATH 1
     else
-        message "${WEBHOOK} ready - get CODE: [${CODE}]" $PID 0    
-    fi
-     
-
-    #######  2 -  send the result to the storage
-    if [ -s "$FILE_RESULT" ]  ; then     # check if a file result exist 
-
-        message "save result in $FILE_RESULT" $PID 0
-    
-        FILE_RESULT_ZIP=${FILE_RESULT}.gz
-        gzip -f $FILE_RESULT  &&  curl -s -H "Content-Type: application/json" -d "${FILE_RESULT_ZIP}" "${WEBHOOK}"
-     
-        return 0
-        
-    else
-        message "ERROR:no data to deliver !!" $PID 1
-        clean $PROJECT $PID
-        return 1
+        check "No data to deliver from $FILE_RESULT !!" $PID_PATH 1
+        zip -j ${FILE_RESULT_ZIP}  $PROJECT/${MANIFEST}  $PROJECT/[0-9]*.log
+        [[ $? -ne 0 ]] && check "Problem to compress  $FILE_RESULT !!" $PID_PATH 1
     fi 
+    
+    # send the zip
+    local SEND=$(curl -s -o /dev/null -w "%{http_code}" -H "Content-Type: application/octet-stream" -d "@${FILE_RESULT_ZIP}" "${WEBHOOK}")
+    if [[  $SEND != 20* ]] ; then  
+        check "Server return "${SEND}" - Result no forwarded,  try again $FILE_RESULT_ZIP" $PID_PATH 1
+        sleep 5
+ 
+        if [[  $SEND != 20* ]] ; then
+            check "Server return "${SEND}"- Result no forwarded,  $FILE_RESULT_ZIP" $PID_PATH 1
+        else
+            return 0
+        fi
+    else
+        return 0
+    fi
+         
 }

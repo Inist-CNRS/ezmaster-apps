@@ -1,23 +1,41 @@
 #!/bin/bash
 while IFS='$\n' read -r line; do
 
-	source library
-	
+    # include library
+    source library
+
+    # PRDOD : production mode => true / false = active / desactive data remove
+    PROD=true # true | false
+
     # data  json stream  receive from collect procedure
     PROJECT=$(echo $line|node -pe 'JSON.parse(fs.readFileSync(0)).project')
 	INPUT_CORPUS=$(echo $line|node -pe 'JSON.parse(fs.readFileSync(0)).corpus')
 	TOKEN=$(echo $line|node -pe 'JSON.parse(fs.readFileSync(0)).token')
 	LANG=$(echo $line|node -pe 'JSON.parse(fs.readFileSync(0)).language')
 	TOPN=$(echo $line|node -pe 'JSON.parse(fs.readFileSync(0)).topn')
-    WEBHOOK=$(echo $line|node -pe 'JSON.parse(fs.readFileSync(0)).webhook')
-    PID=$PROJECT/$$	
-    FILE_RESULT=${PROJECT}/result_${TOKEN}.tsv
-
+    WEBHOOK=$(echo $line|node -pe 'JSON.parse(fs.readFileSync(0)).url')
+    PID=$$	
+    FILE_RESULT=$(echo $line|node -pe 'JSON.parse(fs.readFileSync(0)).file_result')
+    # initialize MANIFEST.son
+    echo -e "$(cat <<-END
+    {
+    "WS_NAME": "TERMSUITE",
+    "DATE":"$(date "+%D:%T")",
+    "JOB_ID":"${PID}",
+    "LOG_FILE_NAME:":"${PID}.log",
+    "RESULT_FILE":"${FILE_RESULT}",
+    "RESULT_CODE":"${my_message[0]}"
+    }
+END
+)" >| ${PROJECT}/${MANIFEST}
+    
 	cmd="(
-         (extract $PROJECT $INPUT_CORPUS $FILE_RESULT $LANG $TOPN $PID) &&
-         (forward $PROJECT $FILE_RESULT $WEBHOOK $PID) && 
-         (clean $PROJECT $PID))
-         >> ${PID}.log 2>&1 &"
-	eval $cmd
+         (check "Collect_finished" ${PROJECT}/${PID} 0 ); 
+         (extract $PROJECT $INPUT_CORPUS $FILE_RESULT $LANG $TOPN $PID) ;
+         (zip_forward $PROJECT $FILE_RESULT $WEBHOOK $PID) ;
+         (clean $PROJECT $PID $PROD)) 
+         >> ${PROJECT}/${PID}.log 2>&1"
+    eval $cmd
+    
 done < <(cat -)
-echo "{\"extraction\":\"$(date "+%D:%T")\", \"result\":\"$FILE_RESULT\",  \"webhook\":\"$WEBHOOK\"  }"
+
