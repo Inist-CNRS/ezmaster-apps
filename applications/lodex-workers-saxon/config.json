@@ -7,10 +7,7 @@
 		"EZS_NSHARDS": 32,
 		"EZS_CACHE": true,
 		"NODE_OPTIONS": "--max_old_space_size=1024",
-		"NODE_ENV": "production",
-		"PIP_NO_DEPENDENCIES": 0,
-		"PIP_DISABLE_PIP_VERSION_CHECK": 1,
-		"PIP_NO_CACHE_DIR": 0
+		"NODE_ENV": "production"
 	},
 	"packages": [
 		"@ezs/xslt@1.3.2"
