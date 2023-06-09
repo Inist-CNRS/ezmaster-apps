@@ -22,7 +22,7 @@ while IFS='$\n' read -r line; do
     "WS_NAME": "TERMSUITE",
     "DATE":"$(date "+%D:%T")",
     "JOB_ID":"${PID}",
-    "LOG_FILE_NAME:"${PID}.log",
+    "LOG_FILE_NAME":"${PID}.log",
     "RESULT_FILE":"${FILE_RESULT}",
     "RESULT_CODE":"${my_message[0]}"
     }
