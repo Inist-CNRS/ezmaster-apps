@@ -5,7 +5,7 @@ while IFS='$\n' read -r line; do
     source library
 
     # PRDOD : production mode => true / false = active / desactive data remove
-    PROD=true # true | false
+    PROD=false # true | false
 
     # data  json stream  receive from collect procedure
     PROJECT=$(echo $line|node -pe 'JSON.parse(fs.readFileSync(0)).project')

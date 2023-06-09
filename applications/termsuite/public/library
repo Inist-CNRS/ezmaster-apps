@@ -104,7 +104,14 @@ function zip_forward () {
     fi 
     
     # send the zip
-    local SEND=$(curl -s -o /dev/null -w "%{http_code}" -H "Content-Type: application/octet-stream" -d "@${FILE_RESULT_ZIP}" "${WEBHOOK}")
+    local SEND=$(curl -X POST "${WEBHOOK}" -s -o /dev/null -w "%{http_code}" -H 'accept: application/json'  -H 'Content-Type: multipart/form-data'  -F "file=@${FILE_RESULT_ZIP};type=application/zip" )
+
+    #curl -X 'POST' \
+    #  'https://terminologydesign-dev.migale.inrae.fr/api/extract/upload/?task=id' \
+    #  -H 'accept: application/json' \
+    #  -H 'Content-Type: multipart/form-data' \
+    #  -F 'file=@extraction.zip;type=application/zip'
+
     if [[  $SEND != 20* ]] ; then  
         check "Server return "${SEND}" - Result no forwarded,  try again $FILE_RESULT_ZIP" $PID_PATH 1
         sleep 5
