@@ -21,7 +21,7 @@ function check () {
     local code=$3
     
     # write message in LOGFILE
-    echo "$(date "+%D:%T"):code=$code:${my_message[$code]}:message=$mess"  >> $pid.log 
+    echo "$(date "+%D:%T"):code=$code:${my_message[$code]}:message=$mess"  >> $pid.log
     
     # write message in MANIFEST
     if [[ "$code" -ne 0 ]] ; then
@@ -37,9 +37,13 @@ function clean () {
 
    local PROJECT=$1
    local PID_PATH=$1/$2
-   local PROD=$3
+   local MOD=$3
 
-   if [ "${PROD}" = true -a -d "$PROJECT" ]; then
+   # write file.log  in EZ log
+   cat $PID_PATH.log 1>&2
+   
+   if [ "${MOD}" = "PROD" -a -d "$PROJECT" ]; then
+       
        rm -rf $PROJECT  > /dev/null  # delete input and output file from tmp
        return 0
    fi
@@ -113,16 +117,15 @@ function zip_forward () {
 #  -F 'file=@extraction.zip;type=application/zip'
 
     if [[  $SEND != 20* ]] ; then  
-        check "Server return "${SEND}" - Result no forwarded,  try again $FILE_RESULT_ZIP" $PID_PATH 1
+        check "Server return:"${SEND}" - Result $FILE_RESULT_ZIP no forwarded to $WEBHOOK" $PID_PATH 1
         sleep 5
- 
-        if [[  $SEND != 20* ]] ; then
-            check "Server return "${SEND}"- Result no forwarded,  $FILE_RESULT_ZIP" $PID_PATH 1
+         if [[  $SEND != 20* ]] ; then
+            check "Server return:"${SEND}" - Result $FILE_RESULT_ZIP no forwarded to $WEBHOOK" $PID_PATH 1
         else
-            return 0
+            check "Server return:"${SEND}" - Result $FILE_RESULT_ZIP forwarded to $WEBHOOK" $PID_PATH 0
         fi
     else
-        return 0
+        check "Server return "${SEND}"- Result $FILE_RESULT_ZIP forwarded to $WEBHOOK" $PID_PATH 0
     fi
          
 }

@@ -3,10 +3,13 @@ while IFS='$\n' read -r line; do
 
     # include library
     source library
-
-    # PRDOD : production mode => true / false = active / desactive data remove
-    PROD=false # true | false
-
+  
+    # MODE : production mode => PROD / DEV = active / desactive data remove
+    if [ -z "${MOD}" ] ; then
+        MOD="PROD" # PROD|DEV
+    fi
+    echo "$(date "+%D:%T"):MODE:${MOD}" 1>&2
+ 
     # data  json stream  receive from collect procedure
     PROJECT=$(echo $line|node -pe 'JSON.parse(fs.readFileSync(0)).project')
 	INPUT_CORPUS=$(echo $line|node -pe 'JSON.parse(fs.readFileSync(0)).corpus')
@@ -28,14 +31,15 @@ while IFS='$\n' read -r line; do
     }
 END
 )" >| ${PROJECT}/${MANIFEST}
-    
 	cmd="(
+         echo "$(date "+%D:%T"):TYDI-ID:$WEBHOOK"  ;
          (check "Collect_finished" ${PROJECT}/${PID} 0 ); 
          (extract $PROJECT $INPUT_CORPUS $FILE_RESULT $LANG $TOPN $PID) ;
          (zip_forward $PROJECT $FILE_RESULT $WEBHOOK $PID) ;
-         (clean $PROJECT $PID $PROD)) 
+         ) 
          >> ${PROJECT}/${PID}.log 2>&1"
     eval $cmd
-    
+    clean $PROJECT $PID $MOD
 done < <(cat -)
+
 
