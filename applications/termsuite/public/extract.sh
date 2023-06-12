@@ -5,10 +5,10 @@ while IFS='$\n' read -r line; do
     source library
   
     # MODE : production mode => PROD / DEV = active / desactive data remove
-    if [ -z "${MOD}" ] ; then
-        MOD="PROD" # PROD|DEV
+    if [ -z "${MODE_ENV}" ] ; then
+        MODE_ENV="development" # PROD|DEV
     fi
-    echo "$(date "+%D:%T"):MODE:${MOD}" 1>&2
+    echo "$(date "+%D:%T"):MODE_ENV:${MODE_ENV}" 1>&2
  
     # data  json stream  receive from collect procedure
     PROJECT=$(echo $line|node -pe 'JSON.parse(fs.readFileSync(0)).project')
@@ -39,7 +39,7 @@ END
          ) 
          >> ${PROJECT}/${PID}.log 2>&1"
     eval $cmd
-    clean $PROJECT $PID $MOD
+    clean $PROJECT $PID $MODE_ENV
 done < <(cat -)
 
 

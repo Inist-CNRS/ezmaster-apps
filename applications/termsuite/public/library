@@ -37,12 +37,12 @@ function clean () {
 
    local PROJECT=$1
    local PID_PATH=$1/$2
-   local MOD=$3
+   local MODE_ENV=$3
 
    # write file.log  in EZ log
    cat $PID_PATH.log 1>&2
    
-   if [ "${MOD}" = "PROD" -a -d "$PROJECT" ]; then
+   if [ "${MODE_ENV}" = "production" -a -d "$PROJECT" ]; then
        
        rm -rf $PROJECT  > /dev/null  # delete input and output file from tmp
        return 0
