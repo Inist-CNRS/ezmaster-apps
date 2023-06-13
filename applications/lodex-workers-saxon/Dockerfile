@@ -1,7 +1,24 @@
-FROM klakegg/saxon:base AS saxon
+FROM node:14-alpine AS build
+
+#ARG saxon_ver=9.9.1-7
+#ARG saxon_ver=11.4
+ARG saxon_ver=10.9
+
+ADD files /files
+
+RUN chmod a+x /files/*/bin/* \
+ && chmod a+r -R /files \
+ && find /files -type f | sort
+
+ADD \
+  https://repo1.maven.org/maven2/net/sf/saxon/Saxon-HE/${saxon_ver}/Saxon-HE-${saxon_ver}.jar \
+  /files/he/usr/share/java/saxon/saxon.jar
+
+
+
 FROM inistcnrs/lodex-workers:9.3.1
 ENV SAXON_HOME=/usr/share/java/saxon
-COPY --from=saxon /he /
+COPY --from=build /files/he /
 RUN cd / && \
 	curl -o fop.zip "http://archive.apache.org/dist/xmlgraphics/fop/binaries/fop-2.6-bin.zip" && \
 	unzip fop.zip && \
