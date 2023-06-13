@@ -2,6 +2,7 @@
 *
 
 # White list only the required files
+!files
 !config.json
 !public/
 
