@@ -12,6 +12,14 @@ my_message['2']="IN PROGRESS"
 MANIFEST=manifest.json
 
 #
+#  display date in iso-8601 format
+#
+function my_date () {
+
+    echo "$(date +"%Y-%m-%dT%H:%M:%S")"
+    
+}
+#
 #  write messages in  *.log and MANIFEST.json
 #
 function check () {
@@ -21,7 +29,7 @@ function check () {
     local code=$3
     
     # write message in LOGFILE
-    echo "$(date "+%D:%T"):code=$code:${my_message[$code]}:message=$mess"  >> $pid.log
+    echo "$(my_date):code=$code:${my_message[$code]}:message=$mess"  >> $pid.log
     
     # write message in MANIFEST
     if [[ "$code" -ne 0 ]] ; then
@@ -30,6 +38,7 @@ function check () {
     fi
     return 0
 }
+
 #
 # remove all data ( input, output , log) from a extraction precoss
 #
@@ -109,7 +118,8 @@ function zip_forward () {
     
     # send the zip
     #local SEND=$(curl -X POST '${WEBHOOK}' -s -o /dev/null -w '%{http_code}' -H 'accept: application/json'  -H 'Content-Type: multipart/form-data'  -F 'file=@${FILE_RESULT_ZIP};type=application/zip' )
-    ret_code="-s -o /dev/null -w '%{http_code}'"
+    ret_code="-s -w '%{http_code}'"
+    #ret_code="-o /dev/null -s  -w '%{http_code}'"
     local SEND="curl -X POST '${WEBHOOK}'  $ret_code -H 'accept: application/json'  -H 'Content-Type: multipart/form-data'  -F 'file=@${FILE_RESULT_ZIP};type=application/zip'"
     #write in log 
     check "fowarded by:'$SEND'" $PID_PATH 0
@@ -122,16 +132,16 @@ function zip_forward () {
     # try send two times
     execution_1=$(bash -c "$SEND")
     if [[ $execution_1 != 20* ]] ; then  
-        check "Server return: $execution_1 - Result $FILE_RESULT_ZIP no forwarded to $WEBHOOK" $PID_PATH 1
+        check "Server return code:[$execution_1] - Result $FILE_RESULT_ZIP no forwarded to $WEBHOOK" $PID_PATH 1
         sleep 3 # temp of 3 seconds
         execution_2=$(bash -c "$SEND")
         if [[  $execution_2 != 20* ]] ; then
-            check "Server return: $execution_2  - Result $FILE_RESULT_ZIP no forwarded to $WEBHOOK" $PID_PATH 1
+            check "Server return code:[$execution_2] - Result $FILE_RESULT_ZIP no forwarded to $WEBHOOK" $PID_PATH 1
         else
-            check "Server return: $execution_2  - Result $FILE_RESULT_ZIP forwarded to $WEBHOOK" $PID_PATH 0
+            check "Server return code:[$execution_2] - Result $FILE_RESULT_ZIP forwarded to $WEBHOOK" $PID_PATH 0
         fi
     else
-        check "Server return $execution_1- Result $FILE_RESULT_ZIP forwarded to $WEBHOOK" $PID_PATH 0
+        check "Server return code:[$execution_1] - Result $FILE_RESULT_ZIP forwarded to $WEBHOOK" $PID_PATH 0
     fi
          
 }

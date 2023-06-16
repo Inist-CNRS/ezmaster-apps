@@ -1,4 +1,5 @@
 #!/bin/bash
+set -x
 while IFS='$\n' read -r line; do
 
     # include library
@@ -8,7 +9,7 @@ while IFS='$\n' read -r line; do
     if [ -z "${CLEAN}" ] ; then
         CLEAN="development" # PROD|DEV
     fi
-    echo "$(date "+%D:%T"):CLEAN:${CLEAN}" 1>&2
+    echo "$(my_date):CLEAN:${CLEAN}" 1>&2
  
     # data  json stream  receive from collect procedure
     PROJECT=$(echo $line|node -pe 'JSON.parse(fs.readFileSync(0)).project')
@@ -23,7 +24,7 @@ while IFS='$\n' read -r line; do
     echo -e "$(cat <<-END
     {
     "WS_NAME":"TERMSUITE",
-    "DATE":"$(date "+%D:%T")",
+    "DATE":"$(my_date)",
     "JOB_ID":"${PID}",
     "LOG_FILE_NAME":"${PID}.log",
     "RESULT_FILE":"${FILE_RESULT}",
@@ -32,7 +33,7 @@ while IFS='$\n' read -r line; do
 END
 )" >| ${PROJECT}/${MANIFEST}
 	cmd="(
-         echo "$(date "+%D:%T"):TYDI-ID:$WEBHOOK"  ;
+         echo "$(my_date):TYDI-ID:$WEBHOOK"  ;
          (check "Collect_finished" ${PROJECT}/${PID} 0 ); 
          (extract $PROJECT $INPUT_CORPUS $FILE_RESULT $LANG $TOPN $PID) ;
          (zip_forward $PROJECT $FILE_RESULT $WEBHOOK $PID) ;
