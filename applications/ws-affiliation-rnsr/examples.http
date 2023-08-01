@@ -4,7 +4,7 @@
 @baseUrl=http://affiliation-rnsr.tdmservices.intra.inist.fr/
 
 ## WS Affiliation - RNSR - v2
-POST {{baseUrl}}/v3/affiliation/rnsr?indent=true HTTP/1.1
+POST {{baseUrl}}/v2/affiliation/rnsr?indent=true HTTP/1.1
 Content-Type: application/json
 
 [
