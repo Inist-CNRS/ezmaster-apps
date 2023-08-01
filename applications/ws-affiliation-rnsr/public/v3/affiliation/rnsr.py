@@ -13,16 +13,16 @@ fasttext.FastText.eprint = lambda x: None
 
 
 # Charging models :
-with open("./v2/affiliation/models/dict-code-unite.pkl","rb") as dico_unite_pkl:
+with open("./v3/affiliation/models/dict-code-unite.pkl","rb") as dico_unite_pkl:
     dico_unite=pickle.load(dico_unite_pkl)
 
-with open("./v2/affiliation/models/dict-proba.pkl","rb") as dico_proba_pkl:
+with open("./v3/affiliation/models/dict-proba.pkl","rb") as dico_proba_pkl:
     dico_proba=pickle.load(dico_proba_pkl)
 
-modelDomain = fasttext.load_model("./v2/affiliation/models/model-domains_rnsr.ftz")
+modelDomain = fasttext.load_model("./v3/affiliation/models/model-domains_rnsr.ftz")
 modelsDX = []
 for i in range(11):
-    modelsDX.append(fasttext.load_model("./v2/affiliation/models/model-%s_rnsr.ftz"%(i+1)))
+    modelsDX.append(fasttext.load_model("./v3/affiliation/models/model-%s_rnsr.ftz"%(i+1)))
 
 
 # Normalize 
