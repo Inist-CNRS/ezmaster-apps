@@ -14,11 +14,7 @@ Content-Type: application/json
   },
   {
     "id": 2,
-    "value": "Institut Charles Gerhardt, Université de Montpellier"
-  },
-  {
-    "id": 3,
-    "value": "UMR 7272 - CNRS, 06100 Nice"
+    "value": "Institut Charles Gerhardt, Université de Montpellier ; UMR 7272 - CNRS, 06100 Nice"
   }
 ]
 
