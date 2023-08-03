@@ -1,0 +1,46 @@
+# Ces exemples peuvent être exécutés directement dans VSCode, en utilisant l'extension REST Client (humao.rest-client)
+# Décommenter/commenter les lignes voulues pour tester localement
+@baseUrl=http://localhost:31976
+# @baseUrl=http://affiliation-rnsr.tdmservices.intra.inist.fr/
+
+## WS Affiliation - RNSR - v2
+POST {{baseUrl}}/v1/sentimens/analysis?indent=true HTTP/1.1
+Content-Type: application/json
+
+[
+  {
+    "id": 1,
+    "value": "I hate pizzas."
+  },
+  {
+    "id": 2,
+    "value": "This isn't bad !"
+  },
+  {
+    "id":3,
+    "value": "I have no idea for this last example (i expect neutral answer)."
+  }
+]
+
+###
+
+## WS Affiliation - RNSR - v3
+POST {{baseUrl}}/v1/sentimens/analysis?indent=true HTTP/1.1
+Content-Type: application/json
+
+[
+  {
+    "id": 1,
+    "value": "neg"
+  },
+  {
+    "id": 2,
+    "value": "pos"
+  },
+  {
+    "id": 3,
+    "value": "neu"
+  }
+]
+
+###
