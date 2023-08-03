@@ -1,7 +1,7 @@
 {
 	"private": true,
 	"name": "ws-sentiments-analysis",
-	"version": "0.0.0",
+	"version": "1.0.0",
 	"description": "Lodex workers for ws-sentiments-analysis",
 	"repository": {
 		"type": "git",

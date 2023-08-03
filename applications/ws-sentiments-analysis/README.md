@@ -1,1 +1,1 @@
-# ws-sentiments-analysis@0.0.0
+# ws-sentiments-analysis@1.0.0
