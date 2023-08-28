@@ -3,7 +3,7 @@ COPY traefik.yml /etc/traefik/traefik.yml
 EXPOSE 3000
 RUN echo '{ \
   "httpPort": 3000, \
-  "configPath": "/etc/traefik/traefik.conf", \
+  "configPath": "/etc/traefik/traefik.yml", \
   "configType": "text", \
   "dataPath":   "/dynamic/config", \
   "technicalApplication": true \
