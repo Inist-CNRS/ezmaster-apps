@@ -1,0 +1,21 @@
+## traefik.yml
+global:
+    checkNewVersion: false
+    sendAnonymousUsage: false
+
+providers:
+    file:
+        directory: /dynamic/config
+        watch: true
+
+metrics:
+    prometheus:
+        addServicesLabels: true
+
+api:
+    dashboard: true
+    insecure: true
+
+entryPoints:
+  web:
+    address: ":3000"
