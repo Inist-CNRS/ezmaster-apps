@@ -3,5 +3,5 @@
 
 # White list only the required files
 !prometheus.yml
-!index.html
 !docker-entrypoint.sh
+!reload-config.sh
