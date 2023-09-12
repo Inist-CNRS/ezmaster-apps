@@ -10,4 +10,4 @@ sudo -u daemon -g daemon /opt/prometheus/prometheus \
 	--config.file=/app/prometheus.yml \
 	--web.enable-lifecycle \
 	--storage.tsdb.path=/app/data/prometheus \
-	--storage.tsdb.retention.time=3m
+	--storage.tsdb.retention.time=90d
