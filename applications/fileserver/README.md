@@ -1,1 +1,1 @@
-# ezmaster-fileserver@1.1.2
+# ezmaster-fileserver@1.0.0
