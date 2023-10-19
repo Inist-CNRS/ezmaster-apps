@@ -21,6 +21,7 @@ Monorepo for ezmaster applications configurations :
 - [webserver](./applications/webserver/) [![Docker Pulls](https://img.shields.io/docker/pulls/inistcnrs/ezmaster-webserver.svg)](https://registry.hub.docker.com/r/inistcnrs/ezmaster-webserver/)
 - [web-term](./applications/web-term/) [![Docker Pulls](https://img.shields.io/docker/pulls/inistcnrs/ezmaster-web-term.svg)](https://registry.hub.docker.com/r/inistcnrs/ezmaster-web-term/)
 - [ws-affiliation-rnsr](./applications/ws-affiliation-rnsr/) [![Docker Pulls](https://img.shields.io/docker/pulls/inistcnrs/ws-affiliation-rnsr.svg)](https://registry.hub.docker.com/r/inistcnrs/ws-affiliation-rnsr/)
+- [ws-astro-ner](./applications/ws-astro-ner/) [![Docker Pulls](https://img.shields.io/docker/pulls/inistcnrs/ws-astro-ner.svg)](https://registry.hub.docker.com/r/inistcnrs/ws-astro-ner/)
 - [ws-irc3sp](./applications/ws-irc3sp/) [![Docker Pulls](https://img.shields.io/docker/pulls/inistcnrs/ws-irc3sp.svg)](https://registry.hub.docker.com/r/inistcnrs/ws-irc3sp/)
 
 ## How to
