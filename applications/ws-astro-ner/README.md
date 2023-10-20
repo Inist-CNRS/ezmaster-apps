@@ -1,4 +1,9 @@
-# ws-astro-ner@0.0.0
+# ws-astro-ner@1.0.0
+
+## Requirements
+
+Before building, ensure that the installed `certifi` is a recent one (in
+[`Dockerfile`](./Dockerfile)).
 
 ## Build
 
