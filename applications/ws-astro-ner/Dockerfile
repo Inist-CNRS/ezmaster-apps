@@ -18,7 +18,9 @@ RUN curl https://gitbucket.inist.fr/tdm/web-services/archive/astro-ner/astro-ner
 FROM inistcnrs/lodex-workers-pytorch:1.0.3 AS release
 RUN pip install flair==0.10 certifi==2023.7.22 Unidecode==1.3.7
 WORKDIR /app/public/
-RUN rm /app/public/expand.ini expand.py
+RUN rm /app/public/expand.ini expand.py && \
+    mkdir /app/.cache/ && \
+    chmod a+w /app/.cache/
 COPY ./config.json ./package-app.json /app/
 COPY --from=build1 /app/public/astro-ner/ /app/public/
 
