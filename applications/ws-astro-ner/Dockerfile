@@ -11,7 +11,7 @@ RUN --mount=type=secret,id=webdav_login \
     dvc remote add -d webdav-remote "$(cat /run/secrets/webdav_url)" && \
     dvc remote modify --local webdav-remote user "$(cat /run/secrets/webdav_login)" && \
     dvc remote modify --local webdav-remote password "$(cat /run/secrets/webdav_password)"
-RUN curl https://gitbucket.inist.fr/tdm/web-services/archive/astro-ner/astro-ner@1.0.4.zip --output source.zip && \
+RUN curl https://gitbucket.inist.fr/tdm/web-services/archive/astro-ner/astro-ner@1.0.5.zip --output source.zip && \
     unzip source.zip && \
     dvc pull
 

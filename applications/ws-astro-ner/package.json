@@ -1,7 +1,7 @@
 {
 	"private": true,
 	"name": "ws-astro-ner",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "Lodex workers for ws-astro-ner",
 	"repository": {
 		"type": "git",
