@@ -1,4 +1,4 @@
-# ws-astro-ner@1.0.1
+# ws-astro-ner@1.0.2
 
 ## Requirements
 
