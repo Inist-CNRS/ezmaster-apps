@@ -14,7 +14,7 @@
 		"TRANSFORMERS_CACHE": "/app/.cache"
 	},
 	"packages": [
-		"@ezs/core@3.1.0",
+		"@ezs/core@3.2.2",
 		"@ezs/basics@2.5.5",
 		"@ezs/spawn@1.4.5"
 	]
