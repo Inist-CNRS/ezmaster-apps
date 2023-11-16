@@ -1,7 +1,7 @@
 {
 	"private": true,
 	"name": "ws-chem-ner",
-	"version": "3.0.0",
+	"version": "3.0.1",
 	"description": "Lodex workers for ws-chem-ner",
 	"repository": {
 		"type": "git",
