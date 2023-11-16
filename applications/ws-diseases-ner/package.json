@@ -10,10 +10,10 @@
 	"keywords": [
 		"ezmaster",
 		"BioBERT",
-		"chemical",
+		"diseases",
 		"named entity recognition"
 	],
-	"author": "Justine Revol <justine.revol@inist.fr>",
+	"author": "Léo Gaillard <leo.gaillard@inist.fr>",
 	"license": "MIT",
 	"bugs": {
 		"url": "https://github.com/Inist-CNRS/ezmaster-apps/issues"

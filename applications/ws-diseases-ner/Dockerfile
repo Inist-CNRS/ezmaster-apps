@@ -16,7 +16,7 @@ RUN curl https://gitbucket.inist.fr/tdm/web-services/archive/diseases-ner/diseas
     dvc pull
 
 FROM inistcnrs/lodex-workers-pytorch:1.0.3 AS release
-RUN pip install transformers==4.30.2 certifi==2023.7.22 Unidecode==1.3.7
+RUN pip install transformers==4.30.2 certifi==2023.7.22
 WORKDIR /app/public/
 RUN rm /app/public/expand.ini expand.py && \
     mkdir /app/.cache/ && \
