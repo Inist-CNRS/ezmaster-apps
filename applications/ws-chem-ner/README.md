@@ -1,4 +1,4 @@
-# ws-chem-ner@3.0.1
+# ws-chem-ner@3.0.2
 
 ## Requirements
 
