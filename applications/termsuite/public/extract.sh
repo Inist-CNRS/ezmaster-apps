@@ -1,5 +1,5 @@
 #!/bin/bash
-set -x
+set +x
 while IFS='$\n' read -r line; do
 
     # include library

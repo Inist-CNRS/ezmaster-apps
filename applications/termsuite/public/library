@@ -130,11 +130,16 @@ function zip_forward () {
 #  -H 'Content-Type: multipart/form-data' \
 
     # try to send only one times
-    curl_code=$(bash -c "$SEND"| sed 's/[^0-9]*//g')
-    if [[  $curl_code  != 20* ]] ; then  
-        check "Server return code:[$curl_code] - Result $FILE_RESULT_ZIP NO forwarded to $WEBHOOK" $PID_PATH 1
-    else 
+
+    list="300 301 302 401 403 404 500 504 "
+    #curl_code=$(bash -c "$SEND"| sed 's/[^0-9]*//g')
+    curl_code=$(bash -c "$SEND")
+    curl_code=`echo $curl_code| sed 's/\(.*\)\([2-5][0-9][0-9]\)\(.*\)/\2/'`
+
+    if  [[ $curl_code == 20* ]]   ; then  
         check "Server return code:[$curl_code] - Result $FILE_RESULT_ZIP forwarded to $WEBHOOK" $PID_PATH 0
+    else 
+        check "Server return code:[$curl_code] - Result $FILE_RESULT_ZIP NO forwarded to $WEBHOOK" $PID_PATH 1 
     fi
 
          
