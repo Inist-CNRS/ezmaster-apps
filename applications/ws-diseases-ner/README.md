@@ -1,4 +1,4 @@
-# ws-diseases-ner@0.0.0
+# ws-diseases-ner@1.0.0
 
 ## Requirements
 
