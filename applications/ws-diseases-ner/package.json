@@ -1,7 +1,7 @@
 {
 	"private": true,
 	"name": "ws-diseases-ner",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "Lodex workers for ws-chem-ner",
 	"repository": {
 		"type": "git",
