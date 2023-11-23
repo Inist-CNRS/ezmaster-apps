@@ -13,8 +13,8 @@
 		"PIP_NO_CACHE_DIR": 0
 	},
 	"packages": [
-		"@ezs/core@2.4.3",
-		"@ezs/spawn@1.2.30",
-		"@ezs/basics@1.23.3"
+		"@ezs/core@3.3.0",
+		"@ezs/spawn@1.4.5",
+		"@ezs/basics@2.5.0"
 	]
 }
