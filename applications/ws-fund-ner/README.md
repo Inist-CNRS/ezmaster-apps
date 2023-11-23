@@ -1,4 +1,4 @@
-# ws-funder-ner@1.0.0
+# ws-funder-ner@1.0.1
 
 ## Build
 
@@ -19,7 +19,7 @@ Before calling `npm run build` or `npm start`.
 ## Test
 
 ```bash
-curl -X POST "http://localhost:31976/v1/funderTagger/funderTagger" \
+curl -X POST "http://localhost:31976/v1/tagger" \
      -H  "accept: application/json" -H  "Content-Type: application/json" \
      -d "[{\"id\":1,\"value\":\"This study was funded by the CNRS and INIST.\"}]"
 ```

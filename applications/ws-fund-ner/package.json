@@ -1,7 +1,7 @@
 {
 	"private": true,
 	"name": "ws-funder-ner",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "Lodex workers for ws-funder-ner",
 	"repository": {
 		"type": "git",
