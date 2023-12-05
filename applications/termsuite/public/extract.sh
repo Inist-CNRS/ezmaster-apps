@@ -4,10 +4,11 @@ while IFS='$\n' read -r line; do
 
     # include library
     source library
+    CLEAN="production"
   
     # CLEAN : production mode => PROD / DEV = active / desactive data remove
     if [ -z "${CLEAN}" ] ; then
-        CLEAN="development" # PROD|DEV
+        CLEAN="production" # PROD|DEV
     fi
     echo "$(my_date):CLEAN:${CLEAN}" 1>&2
  
