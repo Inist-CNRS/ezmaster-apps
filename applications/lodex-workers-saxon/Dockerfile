@@ -24,7 +24,8 @@ RUN cd / && \
 	unzip fop.zip && \
     rm fop.zip && \
     chmod +x /fop-2.6/fop/fop && \
-	mv /fop-2.6/fop /fop
+	mv /fop-2.6/fop /fop && \
+	echo "export SAXON_HOME=/usr/share/java/saxon" > /etc/profile.d/saxon.sh
 ENV PATH="/fop:$PATH"
 WORKDIR /app
 # To be compilant with
