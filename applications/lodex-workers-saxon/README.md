@@ -1,1 +1,1 @@
-# lodex-workers-saxon@2.1.5
+# lodex-workers-saxon@2.1.6
