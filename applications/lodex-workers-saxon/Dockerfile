@@ -14,8 +14,6 @@ ADD \
   https://repo1.maven.org/maven2/net/sf/saxon/Saxon-HE/${saxon_ver}/Saxon-HE-${saxon_ver}.jar \
   /files/he/usr/share/java/saxon/saxon.jar
 
-
-
 FROM inistcnrs/lodex-workers:9.3.1
 ENV SAXON_HOME=/usr/share/java/saxon
 COPY --from=build /files/he /
@@ -25,7 +23,10 @@ RUN cd / && \
     rm fop.zip && \
     chmod +x /fop-2.6/fop/fop && \
 	mv /fop-2.6/fop /fop && \
-	echo "export SAXON_HOME=/usr/share/java/saxon" > /etc/profile.d/saxon.sh
+	echo '#!/bin/sh'  > /bin/xslt && \
+	echo 'exec /usr/bin/java -jar /usr/share/java/saxon/saxon.jar'  > /bin/xslt && \
+	chmod 755 /bin/xslt && \
+	chmod 644 /usr/share/java/saxon/saxon.jar
 ENV PATH="/fop:$PATH"
 WORKDIR /app
 # To be compilant with
