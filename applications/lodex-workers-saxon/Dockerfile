@@ -24,7 +24,7 @@ RUN cd / && \
     chmod +x /fop-2.6/fop/fop && \
 	mv /fop-2.6/fop /fop && \
 	echo '#!/bin/sh'  > /bin/xslt && \
-	echo 'exec /usr/bin/java -jar /usr/share/java/saxon/saxon.jar'  > /bin/xslt && \
+	echo 'exec /usr/bin/java -jar /usr/share/java/saxon/saxon.jar "$@"'  >> /bin/xslt && \
 	chmod 755 /bin/xslt && \
 	chmod 644 /usr/share/java/saxon/saxon.jar
 ENV PATH="/fop:$PATH"
