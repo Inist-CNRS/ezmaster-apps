@@ -1,1 +1,1 @@
-# ezmaster-prometheus-pushgateway@0.0.0
+# ezmaster-prometheus-pushgateway@1.0.0
