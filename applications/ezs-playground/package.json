@@ -1,7 +1,7 @@
 {
 	"private": true,
 	"name": "ezs-playground",
-	"version": "1.2.7",
+	"version": "1.2.8",
 	"description": "dedicated server for periodical run",
 	"repository": {
 		"type": "git",
@@ -23,9 +23,9 @@
 		"version:push": "git push && git push --tags",
 		"version": "npm run version:insert && npm run version:commit && npm run version:tag",
 		"postversion": "npm run version:push && npm run build && npm run publish",
-		"build": "docker build -t inistcnrs/${npm_package_name}:${npm_package_version} .",
+		"build": "docker build -t cnrsinist/${npm_package_name}:${npm_package_version} .",
 		"prestart": "npm run build",
-		"start": "docker run --rm -p 3000:3000 inistcnrs/${npm_package_name}:${npm_package_version}",
-		"publish": "docker push inistcnrs/${npm_package_name}:${npm_package_version}"
+		"start": "docker run --rm -p 3000:3000 cnrsinist/${npm_package_name}:${npm_package_version}",
+		"publish": "docker push cnrsinist/${npm_package_name}:${npm_package_version}"
 	}
 }
