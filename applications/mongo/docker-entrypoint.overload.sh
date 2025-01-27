@@ -15,7 +15,7 @@ export DUMP_CLEANUP_MORE_THAN_NBDAYS=${DUMP_CLEANUP_MORE_THAN_NBDAYS:=$(jq -r -M
 dump.periodically.sh &
 
 # basic http server for displaing a basic informative html page for ezmaster
-cd /www && python -m SimpleHTTPServer 3000 &
+cd /www && python3 -m SimpleHTTPServer 3000 &
 
 # start mongodb daemon
-exec /usr/local/bin/docker-entrypoint.sh $@
+exec python3 /usr/local/bin/docker-entrypoint.py $@

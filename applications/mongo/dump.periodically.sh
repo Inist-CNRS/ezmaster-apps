@@ -17,8 +17,8 @@ do
   mongodump --quiet --archive=- > $DUMP_FILE
   
   echo "Cleaning old dump."
-  tmpreaper --verbose ${DUMP_CLEANUP_MORE_THAN_NBDAYS:=30}d /ezdata/dump/
+  /usr/bin/find /ezdata/dump/ -type f -atime +1 -exec rm -f {} \;
 
-  echo "Waiting ${DUMP_EACH_NBHOURS:24} hours before next dump."
-  sleep ${DUMP_EACH_NBHOURS:=24}h
+  echo "Waiting 24 hours before next dump."
+  sleep 24h
 done
