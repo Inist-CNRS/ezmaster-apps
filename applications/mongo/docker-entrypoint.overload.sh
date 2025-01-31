@@ -1,5 +1,8 @@
 #!/bin/bash
 
+chown -R mongod:mongod /ezdata/db
+chown -R mongod:mongod /ezdata/dump
+
 # initialize data flags used by inherited docker-entrypoint.sh
 test ! -f /ezdata/db/WiredTiger && rm -f /data/db/WiredTiger
 test   -f /ezdata/db/WiredTiger && ln -s /ezdata/db/WiredTiger /data/db/
@@ -12,10 +15,10 @@ export DUMP_EACH_NBHOURS=${DUMP_EACH_NBHOURS:=$(jq -r -M .DUMP_EACH_NBHOURS /con
 export DUMP_CLEANUP_MORE_THAN_NBDAYS=${DUMP_CLEANUP_MORE_THAN_NBDAYS:=$(jq -r -M .DUMP_CLEANUP_MORE_THAN_NBDAYS /config.json | grep -v null)}
 
 # backup/dump stuff
-dump.periodically.sh &
+su-exec mongod:mongod dump.periodically.sh &
 
 # basic http server for displaing a basic informative html page for ezmaster
-cd /www && python3 -m SimpleHTTPServer 3000 &
+cd /www && su-exec mongod:mongod python3 -m http.server 3000 &
 
 # start mongodb daemon
-exec python3 /usr/local/bin/docker-entrypoint.py $@
+su-exec mongod:mongod python3 /usr/local/bin/docker-entrypoint.py $@

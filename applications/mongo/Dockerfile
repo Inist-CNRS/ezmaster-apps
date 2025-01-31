@@ -6,7 +6,14 @@ FROM mongodb/mongodb-community-server:7.0.9-ubi9
 # python for a basic http server used for ezmaster
 # vim for debug stuff
 USER root
-RUN yum -y install nc jq vim
+RUN dnf -y install httpd nc jq vim gcc
+RUN curl -o /usr/local/bin/su-exec.c https://raw.githubusercontent.com/ncopa/su-exec/master/su-exec.c; \
+	gcc -Wall /usr/local/bin/su-exec.c -o/usr/local/bin/su-exec; \
+	chown root:root /usr/local/bin/su-exec; \
+    chmod 0755 /usr/local/bin/su-exec; \
+    rm /usr/local/bin/su-exec.c; \
+    dnf -y remove gcc; \
+    dnf -y clean all
 
 COPY config.json /
 COPY docker-entrypoint.overload.sh /usr/local/bin/
@@ -34,6 +41,5 @@ RUN echo '{ \
   "technicalApplication": true \
 }' > /etc/ezmaster.json
 
-USER mongod
 ENTRYPOINT [ "docker-entrypoint.overload.sh" ]
 CMD [ "mongod", "--bind_ip_all", "--dbpath", "/ezdata/db", "--nounixsocket" ]
