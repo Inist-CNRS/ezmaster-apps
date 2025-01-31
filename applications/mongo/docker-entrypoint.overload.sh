@@ -4,10 +4,11 @@ chown -R mongod:mongod /ezdata/db
 chown -R mongod:mongod /ezdata/dump
 
 # initialize data flags used by inherited docker-entrypoint.sh
-test ! -f /ezdata/db/WiredTiger && rm -f /data/db/WiredTiger
-test   -f /ezdata/db/WiredTiger && ln -s /ezdata/db/WiredTiger /data/db/
-test ! -f /ezdata/db/docker-initdb.log && rm -f /data/db/docker-initdb.log
-test   -f /ezdata/db/docker-initdb.log && ln -s /ezdata/db/docker-initdb.log /data/db/
+#test ! -f /ezdata/db/WiredTiger && rm -f /data/db/WiredTiger
+#test   -f /ezdata/db/WiredTiger && ln -s /ezdata/db/WiredTiger /data/db/
+#test ! -f /ezdata/db/docker-initdb.log && rm -f /data/db/docker-initdb.log
+#test   -f /ezdata/db/docker-initdb.log && ln -s /ezdata/db/docker-initdb.log /data/db/
+su-exec mongod:mongod touch /ezdata/db/TEST
 
 # inject config.json parameters to env
 # only if not already defined in env
