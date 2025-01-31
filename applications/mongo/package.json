@@ -1,7 +1,7 @@
 {
 	"private": true,
 	"name": "ezmaster-mongo",
-	"version": "7.0.9-a",
+	"version": "7.0.9-b",
 	"description": "Mongo Database server",
 	"repository": {
 		"type": "git",
