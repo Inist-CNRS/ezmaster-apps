@@ -6,7 +6,9 @@ RUN apt-get update && \
 	rm -rf /var/lib/apt/lists/* && \
 	wget https://github.com/prometheus/prometheus/releases/download/v2.33.4/prometheus-2.33.4.linux-amd64.tar.gz && \
 	tar -zxvf "prometheus-2.33.4.linux-amd64.tar.gz" --strip-components=1 --no-same-owner && \
-	rm -f prometheus-2.33.4.linux-amd64.tar.gz
+	rm -f prometheus-2.33.4.linux-amd64.tar.gz && \
+	wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/bin/yq && \
+    chmod +x /usr/bin/yq
 
 WORKDIR /app
 ADD prometheus.yml /app/prometheus.global.yml
