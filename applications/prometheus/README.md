@@ -1,1 +1,1 @@
-# ezmaster-prometheus@1.1.2
+# ezmaster-prometheus@1.1.3
