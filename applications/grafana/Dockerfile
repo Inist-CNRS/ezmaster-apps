@@ -4,9 +4,9 @@ WORKDIR /opt/grafana
 RUN apt-get update && \
 	apt-get install -y wget tini sudo && \
 	rm -rf /var/lib/apt/lists/* && \
-	wget https://dl.grafana.com/oss/release/grafana-8.4.2.linux-amd64.tar.gz && \
-	tar -zxvf "grafana-8.4.2.linux-amd64.tar.gz" --strip-components=1 --no-same-owner && \
-	rm -f grafana-8.4.2.linux-amd64.tar.gz
+	wget  https://dl.grafana.com/grafana/release/12.2.0/grafana_12.2.0_17949786146_linux_amd64.tar.gz && \
+	tar -zxvf "grafana_12.2.0_17949786146_linux_amd64.tar.gz" --strip-components=1 --no-same-owner && \
+	rm -f grafana_12.2.0_17949786146_linux_amd64.tar.gz
 
 WORKDIR /app
 ADD grafana.ini /app/
