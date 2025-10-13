@@ -1,1 +1,1 @@
-# ezmaster-grafana@1.0.0
+# ezmaster-grafana@12.2.0-1
