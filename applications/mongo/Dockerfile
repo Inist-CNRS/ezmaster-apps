@@ -1,4 +1,4 @@
-FROM mongodb/mongodb-community-server:7.0.9-ubi9
+FROM mongodb/mongodb-community-server:8.0.16-ubi8
 
 # need jq to parse JSON
 # netcat to wait for when mongo is ready to listen
@@ -21,10 +21,6 @@ COPY docker-entrypoint.overload.sh /usr/local/bin/
 # mongo data folder dedicated to ezmaster
 # because it's not yet (8 nov 2017) possible to UNVOLUME /data/db and /data/configdb
 RUN mkdir -p /ezdata/db && chown -R mongod:mongod /ezdata/db
-
-# backup stuff
-RUN mkdir -p /ezdata/dump && chown -R mongod:mongod /ezdata/dump
-COPY dump.periodically.sh /usr/local/bin/
 
 # basic http server stuff
 RUN mkdir /www
