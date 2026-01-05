@@ -1,4 +1,4 @@
-FROM mongodb/mongodb-community-server:8.0.16-ubi8
+FROM mongodb/mongodb-community-server:8.0.17-ubi9
 
 # need jq to parse JSON
 # netcat to wait for when mongo is ready to listen
