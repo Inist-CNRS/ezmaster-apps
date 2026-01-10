@@ -1,4 +1,4 @@
-# ws-funder-ner@1.0.1
+# ws-funder-ner@1.0.2
 
 ## Build
 
