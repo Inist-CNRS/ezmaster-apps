@@ -1,0 +1,1853 @@
+@prefix void: <http://rdfs.org/ns/void#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dc: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix wv: <http://vocab.org/waiver/terms/norms> .
+@prefix sd: <http://www.w3.org/ns/sparql-service-description#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix skosmos: <http://purl.org/net/skosmos#> .
+@prefix schema: <http://schema.org/> .
+@prefix inist: <http://www.inist.fr/Ontology#> .
+@prefix lexinfo: <http://www.lexinfo.net/ontology/2.0/lexinfo#> .
+@prefix uneskos: <http://purl.org/umu/uneskos#> .
+@prefix mesh: <http://id.nlm.nih.gov/mesh/vocab#> .
+@prefix skosxl: <http://www.w3.org/2008/05/skos-xl#> .
+@prefix isothes: <http://purl.org/iso25964/skos-thes#> .
+@prefix wdt: <https://www.wikidata.org/wiki/Property:> .
+@prefix obo: <http://purl.obolibrary.org/obo/> .
+@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix gn: <https://www.geonames.org/ontology#> .
+@prefix gvp: <http://vocab.getty.edu/ontology#> .
+@prefix le: <http://linked.earth/ontology#> .
+@prefix mdrtype: <http://publications.europa.eu/resource/authority/dataset-type/> .
+@prefix : <#> .
+
+# Skosmos main configuration
+
+:config a skosmos:Configuration ;
+    # SPARQL endpoint
+    # a local Fuseki server is usually on localhost:3030
+    #skosmos:sparqlEndpoint <http://localhost:3030/ds/sparql> ;
+    # use the dev.finto.fi endpoint where the example vocabularies reside
+    #skosmos:sparqlEndpoint <http://api.dev.finto.fi/sparql> ;
+    skosmos:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+    #skosmos:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/TestDataset/sparql> ;
+    # sparql-query extension, or "Generic" for plain SPARQL 1.1
+    # set to "JenaText" instead if you use Fuseki with jena-text index
+    #skosmos:sparqlDialect "Generic" ;
+    skosmos:sparqlDialect "JenaText" ;
+    # whether to enable collation in sparql queries
+    skosmos:sparqlCollationEnabled false ;
+    # HTTP client configuration
+    skosmos:sparqlTimeout 20 ;
+    skosmos:httpTimeout 5 ;
+    # customize the service name
+    skosmos:serviceName "Loterre" ;
+    # customize the base element. Set this if the automatic base url detection doesn't work. For example setups behind a proxy.
+    # skosmos:baseHref "http://localhost/Skosmos/" ;
+    # interface languages available, and the corresponding system locales
+     skosmos:languages (
+            [ rdfs:label "es" ; rdf:value "es_ES.utf8" ]
+               [ rdfs:label "fr" ; rdf:value "fr_FR.utf8" ]
+               [ rdfs:label "en" ; rdf:value "en_GB.utf8" ]
+    ) ;
+    # how many results (maximum) to load at a time on the search results page
+    skosmos:searchResultsSize 20 ;
+    # how many items (maximum) to retrieve in transitive property queries
+    skosmos:transitiveLimit 1000 ;
+    # whether or not to log caught exceptions
+    skosmos:logCaughtExceptions false ;
+    # set to TRUE to enable logging into browser console
+    skosmos:logBrowserConsole false ;
+    # set to a logfile path to enable logging into log file
+    # skosmos:logFileName "" ;
+    # a default location for Twig template rendering
+    skosmos:templateCache "/tmp/skosmos-template-cache" ;
+    # customize the css by adding your own stylesheet
+    # skosmos:customCss "resource/css/stylesheet.css" ;
+    #skosmos:customCss "resource/css/otdm2023.css?v=2" ;
+    skosmos:customCss "resource/css/styles.css" ;
+    #skosmos:customCss "resource/css/finto.css" ;
+    # default email address where to send the feedback
+    skosmos:feedbackAddress "abdelmajid.khayari@inist.fr" ;
+    # email address to set as the sender for feedback messages
+    skosmos:feedbackSender "" ;
+    # email address to set as the envelope sender for feedback messages
+    skosmos:feedbackEnvelopeSender "" ;
+    # whether to display the ui language selection as a dropdown (useful for cases where there are more than 3 languages) 
+    skosmos:uiLanguageDropdown false ;
+    # whether to enable the spam honey pot or not, enabled by default
+    skosmos:uiHoneypotEnabled true ;
+    # default time a user must wait before submitting a form
+    skosmos:uiHoneypotTime 5 ;
+    # plugins to activate for the whole installation (including all vocabularies)
+    skosmos:globalPlugins ( "" ) .
+
+# Skosmos vocabularies
+
+# :TEST a skosmos:Vocabulary, void:Dataset ;
+#         dc:title "Test"@en;
+#         dc:title "Test"@fr;
+#         skosmos:shortName "MSC"@fr;
+#         skosmos:shortName "MSC"@en;
+#         dc:subject :cat_math;
+#         skosmos:language  "en";
+#         skosmos:defaultLanguage "en";
+#         void:uriSpace "http://data.loterre.fr/ark:/67375/TEST";
+#         skosmos:showTopConcepts "true";
+#         skosmos:loadExternalResources "false";
+#         skosmos:showNotation "true";
+#         skosmos:sortByNotation "natural";
+#         skosmos:showAlphabeticalIndex "true";
+#         skosmos:alphabeticalListQualifier skos:notation;
+# 	#    skosmos:usePlugin "finna" ;
+#         void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+#         skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/TEST> .
+
+:agrovoc a skosmos:Vocabulary, void:Dataset ;
+dc:title "AGROVOC Multilingual Thesaurus"@en;
+dc:title "Thésaurus multilingue AGROVOC"@fr;
+dc:subject :cat_bio;
+skosmos:shortName "AGROVOC"@fr;
+skosmos:shortName "AGROVOC"@en;
+skosmos:language  "en","fr","es";
+skosmos:defaultLanguage "fr";
+void:uriSpace "http://aims.fao.org/aos/agrovoc";
+skosmos:showTopConcepts "true";
+skosmos:groupClass skos:Collection ;
+skosmos:loadExternalResources "false";
+skosmos:showStatistics "true";
+void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/Agrovoc> .
+
+:TSO2 a skosmos:Vocabulary, void:Dataset ;
+ dc:title "Open science 2 (thesaurus)"@en;
+ dc:title "Science ouverte 2 (thésaurus)"@fr;
+ dc:title "Ciencia abierta 2 (tesauro)"@es;
+ dc:title "Ciência aberta 2"@pt; 
+ skosmos:shortName "Science ouverte 2"@fr;
+ skosmos:shortName "Open science 2"@en;
+ skosmos:shortName "Ciencia abierta 2"@es;
+ skosmos:shortName "Ciência aberta 2"@pt;
+ dc:subject :cat_shs;
+ skosmos:language  "en","fr","es","pt";
+ void:uriSpace "http://data.loterre.fr/ark:/67375/TSO2";
+ skosmos:groupClass skos:Collection;
+ skosmos:defaultLanguage "en";
+ skosmos:showTopConcepts "true";
+ skosmos:showChangeList "true";
+ skosmos:loadExternalResources "false";
+ #skosmos:usePlugin "finna" ;
+#skosmos:usePlugin "wiki" ;
+ void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+ skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/TSO2> .
+ 
+ 
+:AMG a skosmos:Vocabulary, void:Dataset ;
+ dc:title "ALMASI Multilingual Glossary"@en;
+ dc:title "Glossaire multilingue ALMASI"@fr;
+ dc:title "Glosario multilingüe ALMASI"@es; 
+ skosmos:shortName "ALMASI"@fr;
+ skosmos:shortName "ALMASI"@en;
+ skosmos:shortName "ALMASI"@es;
+ dc:subject :cat_shs;
+ skosmos:language  "en","fr","es","pt";
+ void:uriSpace "http://data.loterre.fr/ark:/67375/AMG";
+ #skosmos:groupClass skos:Collection;
+ skosmos:defaultLanguage "fr";
+ #skosmos:showTopConcepts "true";
+ #skosmos:showChangeList "true";
+ #skosmos:loadExternalResources "false";
+ skosmos:usePlugin "finna" ;
+skosmos:usePlugin "wiki" ;
+ void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+ skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/AMG> .
+
+# :B9M a skosmos:Vocabulary, void:Dataset ;
+# dc:title "Primatology (thesaurus)"@en;
+# dc:title "Primatologie (thésaurus)"@fr;
+# skosmos:shortName "Primato"@fr;
+# skosmos:shortName "Primato"@en;
+# dc:subject :cat_bio;
+# skosmos:language  "en","fr";
+# skosmos:defaultLanguage "fr";
+# void:urispace "http://data.loterre.fr/ark:/67375/B9M";
+# skosmos:showTopConcepts "true";
+# #skosmos:groupClass skos:Collection ;
+# skosmos:loadExternalResources "false";
+# void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+# skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/B9M> .
+
+:fma a skosmos:Vocabulary, void:Dataset ;
+dc:title "Foundational Model of Anatomy ontology (FMA)"@en;
+dc:title "Ontologie Foundational Model of Anatomy (FMA)"@fr;
+dc:title "Foundational Model of Anatomy ontology(FMA)"@es;
+skosmos:shortName "FMA"@fr;
+skosmos:shortName "FMA"@en;
+skosmos:shortName "FMA"@es;
+dc:subject :cat_bio;
+skosmos:language  "en","fr";
+skosmos:defaultLanguage "en";
+void:uriSpace "http://purl.org/sig/ont/fma";
+skosmos:showTopConcepts "true";
+skosmos:groupClass skos:Collection ;
+skosmos:loadExternalResources "false";
+void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/FMA> .
+
+:QJP a skosmos:Vocabulary, void:Dataset ;
+dc:title "Engineering sciences vocabulary"@en;
+dc:title "Vocabulaire des sciences de l'ingénieur"@fr;
+dc:title "Vocabulario de ingeniería"@es; 
+dc:subject :cat_ing;
+skosmos:shortName "sciences de l'ingénieur"@fr;
+skosmos:shortName "Engineering sciences"@en;
+skosmos:shortName "Ingeniería"@es;
+skosmos:language  "en","fr";
+skosmos:defaultLanguage "en";
+void:uriSpace "http://data.loterre.fr/ark:/67375/QJP";
+#skosmos:showTopConcepts "true";
+skosmos:groupClass skos:Collection ;
+skosmos:loadExternalResources "false";
+skosmos:showStatistics "true";
+skosmos:usePlugin "finna" ;
+#void:sparqlEndpoint <http://jena-fuseki:3030/LoterreVocabularies/sparql> ;
+void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/IngM1> .	
+
+:MERGE a skosmos:Vocabulary, void:Dataset ;
+        dc:title "Termsuite_AppliedMaths"@en;
+        dc:title "Termsuite_MathsApps"@fr;
+        skosmos:shortName "TSMaths"@fr;
+        skosmos:shortName "TSMaths"@en;
+        dc:subject :cat_math;
+        skosmos:language  "en";
+        skosmos:defaultLanguage "en";
+        void:uriSpace "http://data.loterre.fr/ark:/67375/MERGE";
+        skosmos:showTopConcepts "true";
+        skosmos:loadExternalResources "false";
+	#    skosmos:usePlugin "finna" ;
+        void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+        skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/MERGE> .
+
+:MERGE2 a skosmos:Vocabulary, void:Dataset ;
+        dc:title "AppliedMaths"@en;
+        dc:title "MathsApps"@fr;
+        skosmos:shortName "MathsA"@fr;
+        skosmos:shortName "AMaths"@en;
+        dc:subject :cat_math;
+        skosmos:language  "en";
+        skosmos:defaultLanguage "en";
+        void:uriSpace "http://data.loterre.fr/ark:/67375/MERGE2";
+        skosmos:showTopConcepts "true";
+        skosmos:loadExternalResources "false";
+	#    skosmos:usePlugin "finna" ;
+        void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+        skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/MERGE2> .
+
+:B9M a skosmos:Vocabulary, void:Dataset ;
+         dc:title "Primatology (thesaurus)"@en;
+         dc:title "Primatologie (thésaurus)"@fr;
+         skosmos:shortName "Primato"@fr;
+         skosmos:shortName "Primato"@en;
+         dc:subject :cat_bio;
+         skosmos:language  "fr","en";
+         skosmos:defaultLanguage "fr";
+         void:uriSpace "http://data.loterre.fr/ark:/67375/B9M";
+         skosmos:showTopConcepts "true";
+         skosmos:loadExternalResources "false";
+ 	#    skosmos:usePlugin "finna" ;
+         void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+         skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/B9M> .
+
+:languoid a skosmos:Vocabulary, void:Dataset ;
+        dc:title "Glottolog languoids"@en;
+        dc:title "Langues Glottolog"@fr;
+        skosmos:shortName "Glottolog"@fr;
+        skosmos:shortName "Glottolog"@en;
+        dc:subject :cat_shs;
+        skosmos:language  "en";
+        skosmos:defaultLanguage "en";
+        void:uriSpace "http://glottolog.org/resource/languoid";
+        skosmos:showTopConcepts "true";
+        skosmos:loadExternalResources "false";
+	#    skosmos:usePlugin "finna" ;
+        void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+        skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/Glottolog> .
+
+:langR a skosmos:Vocabulary, void:Dataset ;
+        dc:title "Franch regional languages"@en;
+        dc:title "Langues régionales françaises"@fr;
+        skosmos:shortName "langR"@fr;
+        skosmos:shortName "langR"@en;
+        dc:subject :cat_shs;
+        skosmos:language  "fr";
+        skosmos:defaultLanguage "fr";
+        void:uriSpace "http://glottolog.org/resource/langR";
+        skosmos:showTopConcepts "true";
+        skosmos:loadExternalResources "false";
+	#    skosmos:usePlugin "finna" ;
+        void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+        skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/langR> .
+
+:RAM a skosmos:Vocabulary, void:Dataset ;
+        dc:title "RAMEAU"@en;
+        dc:title "RAMEAU"@fr;
+        skosmos:shortName "Rameau"@fr;
+        skosmos:shortName "Rameau"@en;
+        dc:subject :cat_multi;
+        skosmos:language  "fr";
+        skosmos:defaultLanguage "fr";
+        void:uriSpace "http://data.loterre.fr/ark:/67375/RAM";
+        skosmos:showTopConcepts "true";
+        skosmos:loadExternalResources "false";
+	#    skosmos:usePlugin "finna" ;
+        void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+        skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/Rameau> .
+
+:RAMATH a skosmos:Vocabulary, void:Dataset ;
+        dc:title "RAMEAU_Maths"@en;
+        dc:title "RAMEAU_Maths"@fr;
+        skosmos:shortName "Rameau"@fr;
+        skosmos:shortName "Rameau"@en;
+        dc:subject :cat_math;
+        skosmos:language  "fr";
+        skosmos:defaultLanguage "fr";
+        void:uriSpace "http://data.loterre.fr/ark:/67375/RAMATH";
+        skosmos:showTopConcepts "true";
+        skosmos:loadExternalResources "false";
+	#    skosmos:usePlugin "finna" ;
+        void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+        skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/RameauMaths> .
+        
+:HAL a skosmos:Vocabulary, void:Dataset ;
+        dc:title "HAL_AppliedMaths"@en;
+        dc:title "HAL_MathsApps"@fr;
+        skosmos:shortName "HALMaths"@fr;
+        skosmos:shortName "HALMaths"@en;
+        dc:subject :cat_math;
+        skosmos:language  "en";
+        skosmos:defaultLanguage "en";
+        void:uriSpace "http://data.loterre.fr/ark:/67375/HAL";
+        skosmos:showTopConcepts "true";
+        skosmos:loadExternalResources "false";
+	#    skosmos:usePlugin "finna" ;
+        void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+        skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/HALMaths> .
+
+:MSC a skosmos:Vocabulary, void:Dataset ;
+        dc:title "MSC Classification Codes"@en;
+        dc:title "Classification MSC"@fr;
+        skosmos:shortName "MSC"@fr;
+        skosmos:shortName "MSC"@en;
+        dc:subject :cat_math;
+        skosmos:language  "en";
+        skosmos:defaultLanguage "en";
+        void:uriSpace "http://data.loterre.fr/ark:/67375/MSC";
+        skosmos:showTopConcepts "true";
+        skosmos:loadExternalResources "false";
+        skosmos:showNotation "true";
+        skosmos:sortByNotation "natural";
+        skosmos:showAlphabeticalIndex "true";
+        skosmos:alphabeticalListQualifier skos:notation;
+	#    skosmos:usePlugin "finna" ;
+        void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+        skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/MSC> .
+        
+# :8ZN a skosmos:Vocabulary, void:Dataset ;
+#         dc:title "Taxonomy and Thesaurus for Health Research Methodology"@en;
+#         dc:title "Taxonomie et thésaurus pour la méthodologie de recherche en santé"@fr;
+#         dc:title "Taxonomía y Tesauro de Metodología de la Investigación en Salud"@es;
+#         skosmos:shortName "Theremy"@fr;
+#         skosmos:shortName "Theremy"@en;
+#         skosmos:shortName "Theremy"@es;
+#         dc:subject :cat_sant;
+#         skosmos:language  "en";
+#         skosmos:defaultLanguage "en";
+#         void:uriSpace "http://data.loterre.fr/ark:/67375/8ZN";
+#         skosmos:showTopConcepts "true";
+#         skosmos:loadExternalResources "false";
+# 	#    skosmos:usePlugin "finna" ;
+#         void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+#         skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/8ZN> .
+
+:Theremy a skosmos:Vocabulary, void:Dataset ;
+        dc:title "Taxonomy & Thesaurus for Health Research Methodology"@en;
+        dc:title "Taxonomie et thésaurus pour la méthodologie de recherche en santé"@fr;
+        dc:title "Taxonomía y Tesauro de Metodología de la Investigación en Salud"@es;
+        skosmos:shortName "Theremy"@fr;
+        skosmos:shortName "Theremy"@en;
+        skosmos:shortName "Theremy"@es;
+        dc:subject :cat_sant,:cat_tax;
+        skosmos:language  "en";
+        skosmos:defaultLanguage "en";
+        void:uriSpace "http://lights.science/theremy";
+        skosmos:showTopConcepts "true";
+        skosmos:loadExternalResources "false";
+        skosmos:showStatistics "true";
+        skosmos:usePlugin "finna" ;
+#        skosmos:usePlugin "lights" ;
+#        skosmos:usePlugin "wiki" ;
+        void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+        skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/Theremy> .
+        
+        
+:23L a skosmos:Vocabulary, void:Dataset ;
+        dc:title "Artificial Intelligence Thesaurus"@en;
+        dc:title "Thésaurus de l'intelligence artificielle"@fr;
+        skosmos:shortName "IA"@fr;
+        skosmos:shortName "AI"@en;
+        dc:subject :cat_ing;
+        skosmos:language  "en","fr";
+        skosmos:defaultLanguage "en";
+        void:uriSpace "http://data.loterre.fr/ark:/67375/23L";
+        skosmos:showTopConcepts "true";
+        skosmos:loadExternalResources "false";
+        skosmos:groupClass isothes:ConceptGroup ;
+	skosmos:usePlugin "tieto" ;
+        void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+        skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/23L> .
+        
+:8LP a skosmos:Vocabulary, void:Dataset ;
+        dc:title "Vocabulary of natural language processing (POC)"@en;
+        dc:title "Vocabulaire du traitement automatique des langues (POC)"@fr;
+        dc:title "Vocabulario de procesamiento del lenguaje natural (POC)"@es;
+        skosmos:shortName "Vocabulaire du TAL"@fr;
+        skosmos:shortName "NLP Vocabulary"@en;
+        skosmos:shortName "Vocabulario de PLN"@es;
+        dc:subject :cat_ing;
+        skosmos:language  "en","fr";
+        skosmos:defaultLanguage "en";
+        void:uriSpace "http://data.loterre.fr/ark:/67375/8LP";
+        skosmos:showTopConcepts "true";
+        skosmos:loadExternalResources "false";
+	    skosmos:usePlugin "finna" ;
+        void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+        skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/8LP> .
+
+:QX8 a skosmos:Vocabulary, void:Dataset ;
+        dc:title "Paleoclimatology (thesaurus)"@en;
+        dc:title "Paléoclimatologie (thésaurus)"@fr;
+        dc:title "Paleoclimatología (tesauro)"@fr;
+        skosmos:shortName "Paléoclimatologie"@fr;
+        skosmos:shortName "Paleoclimatology"@en;
+        skosmos:shortName "Paleoclimatología"@es;
+        dc:subject :cat_geol;
+        skosmos:language  "en","fr";
+        skosmos:defaultLanguage "en";
+        void:uriSpace "http://data.loterre.fr/ark:/67375/QX8";
+        skosmos:showTopConcepts "true";
+        #skosmos:groupClass skos:Collection ;
+        skosmos:loadExternalResources "false";
+		skosmos:usePlugin "finna" ;
+        #void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/TestDataset/sparql> ;
+        #skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/TestDataset/data/Paleoclim> .
+        void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+        skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/Paleoclim> .
+        
+:PSR a skosmos:Vocabulary, void:Dataset ;
+        dc:title "Mathematics (thesaurus)"@en;
+        dc:title "Mathématiques (thésaurus)"@fr;
+        dc:title "Matemáticas (tesauro)"@es; 
+        skosmos:shortName "Mathématiques"@fr;
+        skosmos:shortName "Mathematics"@en;
+        skosmos:shortName "Matemáticas"@es;
+        dc:subject :cat_math;
+        skosmos:language  "en","fr";
+        skosmos:defaultLanguage "en";
+        void:uriSpace "http://data.loterre.fr/ark:/67375/PSR";
+        skosmos:showTopConcepts "true";
+        #skosmos:groupClass isothes:ConceptGroup ;
+        skosmos:loadExternalResources "false";
+        skosmos:usePlugin "finna" ;
+        skosmos:usePlugin "wiki" ;
+        void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+        skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/Maths> .
+        #void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/TestDataset/sparql> ;
+        #skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/TesDataset/data/Maths> .
+
+:N9J a skosmos:Vocabulary, void:Dataset ;
+dc:title "SAGE Social Science Thesaurus"@en;
+dc:title "Thésaurus des sciences sociales SAGE"@fr;
+dc:title "SAGE Tesauro de Ciencias Sociales"@es; 
+dc:subject :cat_shs;
+skosmos:shortName "SAGE"@fr;
+skosmos:shortName "SAGE"@en;
+skosmos:shortName "SAGE"@es; 
+skosmos:language  "en";
+skosmos:defaultLanguage "en";
+void:uriSpace "http://data.loterre.fr/ark:/67375/N0J";
+skosmos:showTopConcepts "true";
+skosmos:groupClass isothes:ConceptGroup ;
+skosmos:loadExternalResources "false";
+skosmos:showStatistics "true";
+void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/SAGE> .	
+
+:KFP a skosmos:Vocabulary, void:Dataset ;
+dc:title "Chemical Entities of Biological Interest Ontology (CHEBI)"@en;
+dc:title "Ontologie CHEBI"@fr;
+dc:title "Ontología CHEBI"@es; 
+dc:subject :cat_chem;
+skosmos:shortName "CHEBI"@fr;
+skosmos:shortName "CHEBI"@en;
+skosmos:shortName "CHEBI"@es; 
+skosmos:language  "en";
+skosmos:defaultLanguage "en";
+void:uriSpace "http://data.loterre.fr/ark:/67375/KFP";
+skosmos:showTopConcepts "true";
+skosmos:groupClass isothes:ConceptGroup ;
+skosmos:loadExternalResources "false";
+skosmos:showStatistics "false";
+void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/CHEBI> .		
+		
+:Q1W a skosmos:Vocabulary, void:Dataset ;
+dc:title "Agri-food vocabulary"@en;
+dc:title "Agroalimentaire"@fr;
+dc:subject :cat_bio;
+skosmos:shortName "Agroalimentaire"@fr;
+skosmos:shortName "Agrifood"@en;
+skosmos:language  "en","fr";
+skosmos:defaultLanguage "fr";
+void:uriSpace "http://data.loterre.fr/ark:/67375/Q1W";
+skosmos:showTopConcepts "false";
+skosmos:groupClass isothes:ConceptGroup ;
+skosmos:loadExternalResources "true";
+skosmos:showStatistics "true";
+void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/Agroalim> .
+
+:LTK a skosmos:Vocabulary, void:Dataset ;
+dc:title "ThesoTM thesaurus"@en;
+dc:title "Thésaurus ThesoTM"@fr;
+dc:subject :cat_ing;
+skosmos:shortName "ThesoTM"@fr;
+skosmos:shortName "ThesoTM"@en;
+skosmos:language  "en","fr";
+skosmos:defaultLanguage "fr";
+void:uriSpace "http://data.loterre.fr/ark:/67375/LTK";
+skosmos:showTopConcepts "true";
+#skosmos:groupClass isothes:ConceptGroup ;
+skosmos:loadExternalResources "true";
+skosmos:showStatistics "true";
+void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/ThesoTM> .
+
+:2XK a skosmos:Vocabulary, void:Dataset ;
+dc:title "Organismes et structures de recherche"@fr;
+dc:title "Research Organizations and Structures"@en;
+skosmos:shortName "Structures de recherche"@fr;
+skosmos:shortName "Research structures"@en;
+dc:subject :cat_ref;
+skosmos:language  "en","fr";
+skosmos:defaultLanguage "fr";
+void:uriSpace "http://data.loterre.fr/ark:/67375/2XK";
+skosmos:showTopConcepts "true";
+#skosmos:groupClass isothes:ConceptGroup ;
+skosmos:groupClass skos:Collection ;
+skosmos:loadExternalResources "false";
+skosmos:showNotation "false";
+skosmos:showTopConcepts "true";
+        skosmos:showDeprecated "true";
+        skosmos:showChangeList "true";
+        skosmos:showDeprecatedChanges "true";
+#skosmos:sortByNotation "natural";
+skosmos:showAlphabeticalIndex "true";
+#skosmos:alphabeticalListQualifier skos:notation;
+skosmos:showStatistics "true";
+void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/StructuresRecherche> .
+
+:BVM a skosmos:Vocabulary, void:Dataset ;
+dc:title "NETSCITY Toponyms (France)"@en;
+dc:title "Toponymes NETSCITY (France)"@fr;
+skosmos:shortName "NETSCITY"@fr;
+skosmos:shortName "NETSCITY"@en;
+dc:subject :cat_geog;
+skosmos:language  "en","fr";
+skosmos:defaultLanguage "en";
+void:uriSpace "http://data.loterre.fr/ark:/67375/BVM";
+skosmos:showTopConcepts "true";
+skosmos:loadExternalResources "false";
+skosmos:showNotation "false";
+skosmos:groupClass isothes:ConceptGroup;
+skosmos:showStatistics "true";
+void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/Netscity> .
+
+:MDL a skosmos:Vocabulary, void:Dataset ;
+        dc:title "Astronomy (thesaurus)"@en;
+        dc:title "Astronomie (thésaurus)"@fr;
+        dc:title "Astronomía (tesauro)"@es; 
+        skosmos:shortName "Astronomie"@fr;
+        skosmos:shortName "Astronomy"@en;
+        skosmos:shortName "Astronomía"@es;
+        dc:subject :cat_geol;
+        skosmos:language  "en","fr";
+        skosmos:defaultLanguage "en";
+        void:uriSpace "http://data.loterre.fr/ark:/67375/MDL";
+        skosmos:showTopConcepts "true";
+        #skosmos:groupClass isothes:ConceptGroup ;
+        skosmos:loadExternalResources "false";
+        skosmos:usePlugin "finna" ;
+        skosmos:usePlugin "wiki" ;
+        void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+        skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/Astronomie> .
+        
+ :2CX a skosmos:Vocabulary, void:Dataset ;
+ dc:title "SantéPsy (thesaurus)"@en;
+ dc:title "SantéPsy (thésaurus)"@fr;
+ dc:title "SantéPsy (tesauro)"@es; 
+ skosmos:shortName "SantéPsy"@fr;
+ skosmos:shortName "SantéPsy"@en;
+ skosmos:shortName "SantéPsy"@es;
+dc:subject :cat_bio;
+skosmos:language "fr";
+skosmos:defaultLanguage "fr";
+void:uriSpace "http://data.loterre.fr/ark:/67375/2CX";
+skosmos:showTopConcepts "true";
+#skosmos:arrayClass isothes:ThesaurusArray ; 
+skosmos:showStatistics "true";
+skosmos:showChangeList "true";
+skosmos:loadExternalResources "false";
+void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/SantéPsy> .
+
+:FW3 a skosmos:Vocabulary, void:Dataset ;
+dc:title "Éducation thérapeutique du patient (thésaurus)"@fr;
+dc:title "Therapeutic patient education (thesaurus)"@en;
+skosmos:shortName "ETP"@fr;
+skosmos:shortName "TPE"@en;
+dc:subject :cat_sant;
+skosmos:language  "en","fr";
+skosmos:defaultLanguage "fr";
+void:uriSpace "http://data.loterre.fr/ark:/67375/FW3";
+skosmos:showTopConcepts "true";
+skosmos:loadExternalResources "false";
+skosmos:showNotation "false";
+skosmos:showStatistics "true";
+void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/ETP> .
+
+:CHC a skosmos:Vocabulary, void:Dataset ;
+        dc:title "Climate change (Proof of concept)"@en;
+        dc:title "Changement climatique (Preuve de concept)"@fr;
+        dc:title "Cambio climático (Prueba de concepto)"@es; 
+        skosmos:shortName "Changement climatique"@fr;
+        skosmos:shortName "Climate change"@en;
+        skosmos:shortName "Cambio climático"@es;
+        dc:subject :cat_geol;
+        skosmos:language  "en","fr";
+        skosmos:defaultLanguage "en";
+        void:uriSpace "http://data.loterre.fr/ark:/67375/CHC";
+        skosmos:showTopConcepts "false";
+        skosmos:groupClass isothes:ConceptGroup ;
+        skosmos:loadExternalResources "false";
+        skosmos:useParamPlugin :messageWidget2;
+        # void:sparqlEndpoint <http://192.168.128.153:49163/LoterreVocabularies/sparql> ;
+        # skosmos:sparqlGraph <http://192.168.128.153:49163/LoterreVocabularies/data/ChangementClimatique> .	
+        void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+        skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/ChangementClimatique> .	
+		
+
+:INS a skosmos:Vocabulary, void:Dataset ;
+dc:title "Santé à l'INSB (Preuve de concept)"@fr;
+dc:title "Health at the INSB (Proof of concept)"@en;
+skosmos:shortName "Santé à l'INSB"@fr;
+skosmos:shortName "Health at the INSB"@en;
+dc:subject :cat_sant;
+skosmos:language  "en","fr";
+skosmos:defaultLanguage "en";
+void:uriSpace "http://data.loterre.fr/ark:/67375/INS";
+skosmos:showTopConcepts "true";
+skosmos:loadExternalResources "false";
+skosmos:showNotation "false";
+skosmos:showStatistics "true";
+skosmos:useParamPlugin :messageWidget2;
+void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/SanteINSB> .
+
+:SEN a skosmos:Vocabulary, void:Dataset ;
+        dc:title "Health and environment (proof of concept)"@en;
+        dc:title "Santé et environnement (preuve de concept)"@fr;
+        skosmos:shortName "Santé et environnement"@fr;
+        skosmos:shortName "Health and environment"@en;
+        dc:subject :cat_bio;
+        skosmos:language  "en","fr";
+        skosmos:defaultLanguage "en";
+        void:uriSpace "http://data.loterre.fr/ark:/67375/SEN";
+        skosmos:showTopConcepts "false";
+        skosmos:groupClass isothes:ConceptGroup ;
+        skosmos:loadExternalResources "false";
+        skosmos:useParamPlugin :messageWidget2;
+        void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+        skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/SanteEnvironnement> .	
+		
+		
+:SCO a skosmos:Vocabulary, void:Dataset ;
+dc:title "Sections of the National Committee for Scientific Research (Proof of concept)"@en;
+dc:title "Sections du Comité national de la recherche scientifique (Preuve de concept)"@fr;
+skosmos:shortName "Sections CoNRS"@fr;
+skosmos:shortName "CoNRS sections"@en;
+dc:subject :cat_tax;
+skosmos:language  "en","fr";
+skosmos:defaultLanguage "en";
+void:uriSpace "http://data.loterre.fr/ark:/67375/SCO";
+skosmos:showTopConcepts "true";
+skosmos:loadExternalResources "false";
+skosmos:showNotation "false";
+skosmos:showStatistics "true";
+skosmos:useParamPlugin :messageWidget3;
+void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/SecCoNRS> .
+
+
+ :216 a skosmos:Vocabulary, void:Dataset ;
+ dc:title "Educational sciences"@en;
+ dc:title "Sciences de l'éducation"@fr;
+ dc:title "Ciencias de la educación"@es; 
+ skosmos:shortName "Éducation"@fr;
+ skosmos:shortName "Education"@en;
+ skosmos:shortName "Educación"@es;
+ dc:subject :cat_shs;
+ skosmos:language  "en","fr";
+ void:uriSpace "http://data.loterre.fr/ark:/67375/216";
+ skosmos:groupClass skos:Collection ;
+   skosmos:defaultLanguage "en";
+ skosmos:showTopConcepts "false";
+ skosmos:loadExternalResources "false";
+ void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+ skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/Education> .
+
+:P21 a skosmos:Vocabulary, void:Dataset ;
+ dc:title "Litterature"@en;
+ dc:title "Littérature"@fr;
+ dc:title "Literatura"@es; 
+ skosmos:shortName "Littérature"@fr;
+ skosmos:shortName "Litterature"@en;
+ skosmos:shortName "Literatura"@es;
+ dc:subject :cat_shs;
+ skosmos:language  "en","fr";
+ void:uriSpace "http://data.loterre.fr/ark:/67375/P21";
+ skosmos:groupClass isothes:ConceptGroup ;
+ skosmos:defaultLanguage "en";
+ skosmos:showTopConcepts "false";
+ skosmos:usePlugin "finna" ;
+ skosmos:usePlugin "wiki" ;
+ skosmos:loadExternalResources "false";
+ void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+ skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/Litterature> .
+
+:3WV a skosmos:Vocabulary, void:Dataset ;
+        dc:title "Ecotoxicology (thesaurus)"@en;
+        dc:title "Écotoxicologie (thésaurus)"@fr;
+        dc:title "Ecotoxicología (tesauro)"@es; 
+        skosmos:shortName "Écotoxicologie"@fr;
+        skosmos:shortName "Ecotoxicology"@en;
+        skosmos:shortName "Ecotoxicología"@es;
+        dc:subject :cat_bio;
+        skosmos:language  "en","fr","es";
+        skosmos:defaultLanguage "en";
+        void:uriSpace "http://data.loterre.fr/ark:/67375/3WV";
+        skosmos:showTopConcepts "true";
+        skosmos:groupClass isothes:ConceptGroup ;
+        skosmos:loadExternalResources "false";
+        skosmos:usePlugin "finna" ;
+        skosmos:usePlugin "wiki" ;
+        void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+        skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/Ecotoxicologie> .
+        
+:TSO a skosmos:Vocabulary, void:Dataset ;
+ dc:title "Open science (thesaurus)"@en;
+ dc:title "Science ouverte (thésaurus)"@fr;
+ dc:title "Ciencia abierta (tesauro)"@es; 
+ skosmos:shortName "Science ouverte"@fr;
+ skosmos:shortName "Open science"@en;
+ skosmos:shortName "Ciencia abierta"@es;
+ dc:subject :cat_shs;
+ skosmos:language  "en","fr","es";
+ void:uriSpace "http://data.loterre.fr/ark:/67375/TSO";
+ #skosmos:groupClass skos:Collection;
+ skosmos:defaultLanguage "en";
+ skosmos:showTopConcepts "true";
+ skosmos:showChangeList "true";
+ skosmos:loadExternalResources "false";
+ skosmos:usePlugin "finna" ;
+skosmos:usePlugin "wiki" ;
+ void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+ skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/ScienceOuverte> .
+
+ :KG7 a skosmos:Vocabulary, void:Dataset ;
+dc:title "Geography of North America"@en;
+dc:title "Géographie de l'Amérique du Nord"@fr;
+dc:title "Geografía de América del Norte"@es;
+skosmos:shortName "Géographie de l'Amérique du Nord"@fr;
+skosmos:shortName "Geography of North America"@en;
+skosmos:shortName "Geografía de América del Norte"@es;
+dc:subject :cat_geog;
+skosmos:language  "en","fr";
+skosmos:defaultLanguage "en";
+void:uriSpace "http://data.loterre.fr/ark:/67375/KG7";
+skosmos:showTopConcepts "true";
+skosmos:loadExternalResources "false";
+skosmos:showNotation "false";
+skosmos:showStatistics "true";
+skosmos:usePlugin "finna" ;
+skosmos:usePlugin "wiki" ;
+void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/GéographieAMN> .
+
+:P66 a skosmos:Vocabulary, void:Dataset ;
+dc:title "Psychologie cognitive de la mémoire humaine (thésaurus CogMemo)"@fr;
+dc:title "Cognitive psychology of human memory (CogMemo thesaurus)"@en;
+dc:title "Psicología cognitiva de la memoria humana (tesauro CogMemo)"@es;
+skosmos:shortName "Mémoire"@fr;
+skosmos:shortName "Memory"@en;
+skosmos:shortName "Memoria"@es;
+dc:subject :cat_bio;
+#dc:subject :cat_bio,:cat_sant;
+skosmos:language  "en","fr";
+skosmos:defaultLanguage "en";
+void:uriSpace "http://data.loterre.fr/ark:/67375/P66";
+skosmos:showTopConcepts "true";
+skosmos:showChangeList "true";
+#skosmos:sparqlDialect "Generic" ;
+skosmos:usePlugin "tieto" ;
+#skosmos:groupClass skos:Collection ;
+skosmos:groupClass isothes:ConceptGroup ;
+skosmos:loadExternalResources "false";
+#void:dataDump <https://loterre-int.inist.fr/wp-content/uploads/2020/07/M%C3%A9moire.rdf>;
+void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/Mémoire> .
+#void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/TestDataset/sparql> ;
+#skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/TestDataset/data/Mémoire> .
+
+:27X a skosmos:Vocabulary, void:Dataset ;
+dc:title "Art and Archaeology"@en;
+dc:title "Art et Archéologie"@fr;
+dc:title "Arte y Arqueología"@es;
+skosmos:shortName "Art/Archéologie"@fr;
+skosmos:shortName "Art/Archaeology"@en;
+skosmos:shortName "Arte/Arqueología"@es;
+dc:subject :cat_shs;
+skosmos:language  "en","fr","es","de";
+void:uriSpace "http://data.loterre.fr/ark:/67375/27X";
+skosmos:groupClass skos:Collection;
+skosmos:defaultLanguage "en";
+skosmos:showTopConcepts "false";
+skosmos:loadExternalResources "false";
+#skosmos:usePlugin "finna" ;
+#skosmos:usePlugin "wiki" ;
+#skosmos:useParamPlugin :messageWidget;
+void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/ArtArchéologie> .
+
+:th63 a skosmos:Vocabulary, void:Dataset ;
+dc:title "Zoological Nomenclature (thesaurus)"@en;
+dc:title "Nomenclature zoologique (thésaurus)"@fr;
+dc:title "Zoonom (tesauro)"@es;
+skosmos:shortName "Zoonom"@fr;
+skosmos:shortName "Zoonom"@en;
+skosmos:shortName "Zoonom"@es;
+dc:subject :cat_bio;
+skosmos:language  "en","fr";
+skosmos:defaultLanguage "en";
+void:uriSpace "http://opentheso8.mom.fr/opentheso8/th63";
+#void:urispace "http://data.loterre.fr/ark:/67375/FM8";
+skosmos:showTopConcepts "true";
+skosmos:groupClass skos:Collection ;
+skosmos:loadExternalResources "false";
+void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/Zoonom> .
+
+:ASYSEL a skosmos:Vocabulary, void:Dataset ;
+dc:title "Agriculture and breeding systems"@en;
+dc:title "Agriculture et systèmes d'élevage"@fr;
+dc:title "Agricultura y sistemas ganaderos"@es;
+skosmos:shortName "Agriculture"@fr;
+skosmos:shortName "Agriculture"@en;
+skosmos:shortName "Agricultura"@es;
+dc:subject :cat_bio;
+skosmos:language  "en","fr";
+skosmos:defaultLanguage "fr";
+void:uriSpace "http://opendata.inrae.fr/ASYSEL/Agriculture_et_systemes_d_elevage";
+skosmos:showTopConcepts "false";
+skosmos:groupClass isothes:ConceptGroup ;
+skosmos:loadExternalResources "false";
+skosmos:showStatistics "true";
+void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/ASYSEL> .
+
+:PLP a skosmos:Vocabulary, void:Dataset ;
+dc:title "Pedology lexicon"@en;
+dc:title "Lexique de pédologie"@fr;
+dc:title "Léxico de la pedología"@es;
+skosmos:shortName "Pédologie"@fr;
+skosmos:shortName "Pedology"@en;
+skosmos:shortName "Pedología"@es;
+dc:subject :cat_geol;
+skosmos:language  "en","fr";
+skosmos:defaultLanguage "fr";
+void:uriSpace "https://opendata.inrae.fr/PLP/Petit_Lexique_de_Pedologie";
+skosmos:showTopConcepts "false";
+skosmos:groupClass isothes:ConceptGroup ;
+skosmos:loadExternalResources "false";
+skosmos:showStatistics "true";
+void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/PLP> .	
+
+:TECSEM a skosmos:Vocabulary, void:Dataset ;
+dc:title "Technology of seeds"@en;
+dc:title "Technologie des semences"@fr;
+dc:title "Tecnología de semillas"@es;
+skosmos:shortName "Semences"@fr;
+skosmos:shortName "Seeds"@en;
+skosmos:shortName "Semillas"@es;
+dc:subject :cat_ing;
+skosmos:language  "en","fr","de";
+skosmos:defaultLanguage "fr";
+void:uriSpace "https://opendata.inrae.fr/TECSEM/Technologies_des_semences";
+skosmos:showTopConcepts "false";
+skosmos:loadExternalResources "false";
+skosmos:showStatistics "true";
+void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/TECSEM> .
+
+:26L a skosmos:Vocabulary, void:Dataset ;
+dc:title "Earth Sciences"@en;
+dc:title "Sciences de la Terre"@fr;
+dc:title "Ciencias de la Tierra"@es;
+skosmos:shortName "Sciences de la Terre"@fr;
+skosmos:shortName "Earth sciences"@en;
+skosmos:shortName "Ciencias de la Tierra"@es;
+dc:subject :cat_geol;
+skosmos:language  "en","fr","es";
+skosmos:defaultLanguage "en";
+void:uriSpace "http://data.loterre.fr/ark:/67375/26L";
+skosmos:showTopConcepts "false";
+skosmos:groupClass skos:Collection ;
+skosmos:loadExternalResources "false";
+skosmos:showNotation "false";
+skosmos:showStatistics "true";
+skosmos:usePlugin "finna" ;
+skosmos:usePlugin "wiki" ;
+void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/Géologie> .	
+
+:JLC a skosmos:Vocabulary, void:Dataset ;
+dc:title "Subjects (SH) Terminology Resource (Getty Research Institute)"@en;
+dc:title "Terminologie Subjects (SH) (Getty Research Institute)"@fr;
+dc:title "Terminología Subjects (SH) (Getty Research Institute)"@es;
+skosmos:shortName "Terminologie SH"@fr;
+skosmos:shortName "SH Terminology"@en;
+skosmos:shortName "Terminología SH"@es;
+dc:subject :cat_shs;
+skosmos:language  "en","fr";
+void:uriSpace "http://data.loterre.fr/ark:/67375/JLC";
+skosmos:defaultLanguage "en";
+skosmos:showTopConcepts "false";
+skosmos:showNotation "false";
+skosmos:loadExternalResources "false";
+void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/SH> .
+
+:JVN a skosmos:Vocabulary, void:Dataset ;
+dc:title "Personal Names (PN) Terminology Resource (Getty Research Institute)"@en;
+dc:title "Terminologie Personal Names (PN) (Getty Research Institute)"@fr;
+dc:title "Terminología Personal Names (PN) (Getty Research Institute)"@es;
+skosmos:shortName "Terminologie PN"@fr;
+skosmos:shortName "PN Terminology"@en;
+skosmos:shortName "Terminología PN"@es;
+dc:subject :cat_shs;
+skosmos:language  "en","fr";
+void:uriSpace "http://data.loterre.fr/ark:/67375/JVN";
+skosmos:defaultLanguage "en";
+skosmos:showTopConcepts "false";
+skosmos:showNotation "false";
+skosmos:loadExternalResources "false";
+void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/PN> .
+
+:BQ7 a skosmos:Vocabulary, void:Dataset ;
+dc:title "Corporate Bodies (CB) Terminology Resource (Getty Research Institute)"@en;
+dc:title "Terminologie Corporate Bodies (CB) (Getty Research Institute)"@fr;
+dc:title "Terminología Corporate Bodies (CB) (Getty Research Institute)"@es;
+skosmos:shortName "Terminologie CB"@fr;
+skosmos:shortName "CB Terminology"@en;
+skosmos:shortName "Terminología CB"@es;
+dc:subject :cat_shs;
+skosmos:language  "en","fr";
+void:uriSpace "http://data.loterre.fr/ark:/67375/BQ7";
+skosmos:defaultLanguage "en";
+skosmos:showTopConcepts "false";
+skosmos:showNotation "false";
+skosmos:loadExternalResources "false";
+void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/CB> .
+
+:ZHG a skosmos:Vocabulary, void:Dataset ;
+dc:title "Conference Exhibition (CX) Terminology Resource (Getty Research Institute)"@en;
+dc:title "Terminologie Conference Exhibition (CX) (Getty Research Institute)"@fr;
+dc:title "Terminología Conference Exhibition (CX) (Getty Research Institute)"@es;
+skosmos:shortName "Terminologie CX"@fr;
+skosmos:shortName "CX Terminology"@en;
+skosmos:shortName "Terminología CX"@es;
+dc:subject :cat_shs;
+skosmos:language  "en","fr";
+void:uriSpace "http://data.loterre.fr/ark:/67375/ZHG";
+skosmos:defaultLanguage "en";
+skosmos:showTopConcepts "false";
+skosmos:showNotation "false";
+skosmos:loadExternalResources "false";
+void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/CX> .
+
+:45G a skosmos:Vocabulary, void:Dataset ;
+dc:title "Terminologie Geographic Places (GP) (Getty Research Institute)"@fr;
+dc:title "Geographic Places (GP) Terminology Resource (Getty Research Institute)"@en;
+dc:title "Terminología Geographic Places (GP) (Getty Research Institute)"@es;
+skosmos:shortName "Terminologie GP"@fr;
+skosmos:shortName "GP Terminology"@en;
+skosmos:shortName "Terminología GP"@es;
+dc:subject :cat_geog;
+skosmos:language  "en","fr";
+void:uriSpace "http://data.loterre.fr/ark:/67375/45G";
+skosmos:defaultLanguage "en";
+skosmos:showTopConcepts "false";
+skosmos:showNotation "false";
+skosmos:loadExternalResources "false";
+void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/GP> .
+
+:HTR a skosmos:Vocabulary, void:Dataset ;
+dc:title "Title Artist Location (TAL) Terminology Resource (Getty Research Institute)"@en;
+dc:title "Terminologie Title Artist Location (TAL) (Getty Research Institute)"@fr;
+dc:title "Terminología Title Artist Location (TAL) (Getty Research Institute)"@es;
+skosmos:shortName "Terminologie TAL"@fr;
+skosmos:shortName "TAL Terminology"@en;
+skosmos:shortName "Terminología TAL"@es;
+dc:subject :cat_shs;
+skosmos:language  "en","fr";
+void:uriSpace "http://data.loterre.fr/ark:/67375/HTR";
+skosmos:defaultLanguage "en";
+skosmos:showTopConcepts "false";
+skosmos:showNotation "false";
+skosmos:loadExternalResources "false";
+void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/TAL> .
+
+:D63 a skosmos:Vocabulary, void:Dataset ;
+dc:title "French Communes (thesaurus)"@en;
+dc:title "Communes de France (thésaurus)"@fr;
+dc:title "Comunes de Francia (tesauro)"@es;
+skosmos:shortName "Communes (France)"@fr;
+skosmos:shortName "Communes (France)"@en;
+skosmos:shortName "Comunes (Francia)"@es;
+dc:subject :cat_geog;
+skosmos:language  "en","fr";
+skosmos:defaultLanguage "fr";
+void:uriSpace "http://data.loterre.fr/ark:/67375/D63";
+skosmos:feedbackRecipient "abdelmajid.khayari@inist.fr" ;
+skosmos:showTopConcepts "true";
+skosmos:showChangeList "true";
+skosmos:showDeprecated "true";
+skosmos:showDeprecatedChanges "true";
+skosmos:groupClass isothes:ConceptGroup ;
+skosmos:loadExternalResources "false";
+skosmos:showStatistics "true";
+skosmos:usePlugin "finna" ;
+skosmos:usePlugin "wiki" ;
+void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/Communes> .	
+
+:905 a skosmos:Vocabulary, void:Dataset ;
+        dc:title "Prehistory and Protohistory"@en;
+        dc:title "Préhistoire et Protohistoire"@fr;
+        dc:title "Prehistoria y Protohistoria"@es;
+        skosmos:shortName "Pré/Proto-histoire"@fr;
+        skosmos:shortName "Pre/Proto-history"@en;
+        skosmos:shortName "Pre/Proto-historia"@es;
+        dc:subject :cat_shs;
+        skosmos:language  "en","fr","es";
+        void:uriSpace "http://data.loterre.fr/ark:/67375/905";
+        skosmos:groupClass skos:Collection;
+        skosmos:defaultLanguage "en";
+        skosmos:showTopConcepts "false";
+        skosmos:loadExternalResources "false";
+        skosmos:usePlugin "finna" ;
+        skosmos:usePlugin "wiki" ;
+        void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+        skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/PréProtoHistoire> .
+ 
+ :73G a skosmos:Vocabulary, void:Dataset ;
+ dc:title "Philosophy"@en;
+ dc:title "Philosophie"@fr;
+ dc:title "Filosofía"@es;
+ skosmos:shortName "Philosophie"@fr;
+ skosmos:shortName "Philosophy"@en;
+ skosmos:shortName "Filosofía"@es;
+ dc:subject :cat_shs;
+ skosmos:language  "en","fr","de";
+ void:uriSpace "http://data.loterre.fr/ark:/67375/73G";
+ skosmos:groupClass skos:Collection;
+ skosmos:defaultLanguage "en";
+ skosmos:showTopConcepts "false";
+ skosmos:loadExternalResources "false";
+ skosmos:usePlugin "finna" ;
+skosmos:usePlugin "wiki" ;
+ void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+ skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/Philosophie> .
+
+:9SD a skosmos:Vocabulary, void:Dataset ;
+dc:title "Countries and subdivisions (thesaurus)"@en;
+dc:title "Pays et subdivisions (thésaurus)"@fr;
+dc:title "Países y subdivisiones (tesauro)"@es;
+skosmos:shortName "Pays "@fr;
+skosmos:shortName "Countries"@en;
+skosmos:shortName " Países"@es;
+dc:subject :cat_geog;
+skosmos:language  "en","fr";
+skosmos:defaultLanguage "fr";
+void:uriSpace "http://data.loterre.fr/ark:/67375/9SD";
+skosmos:showTopConcepts "true";
+skosmos:loadExternalResources "false";
+skosmos:showStatistics "true";
+skosmos:usePlugin "finna" ;
+skosmos:usePlugin "wiki" ;
+void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/Pays> .
+
+:4V5 a skosmos:Vocabulary, void:Dataset ;
+ dc:title "History and Sciences of Religions"@en;
+ dc:title "Histoire et sciences des religions"@fr;
+ dc:title "Historia y ciencias de las religiones"@es;
+ skosmos:shortName "Religion"@fr;
+ skosmos:shortName "Religion"@en;
+ skosmos:shortName "Religión"@es;
+ dc:subject :cat_shs;
+ skosmos:language  "en","fr","es","de";
+ void:uriSpace "http://data.loterre.fr/ark:/67375/4V5";
+ skosmos:defaultLanguage "en";
+ skosmos:showTopConcepts "false";
+ skosmos:loadExternalResources "false";
+ skosmos:usePlugin "finna" ;
+skosmos:usePlugin "wiki" ;
+ void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+ skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/Religions> .
+ 
+ :3JP a skosmos:Vocabulary, void:Dataset ;
+ dc:title "Social Sciences"@en;
+ dc:title "Sciences sociales"@fr;
+ dc:title "Ciencias sociales"@es; 
+ skosmos:shortName "Sociologie"@fr;
+ skosmos:shortName "Sociology"@en;
+ skosmos:shortName "Sociología"@es;
+ dc:subject :cat_shs;
+ skosmos:language  "en","fr","es","de";
+ void:uriSpace "http://data.loterre.fr/ark:/67375/3JP";
+  skosmos:defaultLanguage "en";
+ skosmos:showTopConcepts "false";
+ skosmos:loadExternalResources "false";
+ skosmos:usePlugin "finna" ;
+skosmos:usePlugin "wiki" ;
+ void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+ skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/Sociologie> .
+
+ :KW5 a skosmos:Vocabulary, void:Dataset ;
+ dc:title "Ethnology"@en;
+ dc:title "Ethnologie"@fr;
+ dc:title "Etnología"@es; 
+ skosmos:shortName "Ethnologie"@fr;
+ skosmos:shortName "Ethnology"@en;
+ skosmos:shortName "Etnología"@es;
+ dc:subject :cat_shs;
+ skosmos:language  "en","fr";
+ void:uriSpace "http://data.loterre.fr/ark:/67375/KW5";
+ skosmos:groupClass skos:Collection;
+   skosmos:defaultLanguage "en";
+ skosmos:showTopConcepts "false";
+ skosmos:loadExternalResources "false";
+ skosmos:usePlugin "finna" ;
+skosmos:usePlugin "wiki" ;
+ void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+ skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/Ethnologie> .
+ 
+:BLH a skosmos:Vocabulary, void:Dataset ;
+        dc:title "Biodiversity (thesaurus)"@en;
+        dc:title "Biodiversité (thésaurus)"@fr;
+        dc:title "Biodiversidad (tesauro)"@es;
+        skosmos:shortName "Biodiversité"@fr;
+        skosmos:shortName "Biodiversity"@en;
+        skosmos:shortName "Biodiversidad"@es;
+        dc:subject :cat_bio;
+        skosmos:language  "en","fr";
+        skosmos:defaultLanguage "en";
+        void:uriSpace "http://data.loterre.fr/ark:/67375/BLH";
+        skosmos:showTopConcepts "true";
+        skosmos:showDeprecated "true";
+        skosmos:showChangeList "true";
+        skosmos:showDeprecatedChanges "true";
+        skosmos:hasMultiLingualProperty skos:definition, skos:scopeNote, skos:historyNote, skos:editorialNote, skos:note;
+        skosmos:groupClass skos:Collection ;
+        skosmos:loadExternalResources "false";
+        skosmos:usePlugin "finna" ;
+        skosmos:usePlugin "wiki" ;
+        void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+        skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/Biodiversité> .
+		
+:G9G a skosmos:Vocabulary, void:Dataset ;
+dc:title "Fish Taxonomy"@en;
+dc:title "Taxonomie des Poissons"@fr;
+dc:title "Taxonomía de los peces"@es;
+skosmos:shortName "Poissons"@fr;
+skosmos:shortName "Fish Taxonomy"@en;
+skosmos:shortName "Peces"@es;
+dc:subject :cat_bio;
+skosmos:language  "en","fr","es";
+skosmos:defaultLanguage "en";
+void:uriSpace "http://data.loterre.fr/ark:/67375/G9G";
+skosmos:showTopConcepts "true";
+skosmos:loadExternalResources "false";
+skosmos:usePlugin "finna" ;
+skosmos:usePlugin "wiki" ;
+void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/Poissons> .
+
+:W7B a skosmos:Vocabulary, void:Dataset ;
+dc:title "Transfusion sanguine (thésaurus)"@fr;
+dc:title "Blood Transfusion (thesaurus)"@en;
+dc:title "Transfusión de sangre (tesauro)"@es;
+skosmos:shortName "Transfusion"@fr;
+skosmos:shortName "Transfusion"@en;
+skosmos:shortName "Transfusión"@es;
+dc:subject :cat_sant;
+skosmos:language  "en","fr";
+skosmos:defaultLanguage "en";
+void:uriSpace "http://data.loterre.fr/ark:/67375/W7B";
+skosmos:showTopConcepts "true";
+skosmos:loadExternalResources "false";
+skosmos:usePlugin "finna" ;
+skosmos:usePlugin "wiki" ;
+void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/TransfusionSanguine> .
+
+:BL8 a skosmos:Vocabulary, void:Dataset ;
+dc:title "Artificial Nutrition (thesaurus)"@en;
+dc:title "Nutrition artificielle (thésaurus)"@fr;
+dc:title "Nutrición artificial (tesauro)"@es;
+skosmos:shortName "Nutrition artif."@fr;
+skosmos:shortName "Artificial Nut."@en;
+skosmos:shortName "Nutrición artif."@es;
+dc:subject :cat_sant;
+skosmos:language  "en","fr";
+skosmos:defaultLanguage "en";
+void:uriSpace "http://data.loterre.fr/ark:/67375/BL8";
+skosmos:showTopConcepts "true";
+skosmos:loadExternalResources "false";
+skosmos:usePlugin "finna" ;
+skosmos:usePlugin "wiki" ;
+void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/NutritionArtificielle> .
+
+:VH8 a skosmos:Vocabulary, void:Dataset ;
+dc:title "Human Diseases (thesaurus)"@en;
+dc:title "Pathologies humaines (thésaurus)"@fr;
+dc:title "Patologías humanas (tesauro)"@es;
+skosmos:shortName "Maladies humaines"@fr;
+skosmos:shortName "Human diseases"@en;
+skosmos:shortName "Patologías humanas"@es;
+dc:subject :cat_sant;
+skosmos:language  "en","fr";
+skosmos:defaultLanguage "en";
+void:uriSpace "http://data.loterre.fr/ark:/67375/VH8";
+skosmos:showTopConcepts "true";
+skosmos:loadExternalResources "false";
+skosmos:usePlugin "finna" ;
+skosmos:usePlugin "wiki" ;
+void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/Pathologies> .
+
+:C0X a skosmos:Vocabulary, void:Dataset ;
+dc:title "Covid-19 (thesaurus)"@en;
+dc:title "Covid-19 (thésaurus)"@fr;
+dc:title "Covid-19 (tesauro)"@es;
+skosmos:shortName "COVID-19"@fr;
+skosmos:shortName "COVID-19"@en;
+skosmos:shortName "COVID-19"@es;
+dc:subject :cat_sant;
+skosmos:language  "en","fr";
+skosmos:defaultLanguage "en";
+void:uriSpace "http://data.loterre.fr/ark:/67375/C0X";
+skosmos:showTopConcepts "true";
+skosmos:loadExternalResources "false";
+skosmos:usePlugin "finna" ;
+skosmos:usePlugin "wiki" ;
+void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/COVID> .
+
+
+:RDR a skosmos:Vocabulary, void:Dataset ;
+        dc:title "Electronics - Optoelectronics"@en;
+        dc:title "Électronique - Optoélectronique"@fr;
+        dc:title "Electrónica - Optoelectrónica"@es; 
+        dc:subject :cat_ing;
+        skosmos:shortName "Electronique"@fr;
+        skosmos:shortName "Electronics"@en;
+        skosmos:shortName "Electrónica"@es; 
+        skosmos:language  "en","fr","es";
+        skosmos:defaultLanguage "en";
+        void:uriSpace "http://data.loterre.fr/ark:/67375/RDR";
+        skosmos:showTopConcepts "false";
+        skosmos:groupClass skos:Collection ;
+        skosmos:loadExternalResources "false";
+        skosmos:showStatistics "true";
+        skosmos:usePlugin "finna" ;
+skosmos:usePlugin "wiki" ;
+        void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+        skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/Electronique> .
+		
+:BJW a skosmos:Vocabulary, void:Dataset ;
+dc:title "Electrical engineering - Electro-energetics"@en;
+dc:title "Électrotechnique - Électroénergétique"@fr;
+dc:title "Ingeniería eléctrica - Electroenergética"@es; 
+dc:subject :cat_ing;
+skosmos:shortName "Électrotechnique"@fr;
+skosmos:shortName "Electrical engineering"@en;
+skosmos:shortName "Ingeniería eléctrica"@es; 
+skosmos:language  "en","fr","es";
+skosmos:defaultLanguage "en";
+void:uriSpace "http://data.loterre.fr/ark:/67375/BJW";
+skosmos:showTopConcepts "false";
+skosmos:groupClass isothes:ConceptGroup ;
+skosmos:loadExternalResources "false";
+skosmos:showStatistics "true";
+skosmos:usePlugin "finna" ;
+skosmos:usePlugin "wiki" ;
+void:dataDump <https://www.loterre.fr/wp-content/uploads/2021/03/Electrotech.rdf> ;
+ void:dataDump <https://www.loterre.fr/wp-content/uploads/2021/03/Electrotech.ttl> ;
+void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/Electrotech> .
+		
+:SN8 a skosmos:Vocabulary, void:Dataset ;
+dc:title "Signal theory and processing"@en;
+dc:title "Théorie et traitement du signal"@fr;
+dc:title "Teoría e tratamiento de señales"@es; 
+dc:subject :cat_ing;
+skosmos:shortName "Traitement du signal"@fr;
+skosmos:shortName "Signal processing"@en;
+skosmos:shortName "Tratamiento de señales"@es; 
+skosmos:language  "en","fr","es";
+skosmos:defaultLanguage "en";
+void:uriSpace "http://data.loterre.fr/ark:/67375/SN8";
+skosmos:showTopConcepts "false";
+skosmos:groupClass skos:Collection ;
+skosmos:loadExternalResources "false";
+skosmos:showStatistics "true";
+skosmos:usePlugin "finna" ;
+skosmos:usePlugin "wiki" ;
+void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/TraitementSignal> .
+
+
+
+:NHT a skosmos:Vocabulary, void:Dataset ;
+dc:title "Condensed matter physics"@en;
+dc:title "Physique de l'état condensé"@fr;
+dc:title "Física de la materia condensada"@es;
+dc:subject :cat_phys;
+skosmos:shortName "Physique de l'état condensé"@fr;
+skosmos:shortName "Condensed matter physics"@en;
+skosmos:shortName "Física de la materia condensada"@es;
+skosmos:language  "en","fr","es";
+skosmos:defaultLanguage "en";
+void:uriSpace "http://data.loterre.fr/ark:/67375/NHT";
+#skosmos:showTopConcepts "true";
+skosmos:groupClass isothes:ConceptGroup ;
+skosmos:loadExternalResources "false";
+skosmos:showStatistics "true";
+skosmos:usePlugin "finna" ;
+skosmos:usePlugin "wiki" ;
+void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/PEC> .
+
+
+:1WB a skosmos:Vocabulary, void:Dataset ;
+        dc:title "Heat transfers"@en;
+        dc:title "Transferts de chaleur"@fr;
+        dc:title "Transferencia de calor"@es;
+        skosmos:shortName "Transferts chaleur"@fr;
+        skosmos:shortName "Heat transfers"@en;
+        skosmos:shortName "Transferencia calor"@es;
+        dc:subject :cat_phys;
+        skosmos:language  "en","fr";
+        skosmos:defaultLanguage "en";
+        void:uriSpace "http://data.loterre.fr/ark:/67375/1WB";
+        skosmos:showTopConcepts "false";
+        skosmos:groupClass skos:Collection ;
+        skosmos:loadExternalResources "false";
+        skosmos:showStatistics "true";
+        skosmos:usePlugin "finna" ;
+skosmos:usePlugin "wiki" ;
+        void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+        skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/TransfertChaleur> .	
+
+:FMC a skosmos:Vocabulary, void:Dataset ;
+dc:title "Optics"@en;
+dc:title "Optique"@fr;
+dc:title "Óptica"@es; 
+dc:subject :cat_phys;
+skosmos:shortName "Optique"@fr;
+skosmos:shortName "Optics"@en;
+skosmos:shortName "Óptica"@es; 
+skosmos:language  "en","fr","es","de";
+skosmos:defaultLanguage "en";
+void:uriSpace "http://data.loterre.fr/ark:/67375/FMC";
+skosmos:showTopConcepts "false";
+skosmos:groupClass skos:Collection ;
+skosmos:loadExternalResources "false";
+skosmos:showStatistics "true";
+skosmos:usePlugin "finna" ;
+skosmos:usePlugin "wiki" ;
+void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/Optique> .		
+
+
+:2QZ a skosmos:Vocabulary, void:Dataset ;
+dc:title "Fluid mechanics"@en;
+dc:title "Mécanique des fluides"@fr;
+dc:title "Mecánica de fluidos"@es; 
+dc:subject :cat_phys;
+skosmos:shortName "Mécanique des fluides"@fr;
+skosmos:shortName "Fluid mechanics"@en;
+skosmos:shortName "Mecánica de fluidos"@es; 
+skosmos:language  "en","fr","es";
+skosmos:defaultLanguage "en";
+void:uriSpace "http://data.loterre.fr/ark:/67375/2QZ";
+skosmos:showTopConcepts "false";
+skosmos:groupClass skos:Collection ;
+skosmos:loadExternalResources "false";
+skosmos:showStatistics "true";
+skosmos:usePlugin "finna" ;
+skosmos:usePlugin "wiki" ;
+void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/MecaFluides> .	
+
+:GT a skosmos:Vocabulary, void:Dataset ;
+        dc:title "Thematic Vocabulary of Geography"@en;
+        dc:title "Vocabulaire thématique de géographie"@fr;
+        dc:title "Vocabulario temático de geografía"@es; 
+        skosmos:shortName "Géographie thématique"@fr;
+        skosmos:shortName "Thematic Geography"@en;
+        skosmos:shortName "Geografía temática"@es;
+        dc:subject :cat_geog;
+        skosmos:language  "en","fr","es";
+        skosmos:defaultLanguage "en";
+        void:uriSpace "http://data.loterre.fr/vocabs/BGI/GT";
+        skosmos:showTopConcepts "false";
+        skosmos:loadExternalResources "false";
+        skosmos:showStatistics "true";
+        void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+        skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/GeoThem> .
+		
+:8HQ a skosmos:Vocabulary, void:Dataset ;
+dc:title "Periodic table of the elements (thesaurus)"@en;
+dc:title "Tableau périodique des éléments (thésaurus)"@fr;
+dc:title "Tabla periódica de los elementos (tesauro)"@es; 
+dc:subject :cat_chem;
+skosmos:shortName "Eléments chimiques"@fr;
+skosmos:shortName "Chemical elements"@en;
+skosmos:shortName "Elementos químicos"@es; 
+skosmos:language  "en","fr","es";
+skosmos:defaultLanguage "en";
+void:uriSpace "http://data.loterre.fr/ark:/67375/8HQ";
+skosmos:showTopConcepts "true";
+skosmos:groupClass skos:Collection ;
+skosmos:loadExternalResources "false";
+skosmos:showStatistics "true";
+skosmos:usePlugin "finna" ;
+skosmos:usePlugin "wiki" ;
+void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/Eléments> .
+
+:RVQ a skosmos:Vocabulary, void:Dataset ;
+dc:title "Inorganic compounds"@en;
+dc:title "Composés inorganiques"@fr;
+dc:subject :cat_chem;
+skosmos:shortName "Composés inorganiques"@fr;
+skosmos:shortName "Inorganic compounds"@en;
+skosmos:language  "en","fr";
+skosmos:defaultLanguage "en";
+void:uriSpace "http://data.loterre.fr/ark:/67375/RVQ";
+skosmos:showTopConcepts "true";
+#skosmos:groupClass skos:Collection ;
+skosmos:loadExternalResources "false";
+skosmos:showStatistics "true";
+skosmos:usePlugin "finna" ;
+skosmos:usePlugin "wiki" ;
+void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/ComposesInorganiques> .
+		
+:37T a skosmos:Vocabulary, void:Dataset ;
+dc:title "Chemistry"@en;
+dc:title "Chimie"@fr;
+dc:title "Química"@es; 
+dc:subject :cat_chem;
+skosmos:shortName "Chimie voc."@fr;
+skosmos:shortName "Chemistry voc."@en;
+skosmos:shortName "Química voc."@es; 
+skosmos:language  "en","fr";
+skosmos:defaultLanguage "en";
+void:uriSpace "http://data.loterre.fr/ark:/67375/37T";
+skosmos:showTopConcepts "false";
+skosmos:groupClass isothes:ConceptGroup ;
+skosmos:loadExternalResources "false";
+skosmos:showStatistics "true";
+skosmos:usePlugin "finna" ;
+skosmos:usePlugin "wiki" ;
+void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/Chimie> .		
+		
+:BRMH a skosmos:Vocabulary, void:Dataset ;
+        dc:title "Reproduction biotechnology"@en;
+        dc:title "Biotechnologies de la reproduction"@fr;
+        dc:title "Biotecnologías de la reproducción"@es;
+        skosmos:shortName "Reproduction"@fr;
+        skosmos:shortName "Reproduction"@en;
+        skosmos:shortName "Reproducción"@es;
+        dc:subject :cat_bio;
+        skosmos:language  "en","fr";
+        skosmos:defaultLanguage "fr";
+        void:uriSpace "https://opendata.inra.fr/BRMH";
+        skosmos:showTopConcepts "false";
+		skosmos:groupClass skos:Collection ;
+        skosmos:loadExternalResources "false";
+        skosmos:showStatistics "true";
+        void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+        skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/Reproduction> .	
+       
+:GGMGG a skosmos:Vocabulary, void:Dataset ;
+       dc:title "Glossary of molecular genetics and genetic engineering"@en;
+       dc:title "Glossaire de génétique moléculaire et de génie génétique"@fr;
+       dc:title "Glosario de genética molecular e ingeniería genética"@es; 
+       skosmos:shortName "Génétique"@fr;
+       skosmos:shortName "Genetics"@en;
+       skosmos:shortName "Genética"@es; 
+       dc:subject :cat_bio;
+       skosmos:language  "en","fr";
+       skosmos:defaultLanguage "fr";
+       void:uriSpace "https://opendata.inra.fr/GGMGG";
+       skosmos:showTopConcepts "false";
+        skosmos:groupClass skos:Collection ;
+       skosmos:loadExternalResources "false";
+       skosmos:showStatistics "true";
+       void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+       skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/Génétique> .	
+       
+:EMTD a skosmos:Vocabulary, void:Dataset ;
+		dc:title "Microbial ecology of the digestive tract"@en;
+		dc:title "Écologie microbienne du tube digestif"@fr;
+       dc:title "Ecología microbiana del tracto digestivo"@es;
+       skosmos:shortName "Digestion"@fr;
+       skosmos:shortName "Digestion"@en;
+       skosmos:shortName "Digestión"@es; 
+       dc:subject :cat_bio;
+       skosmos:language  "en","fr";
+       skosmos:defaultLanguage "fr";
+       void:uriSpace "https://opendata.inra.fr/EMTD";
+       skosmos:showTopConcepts "false";
+        skosmos:groupClass skos:Collection ;
+        skosmos:loadExternalResources "false";
+       skosmos:showStatistics "true";
+       void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+       skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/Digestion> .
+	   
+:VPAC a skosmos:Vocabulary, void:Dataset ;
+       dc:title "Vocabulary of the Common Agricultural Policy"@en;
+       dc:title "Vocabulaire de la Politique Agricole Commune"@fr;
+       dc:title "Vocabulario de la Política Agrícola Común"@es;
+       skosmos:shortName "PAC"@fr;
+       skosmos:shortName "CAP"@en;
+       skosmos:shortName "PAC"@es;
+       dc:subject :cat_shs;
+       skosmos:language  "en","fr";
+       skosmos:defaultLanguage "fr";
+       void:uriSpace "https://opendata.inra.fr/VPAC";
+       skosmos:showTopConcepts "false";
+        skosmos:groupClass skos:Collection ;
+		skosmos:loadExternalResources "false";
+       skosmos:showStatistics "true";
+       void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+       skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/PAC> .
+	   
+:TSM a skosmos:Vocabulary, void:Dataset ;
+		dc:title "Membrane-based separation techniques"@en;
+		dc:title "Techniques de séparation par membranes"@fr;
+		dc:title "Técnicas de separación por membranas"@es;
+		skosmos:shortName "Membranes"@fr;
+		skosmos:shortName "Membranes"@en;
+		skosmos:shortName "Membranas"@es;
+		dc:subject :cat_ing;
+		skosmos:language  "en","fr","de";
+		skosmos:defaultLanguage "fr";
+		void:uriSpace "https://opendata.inra.fr/TSM";
+		skosmos:showTopConcepts "false";
+        skosmos:groupClass skos:Collection ;
+         skosmos:loadExternalResources "false";
+		skosmos:showStatistics "true";
+		void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+		skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/Membranes> .
+ 
+:IDIA a skosmos:Vocabulary, void:Dataset ;
+		dc:title "Ionization in food industry"@en;
+		dc:title "L'ionisation dans l'industrie agro-alimentaire"@fr;
+		dc:title "La ionización en la industria alimentaria"@es;
+		skosmos:shortName "Ionisation"@fr;
+		skosmos:shortName "Ionization"@en;
+		skosmos:shortName "Ionización"@es;
+		dc:subject :cat_ing;
+		skosmos:language  "en","fr","de";
+		skosmos:defaultLanguage "fr";
+		void:uriSpace "https://opendata.inra.fr/IDIA";
+		skosmos:showTopConcepts "false";
+        skosmos:groupClass skos:Collection ;
+        skosmos:loadExternalResources "false";
+		skosmos:showStatistics "true";
+		void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+		skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/Ionisation> .
+
+:CUEX a skosmos:Vocabulary, void:Dataset ;
+		dc:title "Extrusion cooking"@en;
+		dc:title "La cuisson-extrusion"@fr;
+		dc:title "La cocción-extrusión"@es;
+		skosmos:shortName "Extrusion"@fr;
+		skosmos:shortName "Extrusion"@en;
+		skosmos:shortName "Extrusión"@es;
+		dc:subject :cat_ing;
+		skosmos:language  "en","fr","de","it";
+		skosmos:defaultLanguage "fr";
+		void:uriSpace "https://opendata.inra.fr/CUEX";
+		skosmos:showTopConcepts "false";
+         skosmos:groupClass skos:Collection ;
+         skosmos:loadExternalResources "false";
+		skosmos:showStatistics "true";
+		void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+		skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/Cuisson> .		
+
+:TSP a skosmos:Vocabulary, void:Dataset ;
+dc:title "Public Health (thesaurus)"@en;
+dc:title "Santé publique (thésaurus)"@fr;
+dc:title "Salud pública (tesauro)"@es;
+skosmos:shortName "BDSP"@en;
+skosmos:shortName "BDSP"@fr;
+skosmos:shortName "BDSP"@es;
+dc:subject :cat_sant;
+skosmos:language "fr";
+skosmos:defaultLanguage "fr";
+void:uriSpace "http://data.loterre.fr/ark:/67375/TSP";
+skosmos:showTopConcepts "true";
+skosmos:groupClass skos:Collection ; 
+skosmos:showStatistics "false";
+skosmos:loadExternalResources "false";
+void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/TSP> .
+
+:JVR a skosmos:Vocabulary, void:Dataset ;
+dc:title "Medical Subject Headings (thesaurus)"@en;
+dc:title "MeSH (thésaurus)"@fr;
+dc:title "MeSH (tesauro)"@es;
+skosmos:shortName "MeSH"@en;
+skosmos:shortName "MeSH"@fr;
+skosmos:shortName "MeSH"@es;
+dc:subject :cat_sant;
+skosmos:sparqlDialect "JenaText" ;
+skosmos:language  "en","fr";
+skosmos:defaultLanguage "en";
+void:uriSpace "http://data.loterre.fr/ark:/67375/JVR";
+skosmos:showTopConcepts "true";
+skosmos:showDeprecated "true";
+skosmos:showChangeList "true";
+skosmos:showStatistics "false";
+skosmos:loadExternalResources "false";
+void:sparqlEndpoint <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/sparql> ;
+skosmos:sparqlGraph <http://vdezloterre.intra.inist.fr:53030/LoterreVocabularies/data/MeSH> .
+
+:categories a skos:ConceptScheme;
+	skos:prefLabel "Vocabulary list"@en,
+	"Lista de vocabularios"@es,
+	"Liste des vocabulaires"@fr .
+
+:cat_shs a skos:Concept ;
+	skos:topConceptOf :categories ;
+	skos:inScheme :categories ;
+	skos:prefLabel "SPECIALIZED"@fi, 
+    "HOMME & SOCIÉTÉ"@fr,
+    "HUMANO y SOCIEDAD"@es,
+	"HUMANITIES & SOCIAL SCIENCES"@en .
+
+:cat_math a skos:Concept ;
+	skos:topConceptOf :categories ;
+	skos:inScheme :categories ;
+	skos:prefLabel "MATH"@fi, 
+    "MATHÉMATIQUES"@fr,
+    "MATEMÁTICAS"@es,
+	"MATHEMATICS"@en .
+        
+:cat_multi a skos:Concept ;
+	skos:topConceptOf :categories ;
+	skos:inScheme :categories ;
+	skos:prefLabel "MULTI"@fi, 
+    "MULTIDISCIPLINAIRE"@fr,
+    "MULTIDISCIPLINARIO"@es,
+	"MULTIDISCIPLINARY"@en .
+        
+:cat_geog a skos:Concept ;
+	skos:topConceptOf :categories ;
+	skos:inScheme :categories ;
+	skos:prefLabel "GEOG"@fi, 
+	"GÉOGRAPHIE"@fr,
+	"GEOGRAFÍA"@es,
+	"GEOGRAPHY"@en .	
+
+:cat_phys a skos:Concept ;
+	skos:topConceptOf :categories ;
+	skos:inScheme :categories ;
+	skos:prefLabel "PHYS"@fi, 
+	"PHYSIQUE"@fr,
+	"FÍSICA"@es,
+	"PHYSICS"@en .	
+			
+:cat_chem a skos:Concept ;
+    skos:topConceptOf :categories ;
+    skos:inScheme :categories ;
+    skos:prefLabel "CHEM"@fi, 
+    "CHIMIE"@fr,
+    "QUIMICA"@es,
+    "CHEMISTRY"@en .
+
+:cat_ing a skos:Concept ;
+	skos:topConceptOf :categories ;
+	skos:inScheme :categories ;
+	skos:prefLabel "ING"@fi, 
+	"ENGINEERING & SYSTEM SCIENCES"@en,
+	"INGENIERÍA y SISTEMAS"@es,
+	"INGÉNIERIE & SYSTÈMES"@fr .
+
+:cat_sant a skos:Concept ;
+	skos:topConceptOf :categories ;
+	skos:inScheme :categories ;
+	skos:prefLabel "SANT"@fi, 
+	"SCIENCES DE LA SANTÉ"@fr,
+	"CIENCIAS DE LA SALUD"@es,
+	"HEALTH SCIENCES"@en .
+
+:cat_bio a skos:Concept ;
+	skos:topConceptOf :categories ;
+	skos:inScheme :categories ;
+	skos:prefLabel "BIO"@fi, 
+	"SCIENCES DE LA VIE"@fr,
+	"CIENCIAS DE LA VIDA"@es,
+	"LIFE SCIENCES"@en .
+
+:cat_geol a skos:Concept ;
+	skos:topConceptOf :categories ;
+	skos:inScheme :categories ;
+	skos:prefLabel "GEOL"@fi, 
+	"TERRE & UNIVERS"@fr,
+	"TIERRA y UNIVERSO"@es,
+	"EARTH & UNIVERSE"@en .	
+
+
+:cat_tax a skos:Concept ;
+skos:topConceptOf :categories ;
+skos:inScheme :categories ;
+skos:prefLabel "TAX"@fi, 
+"TAXONOMIES"@fr,
+"TAXONOMIAS"@es,
+"TAXONOMIES"@en .	
+
+:cat_ref a skos:Concept ;
+skos:topConceptOf :categories ;
+skos:inScheme :categories ;
+skos:prefLabel "REF"@fi, 
+"RÉFÉRENTIELS"@fr,
+"REPOSITORIOS"@es,
+"REPOSITORIES"@en .
+
+:cat_general a skos:Concept ;
+    skos:topConceptOf :categories ;
+    skos:inScheme :categories ;
+    skos:prefLabel "Yleiskäsitteet"@fr,
+        "Allmänna begrepp"@es,
+        "General concepts"@en
+.
+
+:messageWidget  a skosmos:ParameterizedPlugin;
+                skosmos:usePlugin "message";
+                skosmos:parameters [
+                  a schema:PropertyValue;
+                  schema:propertyID "msg";
+                  schema:value "Ce vocabulaire n'est plus mis à jour."@fr , "This vocabulary is no longer updated."@en, "Este vocabulario ya no se actualiza."@es;
+                ],
+                [
+                        a schema:PropertyValue ;
+                        schema:propertyID "color" ;
+                        schema:value "#800000" ;
+                    ] ,
+                    [
+                        a schema:PropertyValue ;
+                        schema:propertyID "imageUrl" ;
+                        schema:value "https://fr.wikipedia.org/wiki/Wikip%C3%A9dia:Accueil_principal#/media/Fichier:Orlaya_grandiflora_Sturm34.jpg" ;
+                    ] .
+
+:messageWidget2  a skosmos:ParameterizedPlugin;
+                skosmos:usePlugin "message";
+                skosmos:parameters [
+                  a schema:PropertyValue;
+                  schema:propertyID "msg";
+                  schema:value "Cette terminologie est une preuve de concept de la construction d’une ressource à partir d’un corpus thématique d’actualité, à l'aide d'un outil d'extraction terminologique.
+Elle ne peut être considérée comme une représentation exhaustive du domaine scientifique, mais peut être une source d’inspiration ou de données pour des travaux plus approfondis."@fr, "This terminology is a proof of concept of the construction of a resource from a topical corpus, using a terminology extraction tool. It cannot be considered an exhaustive representation of the scientific domain, but can be a source of inspiration or data for further work."@en, "Esta terminología es una prueba de concepto de la construcción de un recurso a partir de un corpus temático, utilizando una herramienta de extracción terminológica.
+No puede considerarse una representación exhaustiva del ámbito científico, pero puede ser una fuente de inspiración o datos para trabajos posteriores."@es;
+                ],
+                [
+                        a schema:PropertyValue ;
+                        schema:propertyID "color" ;
+                        schema:value "#800000" ;
+                    ] ,
+                    [
+                        a schema:PropertyValue ;
+                        schema:propertyID "imageUrl" ;
+                        schema:value "https://fr.wikipedia.org/wiki/Climat#/media/Fichier:Map_world_climate_zones_(simplified_to_10)-fr.svg" ;
+                    ] .
+					
+					
+:messageWidget3  a skosmos:ParameterizedPlugin;
+                skosmos:usePlugin "message";
+                skosmos:parameters [
+                  a schema:PropertyValue;
+                  schema:propertyID "msg";
+                  schema:value "Cette ressource est une preuve de concept de l’utilisation des standards du web des données ouvertes et liées (LOD) ainsi que des principes FAIR pour l’exposition des sections du CoNRS.
+Elle ne se substitue pas aux travaux du CoNRS."@fr , "This resource is a proof of concept of the use of Open and Linked Data (OLD) web standards and FAIR principles for the exposure of CoNRS sections. It does not replace the work of the CoNRS."@en, "Este recurso es una prueba de concepto del uso de los estándares web Open and Linked Data (OLD) y de los principios FAIR para la exposición de las secciones de CoNRS. No sustituye el trabajo de CoNRS."@es;
+                ],
+                [
+                        a schema:PropertyValue ;
+                        schema:propertyID "color" ;
+                        schema:value "#800000" ;
+                    ] ,
+                    [
+                        a schema:PropertyValue ;
+                        schema:propertyID "imageUrl" ;
+                        schema:value "https://fr.wikipedia.org/wiki/Climat#/media/Fichier:Map_world_climate_zones_(simplified_to_10)-fr.svg" ;
+                    ] .
+
+mdrtype:THESAURUS a skos:Concept ;
+    skos:prefLabel "Тезаурус"@bg, "Tezaurus"@cs, "Tesaurus"@da, "Thesaurus"@de, "Θησαυρός"@el, "Thesaurus"@en, "Tesaurus"@et, "Tesaurus"@fi, "Thésaurus"@fr, "Pojmovnik"@hr, "Tezaurusz"@hu, "Tesauro"@it, "Tēzaurs"@lv, "Tezauras"@lt, "Teżawru"@mt, "Thesaurus"@nl, "Tesaurus"@no, "Tezaurus"@pl, "Tesauro"@pt, "Tezaur"@ro, "Synonymický slovník"@sk, "Tezaver"@sl, "Tesauro"@es, "Tesaurus"@sv
+.
+
+mdrtype:ONTOLOGY a skos:Concept ;
+    skos:prefLabel "Онтология"@bg, "Ontologie"@cs, "Ontologi"@da, "Ontologie"@de, "Οντολογία"@el, "Ontology"@en, "Ontoloogia"@et, "Ontologia"@fi, "Ontologie"@fr, "Ontologija"@hr, "Ontológia"@hu, "Ontologia"@it, "Ontoloģija"@lv, "Ontologija"@lt, "Ontoloġija"@mt, "Ontologie"@nl, "Ontologi"@no, "Struktura pojęciowa"@pl, "Ontologia"@pt, "Ontologie"@ro, "Ontológia"@sk, "Ontologija"@sl, "Ontología"@es, "Ontologi"@sv
+.
+
