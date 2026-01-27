@@ -1,8 +1,8 @@
 {
 	"private": true,
 	"name": "skosmos",
-	"version": "0.1",
-	"description": "[Ezmasterization](https://github.com/Inist-CNRS/ezmaster) of php web server",
+	"version": "1.0.0",
+	"description": "[Ezmasterization](https://github.com/Inist-CNRS/ezmaster) of Skosmos for Loterre",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/Inist-CNRS/ezmaster-apps.git"
@@ -10,7 +10,7 @@
 	"keywords": [
 		"ezmaster"
 	],
-	"author": "Nicolas Thouvenin <nthouvenin@gmail.com>",
+	"author": "stephane schneider <stephane54.schneider@gmail.com>",
 	"license": "MIT",
 	"bugs": {
 		"url": "https://github.com/Inist-CNRS/ezmaster-apps/issues"
@@ -23,9 +23,9 @@
 		"version:push": "git push && git push --tags",
 		"version": "npm run version:insert && npm run version:commit && npm run version:tag",
 		"postversion": "npm run version:push && npm run build && npm run publish",
-		"build": "docker build -t inistcnrs/${npm_package_name}:${npm_package_version} .",
+		"build": "docker build -t cnrsinist/${npm_package_name}:${npm_package_version} .",
 		"prestart": "npm run build",
-		"start": "docker run --rm -p 3000:80 inistcnrs/${npm_package_name}:${npm_package_version}",
-		"publish": "docker push inistcnrs/${npm_package_name}:${npm_package_version}"
+		"start": "docker run --rm -p 3000:80 cnrsinist/${npm_package_name}:${npm_package_version}",
+		"publish": "docker push cnrsinist/${npm_package_name}:${npm_package_version}"
 	}
 }
