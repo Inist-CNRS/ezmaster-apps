@@ -1,1 +1,1 @@
-# ezmaster-qdrant@1.0.1
+# ezmaster-qdrant@1.1.0
