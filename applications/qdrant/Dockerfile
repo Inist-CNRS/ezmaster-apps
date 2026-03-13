@@ -4,6 +4,7 @@ RUN echo '{ \
   "configPath": "/qdrant/config/production.yaml", \
   "configType": "txt", \
   "dataPath": "/qdrant/storage", \
-  "technicalApplication": true \
+  "technicalApplication": true, \
+  "capabilities": "SYS_ADMIN" \
 }' > /etc/ezmaster.json
 
