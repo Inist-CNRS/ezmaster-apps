@@ -1,7 +1,7 @@
 {
 	"private": true,
 	"name": "ezmaster-phpserver",
-	"version": "3.3.1",
+	"version": "3.3.2",
 	"description": "[Ezmasterization](https://github.com/Inist-CNRS/ezmaster) of php web server",
 	"repository": {
 		"type": "git",
