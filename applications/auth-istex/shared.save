@@ -1,0 +1,26 @@
+http:
+    middlewares:
+        Middleware-Standard:
+            chain:
+                middlewares:
+                    - "Middleware-retry"
+                    - "Middleware-ratelimit"
+                    - "Middleware-inflightreq"
+        Middleware-retry:
+            retry:
+                attempts: 4
+                initialInterval: 100ms
+        Middleware-ratelimit:
+            rateLimit:
+                average: 100
+                burst: 50
+        Middleware-inflightreq:
+            inFlightReq:
+                amount: 10
+        Middleware-Administrator:
+            basicAuth:
+                users:
+                    - "nicolas:$apr1$7WzJL9Aa$ZC8BDt3kSkt33qzXfXcUr0"
+        Middleware-ISTEXauth:
+            forwardAuth:
+                address: "https://api.istex.fr/authFede/"
