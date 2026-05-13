@@ -32,7 +32,7 @@ app.get('/auth/callback', (req, res) => {
     sameSite: 'Lax',
   });
 
-  res.redirect(host);
+  res.redirect(`${host}/`);
 });
 
 // --- Route de vérification : appelée par forwardAuth à chaque requête ---
