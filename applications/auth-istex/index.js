@@ -3,7 +3,15 @@ const axios        = require('axios');
 const cookieParser = require('cookie-parser');
 const { target, source, secure } = require('./config.json');
 const app          = express();
+
 app.set('trust proxy', true);
+app.use((req, res, next) => {
+  console.error(`IN  ${req.method} ${req.path} headers=${JSON.stringify(req.headers)}`);
+  res.on('finish', () => {
+    console.error(`OUT ${req.method} ${req.path} status=${res.statusCode}`);
+  });
+  next();
+});
 app.use(cookieParser());
 app.use((req, res, next) => {
   res.set('Connection', 'close');
