@@ -1,4 +1,5 @@
 {
-	"source": "http://",
-   "target": "https://api.istex.fr/authFede/"
+   "source": "https://tdm-factory.istex.fr",
+   "target": "https://api.istex.fr/authFede",
+   "secure": true
 }

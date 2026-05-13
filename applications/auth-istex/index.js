@@ -1,7 +1,7 @@
 const express      = require('express');
 const axios        = require('axios');
 const cookieParser = require('cookie-parser');
-const { target, source } = require('./config.json');
+const { target, source, secure } = require('./config.json');
 const app          = express();
 
 app.use(cookieParser());
@@ -12,12 +12,13 @@ const PUBLIC_HOST = source;
 // --- Route de login : redirige vers authFede sans passer par forwardAuth ---
 app.get('/auth/login', (req, res) => {
   const host       = PUBLIC_HOST || req.headers['x-forwarded-host'] || req.hostname;
-  const callbackUrl = `https://${host}/auth/callback`;
-  res.redirect(`${AUTH_URL}?target=${encodeURIComponent(callbackUrl)}`);
+  const callbackUrl = `${host}/auth/callback`;
+  res.redirect(`${AUTH_URL}/?target=${encodeURIComponent(callbackUrl)}`);
 });
 
 // --- Route de callback : reçoit le cookie en paramètre, le pose et redirige vers / ---
 app.get('/auth/callback', (req, res) => {
+  const host       = PUBLIC_HOST || req.headers['x-forwarded-host'] || req.hostname;
   const cookieValue = req.query.cookie;
   const cookieName  = req.query.name || '_shibsession';
 
@@ -27,17 +28,17 @@ app.get('/auth/callback', (req, res) => {
 
   res.cookie(cookieName, cookieValue, {
     httpOnly: true,
-    secure:   false,  // passer à true si HTTPS
+    secure,
     sameSite: 'Lax',
   });
 
-  res.redirect('/');
+  res.redirect(host);
 });
 
 // --- Route de vérification : appelée par forwardAuth à chaque requête ---
 app.get('/auth/check', async (req, res) => {
   try {
-    const response = await axios.get(AUTH_URL, {
+    const response = await axios.get(`${AUTH_URL}/`, {
       headers: {
         // Transmet le cookie Shibboleth posé par authFede
         'Cookie':          req.headers['cookie']          || '',
