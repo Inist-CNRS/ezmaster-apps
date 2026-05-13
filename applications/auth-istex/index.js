@@ -5,6 +5,10 @@ const { target, source, secure } = require('./config.json');
 const app          = express();
 app.set('trust proxy', true);
 app.use(cookieParser());
+app.use((req, res, next) => {
+  res.set('Connection', 'close');
+  next();
+});
 
 const AUTH_URL = target;
 const PUBLIC_HOST = source;
