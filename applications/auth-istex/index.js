@@ -3,7 +3,7 @@ const axios        = require('axios');
 const cookieParser = require('cookie-parser');
 const { target, source, secure } = require('./config.json');
 const app          = express();
-
+app.set('trust proxy', true);
 app.use(cookieParser());
 
 const AUTH_URL = target;
