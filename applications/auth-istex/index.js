@@ -15,7 +15,7 @@ app.get('/auth/login', (req, res) => {
   const callbackUrl = `${host}/auth/callback`;
   const redirect = `${AUTH_URL}/?target=${encodeURIComponent(callbackUrl)}`;
   console.error(`/auth/login vers ${redirect}`)
-  res.redirect(redirect);
+  res.redirect(302, redirect);
 });
 
 // --- Route de callback : reçoit le cookie en paramètre, le pose et redirige vers / ---
@@ -36,7 +36,7 @@ app.get('/auth/callback', (req, res) => {
   });
   const redirect = `${host}/`;
   console.error(`/auth/callback vers ${redirect}`);
-  res.redirect(redirect);
+  res.redirect(302, redirect);
 });
 
 // --- Route de vérification : appelée par forwardAuth à chaque requête ---
