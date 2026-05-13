@@ -13,16 +13,19 @@ const PUBLIC_HOST = source;
 app.get('/auth/login', (req, res) => {
   const host       = PUBLIC_HOST || req.headers['x-forwarded-host'] || req.hostname;
   const callbackUrl = `${host}/auth/callback`;
-  res.redirect(`${AUTH_URL}/?target=${encodeURIComponent(callbackUrl)}`);
+  const redirect = `${AUTH_URL}/?target=${encodeURIComponent(callbackUrl)}`;
+  console.error(`/auth/login vers ${redirect}`)
+  res.redirect(redirect);
 });
 
 // --- Route de callback : reçoit le cookie en paramètre, le pose et redirige vers / ---
 app.get('/auth/callback', (req, res) => {
   const host       = PUBLIC_HOST || req.headers['x-forwarded-host'] || req.hostname;
-  const cookieValue = req.query.cookie;
-  const cookieName  = req.query.name || '_shibsession';
+  const cookieRaw = req.query.cookie;
+  const [ cookieName, cookieValue] = String(cookieRaw).split('=');
 
   if (!cookieValue) {
+    console.error(`/auth/callback is KO`);
     return res.status(400).send('Missing cookie parameter');
   }
 
@@ -31,8 +34,9 @@ app.get('/auth/callback', (req, res) => {
     secure,
     sameSite: 'Lax',
   });
-
-  res.redirect(`${host}/`);
+  const redirect = `${host}/`;
+  console.error(`/auth/callback vers ${redirect}`);
+  res.redirect(redirect);
 });
 
 // --- Route de vérification : appelée par forwardAuth à chaque requête ---
@@ -62,11 +66,13 @@ app.get('/auth/check', async (req, res) => {
       res.set('X-Eppn',         data._eppn         || '');
       res.set('X-Affiliation',  data._affiliation  || '');
 
+      console.error(`/auth/check is OK`);
       res.sendStatus(200);
 
     } else {
       // Pas de session Shibboleth → on indique où s'authentifier
       res.set('X-Auth-Login-URL', '/auth/login');
+      console.error(`/auth/check is KO`);
       res.sendStatus(401);
     }
 
