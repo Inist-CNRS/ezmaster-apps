@@ -83,9 +83,11 @@ app.get('/auth/check', async (req, res) => {
 
     } else {
       // Pas de session Shibboleth → on indique où s'authentifier
-      res.set('X-Auth-Login-URL', '/auth/login');
-      console.error(`/auth/check is KO`);
-      res.sendStatus(401);
+      const host       = PUBLIC_HOST || req.headers['x-forwarded-host'] || req.hostname;
+      const callbackUrl = `${host}/auth/callback`;
+      const redirect = `${AUTH_URL}/?target=${encodeURIComponent(callbackUrl)}`;
+      console.error(`/auth/login vers ${redirect}`)
+      res.redirect(302, redirect);
     }
 
   } catch (err) {
