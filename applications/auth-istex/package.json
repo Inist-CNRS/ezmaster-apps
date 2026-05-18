@@ -1,7 +1,7 @@
 {
 	"private": true,
 	"name": "auth-istex",
-	"version": "0.0.11",
+	"version": "0.0.12",
 	"description": "auth istex",
 	"repository": {
 		"type": "git",
