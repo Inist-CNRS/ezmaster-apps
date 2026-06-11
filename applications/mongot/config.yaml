@@ -1,0 +1,18 @@
+syncSource:
+   replicaSet:
+      hostAndPort: "lodex-mongo-1:27017"
+      username: "mongotUser"
+      passwordFile: "/mongot-community/pwfile"
+      authSource: "admin"
+      tls: false
+   replicationReader:
+      readPreference: primaryPreferred
+server:
+   grpc:
+      address: "localhost:27028"
+      tls:
+         mode: "disabled"
+logging:
+   verbosity: INFO
+
+# TEST
