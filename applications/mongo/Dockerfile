@@ -1,4 +1,4 @@
-FROM mongodb/mongodb-community-server:8.3.2-ubi9
+FROM mongodb/mongodb-community-server:8.3.3-ubi9
 
 # need jq to parse JSON
 # netcat to wait for when mongo is ready to listen
@@ -16,11 +16,13 @@ RUN curl -o /usr/local/bin/su-exec.c https://raw.githubusercontent.com/ncopa/su-
     dnf -y clean all
 
 COPY config.json /
+COPY mongod.conf /etc/mongod.conf
 COPY docker-entrypoint.overload.sh /usr/local/bin/
 
 # mongo data folder dedicated to ezmaster
 # because it's not yet (8 nov 2017) possible to UNVOLUME /data/db and /data/configdb
-RUN mkdir -p /ezdata/db && chown -R mongod:mongod /ezdata/db
+RUN mkdir -p /ezdata/db && \
+    chown -R mongod:mongod /ezdata/db
 
 # basic http server stuff
 RUN mkdir /www
@@ -31,11 +33,11 @@ COPY index.* /www/
 # notice: httpPort is useless here but as ezmaster require it (v3.8.1) we just add a wrong port number
 RUN echo '{ \
   "httpPort": 3000, \
-  "configPath": "/config.json", \
-  "configType": "json", \
+  "configPath": "/etc/mongod.conf", \
+  "configType": "txt", \
   "dataPath": "/ezdata", \
   "technicalApplication": true \
 }' > /etc/ezmaster.json
 
 ENTRYPOINT [ "docker-entrypoint.overload.sh" ]
-CMD [ "mongod", "--bind_ip_all", "--dbpath", "/ezdata/db", "--nounixsocket" ]
+CMD [ "mongod", "--config", "/etc/mongod.conf", "--dbpath", "/ezdata/db", "--nounixsocket",  "--port", "27017" ]

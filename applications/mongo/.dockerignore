@@ -6,3 +6,4 @@
 !dump.periodically.sh
 !index.html
 !config.json
+!mongod.conf
