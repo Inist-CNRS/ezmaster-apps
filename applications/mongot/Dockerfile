@@ -15,9 +15,9 @@ EXPOSE 9946
 # notice: httpPort is useless here but as ezmaster require it (v3.8.1) we just add a wrong port number
 RUN echo '{ \
   "httpPort": 9946, \
-  "configPath": "/etc/mongot.conf", \
+  "configPath": "/mongot-community/config.user.yml", \
   "configType": "txt", \
-  "dataPath": "/mongot-community/config.user.yml", \
+  "dataPath": "/data/mongot", \
   "technicalApplication": true \
 }' > /etc/ezmaster.json
 ENTRYPOINT [ "docker-entrypoint.overload.sh" ]
