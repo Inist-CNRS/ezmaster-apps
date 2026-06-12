@@ -1,23 +1,42 @@
-FROM mongodb/mongodb-community-search:1.67.1
+FROM mongodb/mongodb-community-search:latest AS mongot-base
 
-RUN yum install -y wget && \
-    wget -qO /usr/local/bin/yq \
-      https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 && \
-    chmod +x /usr/local/bin/yq
+FROM mongodb/mongodb-community-server:latest
+
+USER root
+
+RUN apt-get update && apt-get install -y \
+    supervisor \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copier mongot depuis son image
+COPY --from=mongot-base /mongot-community /mongot-community
+
+# Créer les répertoires
+RUN mkdir -p \
+    /data/db \
+    /data/mongot \
+    /var/log/mongodb \
+    /var/log/mongot \
+    /var/log/supervisor \
+    /var/run/supervisor \
+    && chown -R mongodb:mongodb \
+        /data \
+        /var/log/mongodb \
+        /var/log/mongot \
+        /mongot-community
 
 COPY docker-entrypoint.overload.sh /usr/local/bin/
-COPY mongot.yaml /mongot-community/config.system.yml
-COPY config.yaml /mongot-community/config.user.yml
+COPY ./init-mongo.sh /usr/local/bin/
+COPY ./pwfile /mongot-community/pwfile
+COPY mongod.conf /etc/mongod.conf
+COPY mongod.conf /etc/mongod.conf
+COPY mongot.conf /mongot-community/config.default.yml
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-EXPOSE 9946
-# ezmasterization of ezmaster-mongo
-# see https://github.com/Inist-CNRS/ezmaster
-# notice: httpPort is useless here but as ezmaster require it (v3.8.1) we just add a wrong port number
-RUN echo '{ \
-  "httpPort": 9946, \
-  "configPath": "/mongot-community/config.user.yml", \
-  "configType": "txt", \
-  "dataPath": "/data/mongot", \
-  "technicalApplication": true \
-}' > /etc/ezmaster.json
+RUN chmod 400 /mongot-community/pwfile && \
+    chown -R mongodb:mongodb /mongot-community/pwfile
+
+EXPOSE 27017 27028 9946 8080
+
 ENTRYPOINT [ "docker-entrypoint.overload.sh" ]
+

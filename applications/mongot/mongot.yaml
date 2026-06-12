@@ -1,6 +1,0 @@
-storage:
-   dataPath: "/data/mongot"
-metrics:
-   enabled: true
-   address: "localhost:9946"
-

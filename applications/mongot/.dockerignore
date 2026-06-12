@@ -4,4 +4,8 @@
 # White list only the required files
 !docker-entrypoint.overload.sh
 !config.yaml
-!mongot.yaml
+!mongot.conf
+!mongod.conf
+!supervisord.conf
+!pwfile
+!init-mongo.sh
