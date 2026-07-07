@@ -29,7 +29,6 @@ COPY docker-entrypoint.overload.sh /usr/local/bin/
 COPY ./init-mongo.sh /usr/local/bin/
 COPY ./pwfile /mongot-community/pwfile
 COPY mongod.conf /etc/mongod.conf
-COPY mongod.conf /etc/mongod.conf
 COPY mongot.conf /mongot-community/config.default.yml
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 

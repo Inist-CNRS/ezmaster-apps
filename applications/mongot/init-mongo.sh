@@ -3,7 +3,7 @@
 set -e
 
 echo "Starting MongoDB initialization..."
-sleep 3 
+sleep 6 
 
 
 echo "Initialize Replica..."
