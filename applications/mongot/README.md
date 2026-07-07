@@ -1,12 +1,57 @@
-# ezmaster-mongo@8.3.2-b-test1-b-a
+# ezmaster-mongot
 
-[![Docker Pulls](https://img.shields.io/docker/pulls/inistcnrs/ezmaster-mongo.8.3.2-b-test1-b-a)](https://registry.hub.docker.com/u/inistcnrs/ezmaster-mongo/)
 
-Mongodb for [ezmaster](https://github.com/Inist-CNRS/ezmaster)
+## import vectors
+```sh
+mongoimport \
+  --db test \
+  --collection vectors \
+  --file ./vectors.json
+```
+## create index
 
-## Parameters
+```sh
+mongosh --eval "
+db.vectors.createSearchIndex(
+   'vector_index',
+   'vectorSearch',
+   {
+     fields: [
+       {
+         type: 'vector',
+         path: 'value',
+         numDimensions: 384,
+         similarity: 'cosine',
+         quantization: 'scalar'
+       }
+     ]
+   }
+ );
+"
+```
 
-* ``DUMP_EACH_NBHOURS``: number of hours to wait before a new dump is generated in the ezmaster dataPath (default is 24)
-* ``DUMP_CLEANUP_MORE_THAN_NBDAYS``: number of days dumps should be kept (default is 30 days)
+## try search
+```sh
+QUERY_EMBEDDING=`cat query.json`
 
-Listening port is the mongodb default one: 27017
+mongosh --eval "
+db.vectors.aggregate([
+  {
+    \$vectorSearch: {
+      index: 'vector_index',
+      path: 'value',
+      queryVector: ${QUERY_EMBEDDING},
+      numCandidates: 150,
+      limit: 10
+    }
+  },
+  {
+    \$project: {
+      _id: 0,
+      id: 1,
+      score: { \$meta: 'vectorSearchScore' }
+    }
+  }
+]);
+"
+```
