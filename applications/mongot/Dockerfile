@@ -19,10 +19,12 @@ RUN mkdir -p \
     /var/log/mongot \
     /var/log/supervisor \
     /var/run/supervisor \
+    /var/run/mongodb \
     && chown -R mongodb:mongodb \
         /data \
         /var/log/mongodb \
         /var/log/mongot \
+        /var/run/mongodb \
         /mongot-community
 
 COPY docker-entrypoint.overload.sh /usr/local/bin/
