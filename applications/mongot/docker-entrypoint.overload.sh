@@ -2,6 +2,8 @@
 
 set -e
 
+chmod 1777 /tmp
+
 /usr/local/bin/init-mongo.sh &
 
 # start mongot daemon
