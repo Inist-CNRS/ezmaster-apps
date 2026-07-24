@@ -17,7 +17,8 @@ rs.initiate({
     { _id: 0, host: 'localhost:27017' }
   ]
 })
-"
+" || true
+
 PASSWORD=`cat /mongot-community/pwfile`
 
 # Create user using local connection (no port specification needed)
