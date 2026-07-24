@@ -1,0 +1,12 @@
+#!/bin/sh
+set -e
+
+echo "[init] Waiting for mongod to be ready..."
+until mongosh "mongodb://localhost:27017" --eval "db.adminCommand('ping')" --quiet; do
+  sleep 1
+done
+echo "[init] mongod is ready."
+ 
+exec /mongot-community/mongot \
+  --config /mongot-community/config.default.yml 2>&1 \
+  | awk '{ print "[mongot] " $0; fflush() }'

@@ -1,0 +1,2 @@
+#!/bin/sh
+echo "[mongod] process exited with code $1"

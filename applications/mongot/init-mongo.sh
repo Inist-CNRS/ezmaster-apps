@@ -2,8 +2,11 @@
 
 set -e
 
-echo "Starting MongoDB initialization..."
-sleep 6 
+echo "Waiting MongoDB start"
+echo "[init] Waiting for mongod to be ready..."
+until mongosh "mongodb://localhost:27017" --eval "db.adminCommand('ping')" --quiet; do
+  sleep 1
+done
 
 
 echo "Initialize Replica..."

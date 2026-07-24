@@ -2,6 +2,7 @@
 *
 
 # White list only the required files
+!s6-config/**
 !docker-entrypoint.overload.sh
 !config.yaml
 !mongot.conf
