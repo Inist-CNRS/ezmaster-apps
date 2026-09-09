@@ -1,7 +1,7 @@
 {
 	"private": true,
 	"name": "ezmaster-mongot",
-	"version": "1.67.1-8",
+	"version": "1.67.1-9",
 	"description": "Mongo Search server",
 	"repository": {
 		"type": "git",
