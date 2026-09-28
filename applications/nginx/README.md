@@ -1,1 +1,1 @@
-# ezmaster-nginx@1.0.1
+# ezmaster-nginx@1.31.6
