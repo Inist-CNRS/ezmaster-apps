@@ -1,7 +1,7 @@
 {
 	"private": true,
 	"name": "ezmaster-nginx",
-	"version": "1.31.6",
+	"version": "1.0.2",
 	"description": "Nginx web server",
 	"repository": {
 		"type": "git",
