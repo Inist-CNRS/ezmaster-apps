@@ -1,13 +1,28 @@
 #!/bin/bash
 
+echo "Loading environment variables"
+set -a
+source /mongot-community/env.conf
+set +a
+
+if [ ! -f /mongot-community/pwfile ]; then
+    if [ -v MONGOT_PASSWD ]; then
+        echo $MONGOT_PASSWD >/mongot-community/pwfile
+        chmod 400 /mongot-community/pwfile
+        chown mongodb:mongodb /mongot-community/pwfile
+    else
+        echo "ERROR: MONGOT_PASSWD must be set"
+        exit 1
+    fi
+fi
+
 set -e
 
 echo "Waiting MongoDB start"
 echo "[init] Waiting for mongod to be ready..."
 until mongosh "mongodb://localhost:27017" --eval "db.adminCommand('ping')" --quiet; do
-  sleep 1
+    sleep 1
 done
-
 
 echo "Initialize Replica..."
 mongosh --eval "
@@ -19,7 +34,7 @@ rs.initiate({
 })
 " || true
 
-PASSWORD=`cat /mongot-community/pwfile`
+PASSWORD=$(cat /mongot-community/pwfile)
 
 # Create user using local connection (no port specification needed)
 echo "Creating user..."
