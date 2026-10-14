@@ -1,6 +1,6 @@
-FROM mongodb/mongodb-community-search:latest AS mongot-base
+FROM mongodb/mongodb-community-search:1.70.5 AS mongot-base
 
-FROM mongodb/mongodb-community-server:latest
+FROM mongodb/mongodb-community-server:9.0.2-ubuntu2204
 
 USER root
 
@@ -24,15 +24,17 @@ RUN mkdir -p \
     /data/mongot \
     /var/log/mongodb \
     && chown -R mongodb:mongodb \
-        /data \
-        /mongot-community \
-        /var/log/mongodb
+    /data \
+    /mongot-community \
+    /var/log/mongodb
 
 # Copier les configs
 COPY mongod.conf /etc/mongod.conf
-COPY init-mongo.sh /bin/
+COPY --chmod=0755 init-mongo.sh /bin/
 COPY mongot.conf /mongot-community/config.default.yml
-COPY pwfile /mongot-community/pwfile
+COPY --chmod=0755 environment.sh /bin/
+COPY environment.conf /etc/environment.conf
+
 
 # Copier la config s6
 COPY s6-config/s6-rc.d /etc/s6-overlay/s6-rc.d
@@ -43,22 +45,20 @@ RUN chmod +x \
     /etc/s6-overlay/s6-rc.d/mongod/finish \
     /etc/s6-overlay/s6-rc.d/mongot/run \
     /etc/s6-overlay/s6-rc.d/mongot/finish \
-    /etc/s6-overlay/s6-rc.d/init-mongo/up \
-    && chmod 400 /mongot-community/pwfile \
-    && chown mongodb:mongodb /mongot-community/pwfile
+    /etc/s6-overlay/s6-rc.d/init-mongo/up
 
-EXPOSE 27017 27028 9946 8080
+EXPOSE 27017
 
 
 # ezmasterization of ezmaster-mongo
 # see https://github.com/Inist-CNRS/ezmaster
 # notice: httpPort is useless here but as ezmaster require it (v3.8.1) we just add a wrong port number
 RUN echo '{ \
-  "httpPort": 9946, \
-  "configPath": "/etc/mongod.conf", \
-  "configType": "txt", \
-  "dataPath": "/data", \
-  "technicalApplication": true \
-}' > /etc/ezmaster.json
+    "httpPort": 27017, \
+    "configPath": "/etc/environment.conf", \
+    "configType": "txt", \
+    "dataPath": "/data", \
+    "technicalApplication": true \
+    }' > /etc/ezmaster.json
 
 ENTRYPOINT ["/init"]

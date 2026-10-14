@@ -8,5 +8,6 @@
 !mongot.conf
 !mongod.conf
 !supervisord.conf
-!pwfile
+!environment.conf
+!environment.sh
 !init-mongo.sh
